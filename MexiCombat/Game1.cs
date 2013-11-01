@@ -19,8 +19,15 @@ namespace MexiCombat
 		SpriteBatch spriteBatch;
 		
 		private Texture2D background;
-		private Texture2D texture;
-		private AnimatedSprite animatedSprite;
+		private Sprite fighterOne;
+		// Keyboard states used to determine key presses
+		KeyboardState currentKeyboardState;
+		KeyboardState previousKeyboardState;
+
+		// Gamepad states used to determine button presses
+		GamePadState currentGamePadState;
+		GamePadState previousGamePadState;
+
 
 		public Game1 ()
 		{
@@ -37,9 +44,7 @@ namespace MexiCombat
 		/// </summary>
 		protected override void Initialize ()
 		{
-			// TODO: Add your initialization logic here
 			base.Initialize ();
-				
 		}
 
 		/// <summary>
@@ -52,10 +57,7 @@ namespace MexiCombat
 			spriteBatch = new SpriteBatch (GraphicsDevice);
 
 			background = Content.Load<Texture2D>("bg.png");
-			texture = Content.Load<Texture2D>("bigsprites.png");
-			animatedSprite = new AnimatedSprite(texture, 4, 4);
-
-			//TODO: use this.Content to load your game content here 
+			fighterOne = new Sprite(Content, "bigsprites.png", 4, 4, 3);
 		}
 
 		/// <summary>
@@ -65,15 +67,68 @@ namespace MexiCombat
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update (GameTime gameTime)
 		{
-			// For Mobile devices, this logic will close the Game when the Back button is pressed
+			previousKeyboardState = currentKeyboardState;
+			currentKeyboardState = Keyboard.GetState();
+			previousGamePadState = currentGamePadState;
+			currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
 				Exit ();
 			} else if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
 				Exit ();
 			}
-			// TODO: Add your update logic here			
+
 			base.Update (gameTime);
-			animatedSprite.Update ();
+			UpdatePlayer(gameTime);
+
+		}
+
+		private void UpdatePlayer (GameTime gameTime)
+		{
+			// Get Thumbstick Controls
+			fighterOne.Position.X += currentGamePadState.ThumbSticks.Left.X *fighterOne.speed;
+			fighterOne.Position.Y -= currentGamePadState.ThumbSticks.Left.Y *fighterOne.speed;
+
+			// Use the Keyboard / Dpad
+			if (currentKeyboardState.IsKeyDown(Keys.Left) ||
+			currentGamePadState.DPad.Left == ButtonState.Pressed)
+			{
+				fighterOne.Position.X -= fighterOne.speed;
+				fighterOne.currentFrame ++;
+					if (fighterOne.currentFrame < 4|| fighterOne.currentFrame > 7 ) {
+					fighterOne.currentFrame = 5;
+				}
+			}
+			if (currentKeyboardState.IsKeyDown(Keys.Right) ||
+			currentGamePadState.DPad.Right == ButtonState.Pressed)
+			{
+				fighterOne.Position.X += fighterOne.speed;
+				fighterOne.currentFrame ++;
+					if (fighterOne.currentFrame < 8 || fighterOne.currentFrame > 11 ) {
+					fighterOne.currentFrame = 9;
+				}
+			}
+			if (currentKeyboardState.IsKeyDown(Keys.Down) ||
+			currentGamePadState.DPad.Down == ButtonState.Pressed)
+			{
+				fighterOne.Position.Y += fighterOne.speed;
+				fighterOne.currentFrame ++;
+					if (fighterOne.currentFrame > 4) {
+					fighterOne.currentFrame = 0;
+				}
+			}
+			if (currentKeyboardState.IsKeyDown(Keys.Up) ||
+			currentGamePadState.DPad.Up == ButtonState.Pressed)
+			{
+				fighterOne.Position.Y -= fighterOne.speed;
+				fighterOne.currentFrame ++;
+					if (fighterOne.currentFrame < 12 || fighterOne.currentFrame > 15 ) {
+					fighterOne.currentFrame = 11;
+				}
+			}
+			// Make sure that the player does not go out of bounds
+			fighterOne.Position.X = MathHelper.Clamp(fighterOne.Position.X, 0,GraphicsDevice.Viewport.Width - fighterOne.width);
+			fighterOne.Position.Y = MathHelper.Clamp(fighterOne.Position.Y, 0,GraphicsDevice.Viewport.Height - fighterOne.height);
 		}
 
 		/// <summary>
@@ -87,11 +142,10 @@ namespace MexiCombat
 			spriteBatch.Begin();
 
 			spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
-			animatedSprite.Draw(spriteBatch, new Vector2(400, 200));
+			fighterOne.Draw(spriteBatch);
 
 			spriteBatch.End();
 		
-			//TODO: Add your drawing code here
             
 			base.Draw (gameTime);
 		}
