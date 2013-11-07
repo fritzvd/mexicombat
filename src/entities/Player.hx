@@ -88,10 +88,10 @@ class Player extends Entity
             minX = width / 2;
             halfX = width / 4 * 3;
         }
-        if (touch.X > minX && touch.X < maxX) {
-            if (touch.X < halfX) {
+        if (touch.sceneX > minX && touch.sceneX < maxX) {
+            if (touch.sceneX < halfX) {
                 acceleration = -2;
-            } else if (touch.X > halfX) {
+            } else if (touch.sceneX > halfX) {
                 acceleration = 2;
             }
         }
@@ -145,7 +145,9 @@ class Player extends Entity
 
     public override function update()
     {
+        #if !android
         handleInput();
+        #end
         #if android
         Input.touchPoints(handleTouch);
         #end
