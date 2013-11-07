@@ -5,6 +5,8 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.utils.Input;
 import entities.HealthBox;
+import com.haxepunk.graphics.Image;
+
 
 class Player extends Entity
 {
@@ -16,6 +18,8 @@ class Player extends Entity
     private var health:Int;
     private var healthBox:HealthBox;
     private var enemyX:Float;
+
+    public var fightingState:String;
 
     #if android 
     // Width for touch screen
@@ -31,10 +35,15 @@ class Player extends Entity
         sprite = new Spritemap("graphics/bigsprites.png", 133, 195);
         sprite.add("idle", [3]);
         sprite.add("walk", [3,4,5,4], 12);
+        sprite.add("punch", [1,2], 12);
+        sprite.add("kick", [1,2], 12);
         sprite.play("idle");
         setHitbox(133,50);
 
-        graphic = sprite;
+        fightingState = '';
+
+        // graphic = sprite;
+        graphic = Image.createRect(130, 200);
 
         velocity = 0;
     }
@@ -49,7 +58,7 @@ class Player extends Entity
         enemyX = enX;
     }
 
-    public function setKeysPlayer(left, right, player)
+    public function setKeysPlayer(left, right, punch, kick, player)
     {
         playerNo = player;
         type = "fighter" + playerNo;
@@ -60,6 +69,8 @@ class Player extends Entity
         }
         Input.define("left" + playerNo, [left]);
         Input.define("right" + playerNo, [right]);
+        Input.define("punch" + playerNo, [punch]);
+        Input.define("kick" + playerNo, [kick]);
     }
 
 #if !android
@@ -73,6 +84,14 @@ class Player extends Entity
         if (Input.check("right" + playerNo))
         {
             acceleration = 2;
+        }
+        if (Input.check("kick" + playerNo))
+        {
+            fightingState = "punching";
+        }
+        if (Input.check("punch" + playerNo))
+        {
+            fightingState = "kicking";
         }
     }
 #end
@@ -101,29 +120,37 @@ class Player extends Entity
     private function move()
     {
         velocity += acceleration;
-        if (Math.abs(velocity) > 5)
-        {
+        if (Math.abs(velocity) > 5) {
             velocity = 5 * HXP.sign(velocity);
         }
-        if (velocity < 0)
-         {
+        if (velocity < 0) {
         velocity = Math.min(velocity + 0.4, 0);
-         }
-         else if (velocity > 0)
-         {
+        }
+         else if (velocity > 0) {
         velocity = Math.max(velocity - 0.4, 0);
-         }
+        }
 
         moveBy(velocity, 0, "fighter" + enemyNo);
     }
 
+    public function getfightingState()
+    {
+        return fightingState;
+    }
+
     public override function moveCollideX(e:Entity)
     {
-        health -= 2;
-        // healthBox.updateHealth(health);
+        if (e.getfightingState() == 'punching'){
+            health = -20;
+        } else if (e.getfightingState() == 'kicking'){
+            health = -10;
+        }
+        // HXP.console.log(e);
         if (health < 0) {
             scene.remove(this);
         }
+        healthBox.updateHealth(health);
+
         return true;
     }
 
@@ -141,6 +168,7 @@ class Player extends Entity
         } else {
             sprite.flipped = false;
         }
+
     }
 
     public override function update()
@@ -153,6 +181,7 @@ class Player extends Entity
         #end
         move();
         setAnimations();
+
         super.update();
     }
 }

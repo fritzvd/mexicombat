@@ -19,12 +19,15 @@ class GameScene extends Scene
 
     public override function begin()
     {
+        // TODO: players can be chosen
+        // TODO: players have namess
+        // TODO: 
         playerone = new Player(200, 250);
-        playerone.setKeysPlayer(Key.A, Key.D, 0);
+        playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
         playertwo = new Player(400, 250);
-        playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, 1);
+        playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);
 
