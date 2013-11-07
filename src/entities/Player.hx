@@ -14,30 +14,44 @@ class Player extends Entity
     private var acceleration:Float;
     private var sprite:Spritemap;
     private var health:Int;
-    private var healthBox;
+    private var healthBox:HealthBox;
+    private var enemyX:Float;
+
+    #if android 
+    // Width for touch screen
+    private var maxX:Float;
+    private var minX:Float;
+    private var halfX:Float;
+    #end
 
     public function new(x:Float, y:Float)
     {
         super(x, y);
 
-        sprite = new Spritemap("graphics/bigsprites.png", 133, 200);
-        sprite.add("idle", [4]);
-        sprite.add("walk", [4,5,7,8], 12);
+        sprite = new Spritemap("graphics/bigsprites.png", 133, 195);
+        sprite.add("idle", [3]);
+        sprite.add("walk", [3,4,5,4], 12);
         sprite.play("idle");
-        setHitbox(133,200);
+        setHitbox(133,50);
 
         graphic = sprite;
 
         velocity = 0;
     }
 
-    public function setHealthBox (healthBox:HealthBox)
+    public function setHealthBox (hBox:HealthBox)
     {
-        
+        healthBox = hBox;
     }
 
-    public function setKeysPlayer(left, right, playerNo)
+    public function setEnemyX(enX:Float)
+    {   
+        enemyX = enX;
+    }
+
+    public function setKeysPlayer(left, right, player)
     {
+        playerNo = player;
         type = "fighter" + playerNo;
         if (playerNo == 0){
             enemyNo = 1;
@@ -48,6 +62,7 @@ class Player extends Entity
         Input.define("right" + playerNo, [right]);
     }
 
+#if !android
     private function handleInput()
     {
         acceleration = 0;
@@ -60,6 +75,28 @@ class Player extends Entity
             acceleration = 2;
         }
     }
+#end
+
+#if android
+    private function handleTouch(touch:com.haxepunk.utils.Touch) {
+        if (playerNo == 0) {
+            maxX = width / 2;
+            minX = 0;
+            halfX = width / 4;
+        } else {
+            maxX = width;
+            minX = width / 2;
+            halfX = width / 4 * 3;
+        }
+        if (touch.X > minX && touch.X < maxX) {
+            if (touch.X < halfX) {
+                acceleration = -2;
+            } else if (touch.X > halfX) {
+                acceleration = 2;
+            }
+        }
+    }
+#end
 
     private function move()
     {
@@ -83,6 +120,7 @@ class Player extends Entity
     public override function moveCollideX(e:Entity)
     {
         health -= 2;
+        // healthBox.updateHealth(health);
         if (health < 0) {
             scene.remove(this);
         }
@@ -94,13 +132,23 @@ class Player extends Entity
         if (velocity == 0)
         {
             sprite.play("idle");
+        } else if (velocity > 0 || velocity < 0) {
+            sprite.play("walk");
         }
-        sprite.flipped = true;
+
+        if (this.x < enemyX){
+            sprite.flipped = true;        
+        } else {
+            sprite.flipped = false;
+        }
     }
 
     public override function update()
     {
         handleInput();
+        #if android
+        Input.touchPoints(handleTouch);
+        #end
         move();
         setAnimations();
         super.update();
