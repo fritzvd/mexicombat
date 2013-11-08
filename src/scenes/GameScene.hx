@@ -1,7 +1,9 @@
 package scenes;
 
+import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
+import com.haxepunk.utils.Input;
 import entities.Player;
 import entities.HealthBox;
 
@@ -41,6 +43,11 @@ class GameScene extends Scene
     {
         playerone.setEnemyX(playertwo.x);
         playertwo.setEnemyX(playerone.x);
+
+        if (Input.check(Key.ESCAPE)) {
+            HXP.screen.color = 0x222233;
+            HXP.scene = new scenes.TitleScreen();
+        }
         super.update();
     }
 }

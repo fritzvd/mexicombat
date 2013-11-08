@@ -32,18 +32,20 @@ class Player extends Entity
     {
         super(x, y);
 
-        sprite = new Spritemap("graphics/bigsprites.png", 133, 195);
-        sprite.add("idle", [3]);
-        sprite.add("walk", [3,4,5,4], 12);
-        sprite.add("punch", [1,2], 12);
-        sprite.add("kick", [1,2], 12);
+        sprite = new Spritemap("graphics/gbjam.png", 30, 64);
+        sprite.scale = 2.0;
+        sprite.add("idle", [0, 1], 6);
+        sprite.add("walk", [2,3,2,4], 6);
+        sprite.add("punch", [5,6,1], 6);
+        sprite.add("kick", [1,2], 6);
         sprite.play("idle");
-        setHitbox(133,50);
+        setHitbox(30,64);
+        health = 100;
 
         fightingState = '';
 
-        // graphic = sprite;
-        graphic = Image.createRect(130, 200);
+        graphic = sprite;
+        // graphic = Image.createRect(130, 200);
 
         velocity = 0;
     }
@@ -139,17 +141,19 @@ class Player extends Entity
     }
 
     public override function moveCollideX(e:Entity)
-    {
-        if (e.getfightingState() == 'punching'){
-            health = -20;
-        } else if (e.getfightingState() == 'kicking'){
-            health = -10;
-        }
-        // HXP.console.log(e);
+    {   
+        // fighter = scene.getInstance("fighter" + enemyNo) as entities.Player;
+        //     if (fighter.fightingState == 'punching'){
+        //         health = -20;            
+        //     }
+        //     if (fighter.fightingState == 'punching'){
+        //         health = -20;            
+        //     }        
+        HXP.console.log([e]);
+        HXP.console.log(["PIET"]);
         if (health < 0) {
             scene.remove(this);
         }
-        healthBox.updateHealth(health);
 
         return true;
     }
@@ -163,11 +167,17 @@ class Player extends Entity
             sprite.play("walk");
         }
 
-        if (this.x < enemyX){
+        if (this.x > enemyX) {
             sprite.flipped = true;        
         } else {
             sprite.flipped = false;
         }
+
+        if (fightingState == 'punching') {
+            sprite.play("punch");
+        }
+        healthBox.health = health;
+
 
     }
 

@@ -11,7 +11,7 @@ class HealthBox extends Entity
     {
         super(x, y);
         health = 100;
-        graphic = Image.createRect(health, 20, 0xDDEEFF);
+        graphic = Image.createRect(health, 20, 0x222222);
     }
 
     public function updateHealth(h:Int)
@@ -21,7 +21,7 @@ class HealthBox extends Entity
 
     public override function update()
     {
-        graphic = Image.createRect(health, 20, 0xDDEEFF);
+        graphic = Image.createRect(health, 20, 0x222222);
         super.update();
     }
 }
