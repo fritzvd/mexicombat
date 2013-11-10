@@ -20,12 +20,14 @@ class Player extends Entity
     private var enemyX:Float;
 
     public var fightingState:String;
+    public var enemyFightingState:String;
 
     #if android 
     // Width for touch screen
     private var maxX:Float;
     private var minX:Float;
     private var halfX:Float;
+    private var halfY:Float;
     #end
 
     public function new(x:Float, y:Float)
@@ -55,9 +57,10 @@ class Player extends Entity
         healthBox = hBox;
     }
 
-    public function setEnemyX(enX:Float)
+    public function setEnemyX(enX:Float, enFightingState:String)
     {   
         enemyX = enX;
+        enemyFightingState = enFightingState;
     }
 
     public function setKeysPlayer(left, right, punch, kick, player)
@@ -101,19 +104,29 @@ class Player extends Entity
 #if android
     private function handleTouch(touch:com.haxepunk.utils.Touch) {
         if (playerNo == 0) {
-            maxX = width / 2;
+            maxX = HXP.width / 2;
             minX = 0;
-            halfX = width / 4;
+            halfX = HXP.width / 4;
         } else {
-            maxX = width;
-            minX = width / 2;
-            halfX = width / 4 * 3;
+            maxX = HXP.width;
+            minX = HXP.width / 2;
+            halfX = HXP.width / 4 * 3;
         }
+        halfY = HXP.height / 2;
+        // right side of screen or left depending on player
         if (touch.sceneX > minX && touch.sceneX < maxX) {
-            if (touch.sceneX < halfX) {
-                acceleration = -2;
-            } else if (touch.sceneX > halfX) {
-                acceleration = 2;
+            // move or fight
+            if (touch.sceneY > halfY){
+                // forward backward
+                if (touch.sceneX < halfX) {
+                    acceleration = -2;
+                } else if (touch.sceneX > halfX) {
+                    acceleration = 2;
+                }
+            } else if (touch.sceneY < halfY) {                
+                if (touch.sceneX < halfX) {
+                    fightingState = "punching";
+                }
             }
         }
     }
@@ -142,17 +155,18 @@ class Player extends Entity
 
     public override function moveCollideX(e:Entity)
     {   
-        // fighter = scene.getInstance("fighter" + enemyNo) as entities.Player;
-        //     if (fighter.fightingState == 'punching'){
-        //         health = -20;            
-        //     }
-        //     if (fighter.fightingState == 'punching'){
-        //         health = -20;            
-        //     }        
-        HXP.console.log([e]);
-        HXP.console.log(["PIET"]);
+        if (enemyFightingState == 'punching'){
+            health -= 1;            
+        }
+        // if (enemyFightingState == 'kicking'){
+        //     health = -20;            
+        // }        
+        // // HXP.console.log([e]);
+        // // HXP.console.log(["PIET"]);
         if (health < 0) {
-            scene.remove(this);
+               health = 0;
+               fightingState = "dead";
+        //     scene.remove(this);
         }
 
         return true;
