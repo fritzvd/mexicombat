@@ -17,8 +17,13 @@ class GameScene extends Scene
     private var playertwo:Player;
     private var healthOne:HealthBox;
     private var healthTwo:HealthBox;
-    public function new()
+    private var chosenFighterOne:String;
+    private var chosenFighterTwo:String;
+
+    public function new(cFO:String, cFT:String)
     {
+        chosenFighterOne = cFO;
+        chosenFighterTwo = cFT;
         super();
     }
 
@@ -45,6 +50,8 @@ class GameScene extends Scene
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);
 
+        playerone.setPlayer(chosenFighterOne);
+        playertwo.setPlayer(chosenFighterTwo);
 
         add(healthTwo);
         add(healthOne);

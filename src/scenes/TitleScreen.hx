@@ -58,17 +58,21 @@ class TitleScreen extends Scene
     {
         
         if (touch.pressed){
-            HXP.scene = new scenes.GameScene();
+            startNext();
         }
     }
     #end
+
+    private function startNext()
+    {
+        HXP.scene = new scenes.PickCharacterScene();
+    }
 
     public override function update()
     {
         #if !android
         if (Input.check(Key.X)) {
-            HXP.screen.color = 0x222233;
-            HXP.scene = new scenes.GameScene();
+            startNext();
         }
         if (Input.check(Key.ESCAPE)) {
             HXP.scene.end();

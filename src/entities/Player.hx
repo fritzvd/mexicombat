@@ -34,7 +34,7 @@ class Player extends Entity
     {
         super(x, y);
 
-        sprite = new Spritemap("graphics/gbjam.png", 30, 64);
+        sprite = new Spritemap("graphics/bigsprites.png", 30, 64);
         sprite.scale = 2.0;
         sprite.add("idle", [0, 1], 6);
         sprite.add("walk", [2,3,2,4], 6);
@@ -50,6 +50,11 @@ class Player extends Entity
         // graphic = Image.createRect(130, 200);
 
         velocity = 0;
+    }
+
+    public function setPlayer(fighterName:String)
+    {
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 30, 64);
     }
 
     public function setHealthBox (hBox:HealthBox)
