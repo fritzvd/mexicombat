@@ -37,14 +37,27 @@ class PickCharacterScene extends Scene
         HXP.scene = new scenes.GameScene("gbjam", "gbjam");
     }
 
+    #if android
+    private function handleTouch(touch:com.haxepunk.utils.Touch) 
+    {
+        
+        if (touch.pressed){
+            nextScene();
+        }
+    }
+    #end
+
     public override function update()
     {
         if (Input.check(Key.ESCAPE)) {
             previousScene();
         }
-        if (Input.check(Key.X)) {
+        if (Input.pressed(Key.X)) {
             nextScene();
         }
+        #if android
+        Input.touchPoints(handleTouch);
+        #end
         super.update();
     }
 }

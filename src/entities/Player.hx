@@ -36,12 +36,6 @@ class Player extends Entity
 
         sprite = new Spritemap("graphics/bigsprites.png", 30, 64);
         sprite.scale = 2.0;
-        sprite.add("idle", [0, 1], 6);
-        sprite.add("walk", [2,3,2,4], 6);
-        sprite.add("punch", [5,6,1], 6);
-        sprite.add("kick", [1,2], 6);
-        sprite.play("idle");
-        setHitbox(30,64);
         health = 100;
 
         fightingState = '';
@@ -55,6 +49,12 @@ class Player extends Entity
     public function setPlayer(fighterName:String)
     {
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 30, 64);
+        sprite.add("idle", [0, 1], 6);
+        sprite.add("walk", [2,3,2,4], 6);
+        sprite.add("punch", [5,6,1], 6);
+        sprite.add("kick", [1,2], 6);
+        sprite.play("idle");
+        graphic = sprite;
     }
 
     public function setHealthBox (hBox:HealthBox)
@@ -95,13 +95,15 @@ class Player extends Entity
         {
             acceleration = 2;
         }
-        if (Input.check("kick" + playerNo))
+        if (Input.pressed("punch" + playerNo))
         {
             fightingState = "punching";
+            setHitbox(30,64);
         }
-        if (Input.check("punch" + playerNo))
+        if (Input.check("kick" + playerNo))
         {
             fightingState = "kicking";
+
         }
     }
 #end
@@ -125,8 +127,10 @@ class Player extends Entity
                 // forward backward
                 if (touch.sceneX < halfX) {
                     acceleration = -2;
+                    acceleration = 0;
                 } else if (touch.sceneX > halfX) {
                     acceleration = 2;
+                    acceleration = 0;
                 }
             } else if (touch.sceneY < halfY) {                
                 if (touch.sceneX < halfX) {
@@ -162,6 +166,8 @@ class Player extends Entity
     {   
         if (enemyFightingState == 'punching'){
             health -= 1;            
+        } else if (enemyFightingState != 'dead') {
+            HXP.console.log([e]);
         }
         // if (enemyFightingState == 'kicking'){
         //     health = -20;            

@@ -71,7 +71,8 @@ class TitleScreen extends Scene
     public override function update()
     {
         #if !android
-        if (Input.check(Key.X)) {
+        if (Input.pressed(Key.X)) {
+            // Input.stopProp
             startNext();
         }
         if (Input.check(Key.ESCAPE)) {
