@@ -15,8 +15,10 @@ class PickCharacterScene extends Scene
 
     private var playerOne:String;
     private var playerTwo:String;
-    private var rectEntity:Entity;
-    private var rectangle:Image;
+    private var selectOne:Entity;
+    private var selectOneRect:Image;
+    private var selectTwo:Entity;
+    private var selectTwoRect:Image;
     private var charArray:Array<Entity>;
 
     private var playerOneSelected:Int;
@@ -60,11 +62,14 @@ class PickCharacterScene extends Scene
         // characters for both players
         addCharacter('fritz', 100, 200);
         addCharacter('daniel', 300, 200);
-
+        selectOneRect = Image.createRect(charArray[playerOneSelected].width + 20 , charArray[playerOneSelected].height + 20, 0xB22222);
+        selectOne = new Entity(charArray[playerOneSelected].x - 10, charArray[playerOneSelected].y - 10, selectOneRect);
+        add(selectOne);
+        selectTwoRect = Image.createRect(charArray[playerTwoSelected].width + 50 , charArray[playerTwoSelected].height + 20, 0x191970);
+        selectTwo = new Entity(charArray[playerTwoSelected].x - 10, charArray[playerTwoSelected].y - 10, selectTwoRect);
+        add(selectTwo);
         
-            rectangle = Image.createRect(charArray[playerOneSelected].width + 20 , charArray[playerOneSelected].height + 20, 0xB22222);
-            rectEntity = new Entity(charArray[playerOneSelected].x - 10, charArray[playerOneSelected].y - 10, rectangle);
-            add(rectEntity);
+
     }
 
     private function previousScene()
@@ -84,6 +89,7 @@ class PickCharacterScene extends Scene
     private function nextScene()
     {
         playerOne = charArray[playerOneSelected].name;
+        playerTwo = charArray[playerTwoSelected].name;
         HXP.scene = new scenes.GameScene(playerOne, playerTwo);
     }
 
@@ -97,22 +103,24 @@ class PickCharacterScene extends Scene
     }
     #end
 
-    private function rectangleColors()
-    {
-        while (rectangle.alpha < 1) {
-            rectangle.alpha += 0.01;
-            trace(rectangle.alpha);
-        } 
-        if (rectangle.alpha == 1) {
-            rectangle.alpha = 0;
-        }
+    // private function selectOneRectColors()
+    // {
+    //     while (selectOneRect.alpha < 1) {
+    //         selectOneRect.alpha += 0.01;
+    //         trace(selectOneRect.alpha);
+    //     } 
+    //     if (selectOneRect.alpha == 1) {
+    //         selectOneRect.alpha = 0;
+    //     }
 
-    }
+    // }
 
-    private function updateRectangle()
+    private function updateselectRect()
     {
-        rectEntity.x = charArray[playerOneSelected].x - 10;
-        rectEntity.y = charArray[playerOneSelected].y - 10;
+        selectOne.x = charArray[playerOneSelected].x - 10;
+        selectOne.y = charArray[playerOneSelected].y - 10;
+        selectTwo.x = charArray[playerTwoSelected].x - 50;
+        selectTwo.y = charArray[playerTwoSelected].y - 10;
     }
 
     private function selecting()
@@ -120,13 +128,25 @@ class PickCharacterScene extends Scene
         if (Input.pressed(Key.LEFT)) {
             if (playerOneSelected != 0) {
                 playerOneSelected -= 1;
-                updateRectangle();
+                updateselectRect();
             }
         }
         if (Input.pressed(Key.RIGHT)) {
             if (playerOneSelected != charArray.length) {
                 playerOneSelected += 1;
-                updateRectangle();
+                updateselectRect();
+            }
+        }
+        if (Input.pressed(Key.A)) {
+            if (playerTwoSelected != 0) {
+                playerTwoSelected -= 1;
+                updateselectRect();
+            }
+        }
+        if (Input.pressed(Key.D)) {
+            if (playerTwoSelected != charArray.length) {
+                playerTwoSelected += 1;
+                updateselectRect();
             }
         }
     }

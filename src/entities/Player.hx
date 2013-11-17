@@ -2,11 +2,12 @@ package entities;
 
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Spritemap;
-import com.haxepunk.utils.Input;
-import entities.HealthBox;
-import com.haxepunk.graphics.Image;
 
+import com.haxepunk.graphics.Spritemap;
+import com.haxepunk.graphics.Image;
+import com.haxepunk.utils.Input;
+
+import entities.HealthBox;
 
 class Player extends Entity
 {
@@ -35,7 +36,6 @@ class Player extends Entity
         super(x, y);
 
         sprite = new Spritemap("graphics/bigsprites.png", 30, 64);
-        sprite.scale = 2.0;
         health = 100;
 
         fightingState = '';
@@ -49,6 +49,7 @@ class Player extends Entity
     public function setPlayer(fighterName:String)
     {
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 30, 64);
+        sprite.scale = 2.0;
         sprite.add("idle", [0, 1], 6);
         sprite.add("walk", [2,3,2,4], 6);
         sprite.add("punch", [5,6,1], 6);
@@ -205,6 +206,12 @@ class Player extends Entity
         }
 
         healthBox.health = health;
+
+        if (this.x > HXP.screen.width) {
+            this.x  = 0;
+        } else if (this.x < -20) {
+            this.x  = HXP.screen.width - 30;
+        }
 
 
     }
