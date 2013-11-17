@@ -198,9 +198,12 @@ class Player extends Entity
             sprite.flipped = false;
         }
 
-        if (fightingState == 'punching') {
+        switch(fightingState)
+        {
+            case "punching":
             sprite.play("punch");
         }
+
         healthBox.health = health;
 
 

@@ -9,6 +9,7 @@ import com.haxepunk.graphics.Text;
 import com.haxepunk.HXP;
 import com.haxepunk.Tween;
 import com.haxepunk.graphics.Image;
+import openfl.Assets;
 
 class TitleScreen extends Scene
 {
@@ -21,6 +22,7 @@ class TitleScreen extends Scene
     public override function begin()
     {
 
+
         var bitmap:Image = new Image("graphics/splashscreen.png");
         bitmap.x = - bitmap.width / 2;
         bitmap.y = - bitmap.height / 2;
@@ -29,9 +31,14 @@ class TitleScreen extends Scene
         titleEntity.y =  (bitmap.height/2);
         add(titleEntity);
 
-        var kombatImg:Image = new Image("graphics/kombat.png");
-        kombatImg.angle = 10;
-        var kombat:Entity = new Entity(350,300,kombatImg);
+        var kombatText:Text = new Text("KOMBAT ");
+        var font = Assets.getFont("font/feast.ttf");
+        kombatText.font = font.fontName;
+        kombatText.size = 80;
+        kombatText.color = 0xB22222;
+        // var kombatImg:Image = new Image("graphics/kombat.png");
+        // kombatText.angle = 20;
+        var kombat:Entity = new Entity(360,280,kombatText);
 
         add(kombat);
 
@@ -45,8 +52,6 @@ class TitleScreen extends Scene
         var textEntity:Entity = new Entity(0, 50, titleText);
         textEntity.x = (HXP.width / 2) - (titleText.width/2);
         add(textEntity);
-
-
 
         // Actuate.tween (container, 3, { alpha: 1 } );
         // Actuate.tween (container, 4, { scaleX: 1, scaleY: 1 } ).delay (0.4).ease (Elastic.easeOut);
