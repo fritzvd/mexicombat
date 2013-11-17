@@ -17,6 +17,10 @@ class PickCharacterScene extends Scene
     private var playerTwo:String;
     private var rectEntity:Entity;
     private var rectangle:Image;
+    private var charArray:Array<Entity>;
+
+    private var playerOneSelected:Int;
+    private var playerTwoSelected:Int;
 
     public function new(){
         super();
@@ -46,16 +50,20 @@ class PickCharacterScene extends Scene
         playerOne = "gbjam";
         playerTwo = "gbjam";
 
-        var playerOneSelected:Int = 0;
-        var playerTwoSelected:Int = 1;
+        playerOneSelected = 0;
+        playerTwoSelected = 1;
+
+        charArray = [];
 
         // loop over characters
         // If character selected proceed to next window with character
         // characters for both players
-        var charArray:Array<Entity> = [daniel, fritz];
+        addCharacter('fritz', 100, 200);
+        addCharacter('daniel', 300, 200);
 
-            rectangle = Image.createRect(daniel.width + 20 , daniel.height + 20, 0xB22222);
-            rectEntity = new Entity(daniel.x - 10, daniel.y - 10, rectangle);
+        
+            rectangle = Image.createRect(charArray[playerOneSelected].width + 20 , charArray[playerOneSelected].height + 20, 0xB22222);
+            rectEntity = new Entity(charArray[playerOneSelected].x - 10, charArray[playerOneSelected].y - 10, rectangle);
             add(rectEntity);
     }
 
@@ -66,7 +74,9 @@ class PickCharacterScene extends Scene
 
     private function addCharacter(charName:String, charX:Float, charY:Float)
     {
+
         var newChar:Character = new Character(charX, charY);
+        add(newChar);
         newChar.set(charName);
         charArray.push(newChar);
     }
@@ -88,11 +98,38 @@ class PickCharacterScene extends Scene
 
     private function rectangleColors()
     {
-        while (rectangle.alpha < 1){
-            rectangle.alpha += 0.1;
+        while (rectangle.alpha < 1) {
+            rectangle.alpha += 0.01;
+            trace(rectangle.alpha);
         } 
+        if (rectangle.alpha == 1) {
+            rectangle.alpha = 0;
+        }
 
     }
+
+    private function updateRectangle()
+    {
+        rectEntity.x = charArray[playerOneSelected].x;
+        rectEntity.y = charArray[playerOneSelected].y;
+    }
+
+    private function selecting()
+    {
+        if (Input.pressed(Key.LEFT)) {
+            if (playerOneSelected != 0) {
+                playerOneSelected -= 1;
+                updateRectangle();
+            }
+        }
+        if (Input.pressed(Key.RIGHT)) {
+            if (playerOneSelected != charArray.length) {
+                playerOneSelected += 1;
+                updateRectangle();
+            }
+        }
+    }
+
 
     public override function update()
     {
@@ -102,7 +139,7 @@ class PickCharacterScene extends Scene
         if (Input.pressed(Key.X)) {
             nextScene();
         }    
-        rectangleColors();
+        selecting();
         #if android
         Input.touchPoints(handleTouch);
         #end
