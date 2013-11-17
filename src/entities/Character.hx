@@ -10,7 +10,6 @@ class Character extends Entity
 
     public var selected:Bool;
 
-
     public function new(x:Float, y:Float)
     {
         super(x, y);
@@ -19,6 +18,7 @@ class Character extends Entity
 
     public function set(characterName:String)
     {
+        name = characterName;
         mugshot = new Image("graphics/" + characterName + ".png");
         mugshot.scale = 0.3;
         graphic = mugshot;

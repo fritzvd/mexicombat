@@ -83,6 +83,7 @@ class PickCharacterScene extends Scene
 
     private function nextScene()
     {
+        playerOne = charArray[playerOneSelected].name;
         HXP.scene = new scenes.GameScene(playerOne, playerTwo);
     }
 
@@ -110,8 +111,8 @@ class PickCharacterScene extends Scene
 
     private function updateRectangle()
     {
-        rectEntity.x = charArray[playerOneSelected].x;
-        rectEntity.y = charArray[playerOneSelected].y;
+        rectEntity.x = charArray[playerOneSelected].x - 10;
+        rectEntity.y = charArray[playerOneSelected].y - 10;
     }
 
     private function selecting()
