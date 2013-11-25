@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
+import com.haxepunk.masks.Hitbox;
 
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Image;
@@ -22,6 +23,8 @@ class Player extends Entity
 
     public var fightingState:String;
     public var enemyFightingState:String;
+    private var fightingStateCounter:Int;
+    public var attackHitbox:Hitbox;
 
     #if android 
     // Width for touch screen
@@ -55,6 +58,7 @@ class Player extends Entity
         sprite.add("punch", [5,6,1], 6);
         sprite.add("kick", [1,2], 6);
         sprite.play("idle");
+        setHitbox(30, 64);
         graphic = sprite;
     }
 
@@ -99,7 +103,7 @@ class Player extends Entity
         if (Input.pressed("punch" + playerNo))
         {
             fightingState = "punching";
-            setHitbox(30,64);
+            // setHitbox(30,64);
         }
         if (Input.check("kick" + playerNo))
         {
@@ -213,7 +217,20 @@ class Player extends Entity
             this.x  = HXP.screen.width - 30;
         }
 
+    }
 
+    private function checkFightingState()
+    {
+        if (fightingState == 'punching'){
+            attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
+            fightingStateCounter ++;
+            if (fightingStateCounter == 60) {
+                fightingState = "";
+                sprite.play("idle");
+
+                fightingStateCounter = 0;
+            }
+        }
     }
 
     public override function update()
@@ -226,7 +243,7 @@ class Player extends Entity
         #end
         move();
         setAnimations();
-
+        checkFightingState;
         super.update();
     }
 }
