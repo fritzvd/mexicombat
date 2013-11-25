@@ -132,10 +132,8 @@ class Player extends Entity
                 // forward backward
                 if (touch.sceneX < halfX) {
                     acceleration = -2;
-                    acceleration = 0;
                 } else if (touch.sceneX > halfX) {
                     acceleration = 2;
-                    acceleration = 0;
                 }
             } else if (touch.sceneY < halfY) {                
                 if (touch.sceneX < halfX) {
@@ -243,7 +241,7 @@ class Player extends Entity
         #end
         move();
         setAnimations();
-        checkFightingState;
+        checkFightingState();
         super.update();
     }
 }
