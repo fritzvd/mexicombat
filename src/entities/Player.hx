@@ -58,6 +58,7 @@ class Player extends Entity
         sprite.add("walk", [2,3,2,4], 6);
         sprite.add("punch", [5,6,1], 6);
         sprite.add("kick", [1,2], 6);
+        sprite.add("dead", [0,1,2,3,4,5,6], 1);
         sprite.play("idle");
         setHitbox(30, 64);
         graphic = sprite;
@@ -206,6 +207,8 @@ class Player extends Entity
         {
             case "punching":
             sprite.play("punch");
+            case "dead":
+            sprite.play("dead");
         }
 
         healthBox.health = health;
