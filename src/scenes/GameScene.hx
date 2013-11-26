@@ -8,6 +8,7 @@ import entities.Player;
 import entities.HealthBox;
 
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
 
 class GameScene extends Scene
@@ -20,11 +21,19 @@ class GameScene extends Scene
     private var chosenFighterOne:String;
     private var chosenFighterTwo:String;
 
+    public var roundTime:Float;
+    private var roundText:Text;
+    private var roundTextEntity:Entity;
+
     public function new(cFO:String, cFT:String)
     {
+        super();
+
         chosenFighterOne = cFO;
         chosenFighterTwo = cFT;
-        super();
+        roundTime = 90;
+
+
     }
 
     public override function begin()
@@ -57,6 +66,29 @@ class GameScene extends Scene
         add(healthOne);
         add(playerone);
         add(playertwo);
+
+        roundText = new Text(Std.string(Math.round(roundTime)));
+        // var font = Assets.getFont('font/feast.ttf');
+        // pickCharacterText.font = font.fontName;
+        roundText.size = 30;
+        roundText.color = 0xB22222;
+        // var kombatImg:Image = new Image("graphics/kombat.png");
+        // kombatText.angle = 20;
+        roundTextEntity = new Entity(250,50,roundText);
+        add(roundTextEntity);
+    }
+
+    private function updateRoundTime()
+    {
+        roundText.text = Std.string(Math.round(roundTime));
+        if (roundTime < 0)
+        {
+            if (playerone.health > playertwo.health) {
+                playertwo.fightingState = "dead";
+            } else {
+                playerone.fightingState = "dead";
+            }
+        }
     }
 
     public override function update()
@@ -72,6 +104,8 @@ class GameScene extends Scene
             HXP.screen.color = 0x222233;
             HXP.scene = new scenes.TitleScreen();
         }
+        roundTime -= HXP.elapsed;
+        updateRoundTime();
         super.update();
     }
 }

@@ -17,7 +17,7 @@ class Player extends Entity
     private var velocity:Float;
     private var acceleration:Float;
     private var sprite:Spritemap;
-    private var health:Int;
+    public var health:Int;
     private var healthBox:HealthBox;
     private var enemyX:Float;
 
@@ -42,6 +42,7 @@ class Player extends Entity
         health = 100;
 
         fightingState = '';
+        fightingStateCounter = 0;
 
         graphic = sprite;
         // graphic = Image.createRect(130, 200);
@@ -222,7 +223,7 @@ class Player extends Entity
         if (fightingState == 'punching'){
             // attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
             fightingStateCounter ++;
-            if (fightingStateCounter == 60) {
+            if (fightingStateCounter == 30) {
                 fightingState = "";
                 sprite.play("idle");
 
