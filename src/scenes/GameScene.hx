@@ -68,7 +68,7 @@ class GameScene extends Scene
 
         }
 
-        if (Input.check(Key.ESCAPE)) {
+        if (Input.pressed(Key.ESCAPE)) {
             HXP.screen.color = 0x222233;
             HXP.scene = new scenes.TitleScreen();
         }

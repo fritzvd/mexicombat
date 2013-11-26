@@ -105,7 +105,7 @@ class Player extends Entity
             fightingState = "punching";
             // setHitbox(30,64);
         }
-        if (Input.check("kick" + playerNo))
+        if (Input.pressed("kick" + playerNo))
         {
             fightingState = "kicking";
 
@@ -220,7 +220,7 @@ class Player extends Entity
     private function checkFightingState()
     {
         if (fightingState == 'punching'){
-            attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
+            // attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
             fightingStateCounter ++;
             if (fightingStateCounter == 60) {
                 fightingState = "";
