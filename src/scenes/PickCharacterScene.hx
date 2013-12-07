@@ -60,8 +60,8 @@ class PickCharacterScene extends Scene
         // loop over characters
         // If character selected proceed to next window with character
         // characters for both players
-        addCharacter('fritz1', 100, 200);
-        addCharacter('daniel', 300, 200);
+        addCharacter('fritz', 100, 200);
+        addCharacter('fritz', 300, 200);
         selectOneRect = Image.createRect(charArray[playerOneSelected].width + 20 , charArray[playerOneSelected].height + 20, 0xB22222);
         selectOne = new Entity(charArray[playerOneSelected].x - 10, charArray[playerOneSelected].y - 10, selectOneRect);
         add(selectOne);

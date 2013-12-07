@@ -38,7 +38,7 @@ class Player extends Entity
     {
         super(x, y);
 
-        sprite = new Spritemap("graphics/bigsprites.png", 30, 64);
+        sprite = new Spritemap("graphics/bigsprites.png", 100, 64);
         health = 100;
 
         fightingState = '';
@@ -52,10 +52,10 @@ class Player extends Entity
 
     public function setPlayer(fighterName:String)
     {
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 30, 64);
-        sprite.scale = 2.0;
-        sprite.add("idle", [0, 1], 6);
-        sprite.add("walk", [2,3,2,4], 6);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 100, 200);
+        sprite.scale = 1.0;
+        sprite.add("idle", [0], 6);
+        sprite.add("walk", [7,1,2,3,5,5,6], 10);
         sprite.add("punch", [5,6,1], 6);
         sprite.add("kick", [1,2], 6);
         sprite.add("dead", [0,1,2,3,4,5,6], 1);
@@ -169,7 +169,7 @@ class Player extends Entity
 
     public override function moveCollideX(e:Entity)
     {   
-        if (enemyFightingState == 'punching'){
+        if (fightingState == 'punching'){
             health -= 1;            
         } else if (enemyFightingState != 'dead') {
             HXP.console.log([e]);
