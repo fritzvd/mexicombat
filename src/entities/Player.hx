@@ -26,6 +26,8 @@ class Player extends Entity
     private var fightingStateCounter:Int;
     public var attackHitbox:Hitbox;
 
+    private var oldPlays:Int;
+
     #if android 
     // Width for touch screen
     private var maxX:Float;
@@ -46,7 +48,7 @@ class Player extends Entity
 
         graphic = sprite;
         // graphic = Image.createRect(130, 200);
-
+        oldPlays = plays;
         velocity = 0;
     }
 
@@ -58,7 +60,7 @@ class Player extends Entity
         sprite.add("walk", [7,1,2,3,5,5,6], 10);
         sprite.add("punch", [5,6,1], 6);
         sprite.add("kick", [1,2], 6);
-        sprite.add("dead", [0,1,2,3,4,5,6], 1);
+        sprite.add("dead", [0,1,2,3,4,5,6], 3);
         sprite.play("idle");
         setHitbox(30, 64);
         graphic = sprite;
@@ -170,20 +172,23 @@ class Player extends Entity
     public override function moveCollideX(e:Entity)
     {   
         if (fightingState == 'punching'){
-            health -= 1;            
+            if (e.type == "fighter" + enemyNo) 
+            {
+                var enemy = cast(e, Player);
+                enemy.health -= 1;
+            }    
         } else if (enemyFightingState != 'dead') {
-            HXP.console.log([e]);
+            if (enemyFightingState == 'punching')
+            {
+                health -= 1;
+            }
         }
         // if (enemyFightingState == 'kicking'){
         //     health = -20;            
         // }        
         // // HXP.console.log([e]);
         // // HXP.console.log(["PIET"]);
-        if (health < 0) {
-               health = 0;
-               fightingState = "dead";
-        //     scene.remove(this);
-        }
+
 
         return true;
     }
@@ -209,6 +214,7 @@ class Player extends Entity
             sprite.play("punch");
             case "dead":
             sprite.play("dead");
+            sprite.angle += 10;
         }
 
         healthBox.health = health;
@@ -232,6 +238,14 @@ class Player extends Entity
 
                 fightingStateCounter = 0;
             }
+        }
+        if (health <= 0) {
+               health = 0;
+               fightingState = "dead";
+               if (oldPlays == plays) {
+                plays = oldPlays + 1;
+               }
+        //     scene.remove(this);
         }
     }
 

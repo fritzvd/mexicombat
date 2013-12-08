@@ -8,6 +8,7 @@ import entities.Player;
 import entities.HealthBox;
 
 import com.haxepunk.graphics.Image;
+import openfl.Assets;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
 
@@ -24,6 +25,8 @@ class GameScene extends Scene
     public var roundTime:Float;
     private var roundText:Text;
     private var roundTextEntity:Entity;
+    private var deadText:Text;
+    private var deadTextEntity:Entity;
 
     public function new(cFO:String, cFT:String)
     {
@@ -38,6 +41,18 @@ class GameScene extends Scene
 
     public override function begin()
     {
+
+
+        deadText = new Text("");
+        var font = Assets.getFont('font/feast.ttf');
+        deadText.font = font.fontName;
+        deadText.size = 30;
+        deadText.color = 0xFFFFFF;
+        // var kombatImg:Image = new Image("graphics/kombat.png");
+        // kombatText.angle = 20;
+        deadTextEntity = new Entity(250,250,deadText);
+        deadTextEntity.visible = false;
+        add(deadTextEntity);
 
         var bitmap:Image = new Image("graphics/bg.png");
         bitmap.x = - bitmap.width / 2;
@@ -80,6 +95,11 @@ class GameScene extends Scene
 
     private function updateRoundTime()
     {
+        if (roundTime > 0 && playertwo.fightingState != "dead" && playerone.fightingState != "dead")
+        {
+            roundTime -= HXP.elapsed;
+
+        }
         roundText.text = Std.string(Math.round(roundTime));
         if (roundTime < 0)
         {
@@ -97,14 +117,22 @@ class GameScene extends Scene
         playertwo.setEnemyX(playerone.x, playerone.fightingState);
 
         if (playerone.fightingState == "dead"){
+            deadText.text = "Player one, you died.";
+            // deadTextEntity = new Entity(250,250,deadText);
+            deadTextEntity.visible = true;
 
+        } else if (playertwo.fightingState == "dead"){
+            deadText.text = "Player two, you died.";
+            // deadTextEntity = new Entity(250,250,deadText);
+            deadTextEntity.visible = true;
         }
+
+
 
         if (Input.pressed(Key.ESCAPE)) {
             HXP.screen.color = 0x222233;
             HXP.scene = new scenes.TitleScreen();
         }
-        roundTime -= HXP.elapsed;
         updateRoundTime();
         super.update();
     }
