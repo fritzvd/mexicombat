@@ -26,7 +26,7 @@ class Player extends Entity
     private var fightingStateCounter:Int;
     public var attackHitbox:Hitbox;
 
-    private var oldPlays:Int;
+    // private var oldPlays:Int;
 
     #if android 
     // Width for touch screen
@@ -48,7 +48,7 @@ class Player extends Entity
 
         graphic = sprite;
         // graphic = Image.createRect(130, 200);
-        oldPlays = plays;
+        // oldPlays = plays;
         velocity = 0;
     }
 
@@ -242,9 +242,9 @@ class Player extends Entity
         if (health <= 0) {
                health = 0;
                fightingState = "dead";
-               if (oldPlays == plays) {
-                plays = oldPlays + 1;
-               }
+               // if (oldPlays == plays) {
+               //  plays = oldPlays + 1;
+               // }
         //     scene.remove(this);
         }
     }

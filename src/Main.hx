@@ -4,7 +4,7 @@ import com.haxepunk.HXP;
 
 class Main extends Engine
 {
-    public var plays:Int;
+    // public var plays:Int;
 
 	override public function init()
 	{
