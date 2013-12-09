@@ -32,8 +32,8 @@ class TitleScreen extends Scene
         add(titleEntity);
 
         var kombatText:Text = new Text("KOMBAT ");
-        var font = Assets.getFont("font/feast.ttf");
-        kombatText.font = font.fontName;
+        // var font = Assets.getFont("font/feast.ttf");
+        // kombatText.font = font.fontName;
         kombatText.size = 80;
         kombatText.color = 0xB22222;
         // var kombatImg:Image = new Image("graphics/kombat.png");

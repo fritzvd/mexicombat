@@ -39,8 +39,8 @@ class PickCharacterScene extends Scene
         add(titleEntity);
 
         var pickCharacterText:Text = new Text("PICK a Character ");
-        var font = Assets.getFont('font/feast.ttf');
-        pickCharacterText.font = font.fontName;
+        // var font = Assets.getFont('font/feast.ttf');
+        // pickCharacterText.font = font.fontName;
         pickCharacterText.size = 80;
         pickCharacterText.color = 0xB22222;
         // var kombatImg:Image = new Image("graphics/kombat.png");

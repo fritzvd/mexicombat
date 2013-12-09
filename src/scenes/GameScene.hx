@@ -44,8 +44,8 @@ class GameScene extends Scene
 
 
         deadText = new Text("");
-        var font = Assets.getFont('font/feast.ttf');
-        deadText.font = font.fontName;
+        // var font = Assets.getFont('font/feast.ttf');
+        // deadText.font = font.fontName;
         deadText.size = 30;
         deadText.color = 0xFFFFFF;
         // var kombatImg:Image = new Image("graphics/kombat.png");
