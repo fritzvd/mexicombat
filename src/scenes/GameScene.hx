@@ -27,6 +27,7 @@ class GameScene extends Scene
     private var roundTextEntity:Entity;
     private var deadText:Text;
     private var deadTextEntity:Entity;
+    private var deadTime:Float;
 
     public function new(cFO:String, cFT:String)
     {
@@ -35,6 +36,7 @@ class GameScene extends Scene
         chosenFighterOne = cFO;
         chosenFighterTwo = cFT;
         roundTime = 90;
+        deadTime = 0;
 
 
     }
@@ -120,13 +122,18 @@ class GameScene extends Scene
             deadText.text = "Player one, you died.";
             // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
+            deadTime += HXP.elapsed;
 
         } else if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
+            deadTime += HXP.elapsed;
         }
 
+        if (deadTime > 3) {
+            HXP.scene = new scenes.TitleScreen();
+        }
 
 
         if (Input.pressed(Key.ESCAPE)) {

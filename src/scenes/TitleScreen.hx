@@ -42,10 +42,10 @@ class TitleScreen extends Scene
 
         add(kombat);
 
-        #if !android
+        #if !mobile
         var titleText:Text = new Text("Press X to start");
         #end
-        #if android
+        #if mobile
         var titleText:Text = new Text("Press anywhere to start");
         #end
         titleText.color = 0x99aa59;

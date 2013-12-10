@@ -73,9 +73,11 @@ class PickCharacterScene extends Scene
         
         #if android
         var main = cast(HXP.engine, Main);
-        if (main.plays > 0){
+        if (main.plays > 1){
+            trace('what is up');
             var showChartboost = JNI.createMemberMethod("com/cheeses/mexicombat/MainActivity", "showChartboost", "()V");
             showChartboost();
+            trace('what is up with JNI');
         }
         #end
 
@@ -102,7 +104,7 @@ class PickCharacterScene extends Scene
         HXP.scene = new scenes.GameScene(playerOne, playerTwo);
     }
 
-    #if android
+    #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
         
@@ -170,7 +172,7 @@ class PickCharacterScene extends Scene
             nextScene();
         }    
         selecting();
-        #if android
+        #if mobile
         Input.touchPoints(handleTouch);
         #end
         super.update();

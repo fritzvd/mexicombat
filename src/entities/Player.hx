@@ -29,7 +29,7 @@ class Player extends Entity
     private var oldPlays:Int;
     private var main:Main;
 
-    #if android 
+    #if mobile 
     // Width for touch screen
     private var maxX:Float;
     private var minX:Float;
@@ -94,7 +94,7 @@ class Player extends Entity
         Input.define("kick" + playerNo, [kick]);
     }
 
-#if !android
+#if !mobile
     private function handleInput()
     {
         // acceleration = 0;
@@ -119,7 +119,7 @@ class Player extends Entity
     }
 #end
 
-#if android
+#if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) {
         if (playerNo == 0) {
             maxX = HXP.width / 2;
@@ -253,10 +253,10 @@ class Player extends Entity
     public override function update()
     {
         acceleration = 0;
-        #if !android
+        #if !mobile
         handleInput();
         #end
-        #if android
+        #if mobile
         Input.touchPoints(handleTouch);
         #end
         move();
