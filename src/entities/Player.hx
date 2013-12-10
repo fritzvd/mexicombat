@@ -26,7 +26,8 @@ class Player extends Entity
     private var fightingStateCounter:Int;
     public var attackHitbox:Hitbox;
 
-    // private var oldPlays:Int;
+    private var oldPlays:Int;
+    private var main:Main;
 
     #if android 
     // Width for touch screen
@@ -48,8 +49,9 @@ class Player extends Entity
 
         graphic = sprite;
         // graphic = Image.createRect(130, 200);
-        // oldPlays = plays;
         velocity = 0;
+        main = cast(HXP.engine, Main);
+        oldPlays = main.plays;
     }
 
     public function setPlayer(fighterName:String)
@@ -95,7 +97,7 @@ class Player extends Entity
 #if !android
     private function handleInput()
     {
-        acceleration = 0;
+        // acceleration = 0;
         if (Input.check("left" + playerNo))
         {
             acceleration = -2;
@@ -123,7 +125,7 @@ class Player extends Entity
             maxX = HXP.width / 2;
             minX = 0;
             halfX = HXP.width / 4;
-        } else {
+        } else if (playerNo == 1){
             maxX = HXP.width;
             minX = HXP.width / 2;
             halfX = HXP.width / 4 * 3;
@@ -242,15 +244,15 @@ class Player extends Entity
         if (health <= 0) {
                health = 0;
                fightingState = "dead";
-               // if (oldPlays == plays) {
-               //  plays = oldPlays + 1;
-               // }
-        //     scene.remove(this);
+               if (oldPlays == main.plays) {
+                main.plays = oldPlays + 1;
+               }
         }
     }
 
     public override function update()
     {
+        acceleration = 0;
         #if !android
         handleInput();
         #end

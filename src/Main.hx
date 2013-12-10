@@ -4,7 +4,7 @@ import com.haxepunk.HXP;
 
 class Main extends Engine
 {
-    // public var plays:Int;
+    public var plays:Int;
 
 	override public function init()
 	{
@@ -13,6 +13,7 @@ class Main extends Engine
 #end
         // HXP.scene = new scenes.PickCharacterScene();
         HXP.scene = new scenes.TitleScreen();
+        plays = 0;
 	}
 
 	public static function main() { new Main(); }
