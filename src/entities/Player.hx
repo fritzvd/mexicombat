@@ -41,13 +41,13 @@ class Player extends Entity
     {
         super(x, y);
 
-        sprite = new Spritemap("graphics/bigsprites.png", 100, 64);
+        // sprite = new Spritemap("graphics/bigsprites.png", 100, 64);
         health = 100;
 
         fightingState = '';
         fightingStateCounter = 0;
 
-        graphic = sprite;
+        // graphic = sprite;
         // graphic = Image.createRect(130, 200);
         velocity = 0;
         main = cast(HXP.engine, Main);
@@ -232,7 +232,8 @@ class Player extends Entity
     private function checkFightingState()
     {
         if (fightingState == 'punching' && health > 0){
-            // attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
+            // attackHitbox = new Hitbox(20,30, Std.int(this.x + 110), Std.int(this.y + 20));
+            // trace(attackHitbox);
             fightingStateCounter ++;
             if (fightingStateCounter == 30) {
                 fightingState = "";
