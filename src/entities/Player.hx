@@ -62,7 +62,7 @@ class Player extends Entity
         sprite.add("walk", [7,1,2,3,5,5,6], 10);
         sprite.add("punch", [5,6,1], 6);
         sprite.add("kick", [1,2], 6);
-        sprite.add("dead", [0,1,2,3,4,5,6], 3);
+        sprite.add("dead", [0], 12);
         sprite.play("idle");
         setHitbox(30, 64);
         graphic = sprite;
@@ -231,7 +231,7 @@ class Player extends Entity
 
     private function checkFightingState()
     {
-        if (fightingState == 'punching'){
+        if (fightingState == 'punching' && health > 0){
             // attackHitbox = new Hitbox(20,30, Std.int(this.x + 10), Std.int(this.y + 20));
             fightingStateCounter ++;
             if (fightingStateCounter == 30) {

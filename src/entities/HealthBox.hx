@@ -25,8 +25,9 @@ class HealthBox extends Entity
     {
         if (health < 1){
             scene.remove(this);
+        } else {
+            graphic = Image.createRect(health, 20, 0xDDDDDD);        
         }
-        graphic = Image.createRect(health, 20, 0xDDDDDD);
         super.update();
     }
 }
