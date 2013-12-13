@@ -2,9 +2,11 @@ package ::APP_PACKAGE::;
 
 import android.os.Bundle;
 import com.chartboost.sdk.*;
+import android.util.Log;
 
 public class MainActivity extends org.haxe.nme.GameActivity {
     public static Chartboost cb;
+    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle state) {
@@ -51,6 +53,7 @@ public class MainActivity extends org.haxe.nme.GameActivity {
 
     public static void showChartboost() {
         cb.showInterstitial();
+        // Log.v(TAG, cb);
     }
 }
 
