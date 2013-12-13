@@ -73,9 +73,9 @@ class PickCharacterScene extends Scene
         
         #if android
         var main = cast(HXP.engine, Main);
-        if (main.plays > 1){
-            trace('what is up');
-            var showChartboost = JNI.createMemberMethod("com/cheeses/mexicombat/MainActivity", "showChartboost", "()V");
+        if (main.plays > 0){
+            trace('what is uniek ', main.plays);
+            var showChartboost = JNI.createStaticMethod("com/cheeses/mexicombat/MainActivity", "showChartboost", "()V");
             showChartboost();
             trace('what is up with JNI');
         }

@@ -58,7 +58,7 @@ class TitleScreen extends Scene
         
     }
 
-    #if android
+    #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
         
@@ -75,7 +75,7 @@ class TitleScreen extends Scene
 
     public override function update()
     {
-        #if !android
+        #if !mobile
         if (Input.pressed(Key.X)) {
             // Input.stopProp
             startNext();
@@ -84,7 +84,7 @@ class TitleScreen extends Scene
             HXP.scene.end();
         }
         #end
-        #if android
+        #if mobile
         Input.touchPoints(handleTouch);
         #end
         super.update();

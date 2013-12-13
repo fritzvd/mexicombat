@@ -12,8 +12,8 @@ class Main extends Engine
 		HXP.console.enable();
 #end
         // HXP.scene = new scenes.PickCharacterScene();
-        HXP.scene = new scenes.TitleScreen();
         plays = 0;
+        HXP.scene = new scenes.TitleScreen();
 	}
 
 	public static function main() { new Main(); }
