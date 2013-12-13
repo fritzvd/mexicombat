@@ -1,0 +1,8 @@
+haxelib_client: [3.1.0-rc.3]
+HaxePunk: [2.4.3]
+hxlibc: [1.0.0]
+hxtools: [1.1.6]
+openfl: [1.1.1]
+openfl-html5-dom: [1.1.1]
+openfl-native: [1.1.4]
+openfl-samples: [1.1.0]
