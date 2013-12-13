@@ -16,7 +16,7 @@ public class MainActivity extends org.haxe.nme.GameActivity {
         this.cb.onCreate(this, appId, appSignature, null);
 
         this.cb.startSession();
-        this.cb.showInterstitial();
+        // this.cb.showInterstitial();
         // this.cb.cacheInterstitial();
     }
 
