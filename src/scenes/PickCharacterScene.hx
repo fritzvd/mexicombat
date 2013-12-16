@@ -10,7 +10,9 @@ import com.haxepunk.Entity;
 import entities.Character;
 import openfl.Assets;
 
+#if android
 import openfl.utils.JNI;
+#end
 
 class PickCharacterScene extends Scene
 {

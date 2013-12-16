@@ -23,11 +23,13 @@ class Player extends Entity
 
     public var fightingState:String;
     public var enemyFightingState:String;
-    private var fightingStateCounter:Int;
+    private var fightingStateCounter:Float;
     public var attackHitbox:Hitbox;
 
     private var oldPlays:Int;
     private var main:Main;
+
+    private var enemy:Player;
 
     #if mobile 
     // Width for touch screen
@@ -41,14 +43,11 @@ class Player extends Entity
     {
         super(x, y);
 
-        // sprite = new Spritemap("graphics/bigsprites.png", 100, 64);
         health = 100;
 
         fightingState = '';
         fightingStateCounter = 0;
 
-        // graphic = sprite;
-        // graphic = Image.createRect(130, 200);
         velocity = 0;
         main = cast(HXP.engine, Main);
         oldPlays = main.plays;
@@ -59,9 +58,9 @@ class Player extends Entity
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 100, 200);
         sprite.scale = 1.0;
         sprite.add("idle", [0], 6);
-        sprite.add("walk", [7,1,2,3,5,5,6], 10);
-        sprite.add("punch", [5,6,1], 6);
-        sprite.add("kick", [1,2], 6);
+        sprite.add("walk", [7,1,2,3,5,6], 6);
+        sprite.add("punch", [12,13,14,15], 6);
+        sprite.add("kick", [8,9,10,11], 10);
         sprite.add("dead", [0], 12);
         sprite.play("idle");
         setHitbox(30, 64);
@@ -144,6 +143,8 @@ class Player extends Entity
             } else if (touch.sceneY < halfY) {                
                 if (touch.sceneX < halfX) {
                     fightingState = "punching";
+                } else if (touch.sceneX > halfX) {
+                    fightingState = "kicking";
                 }
             }
         }
@@ -173,16 +174,30 @@ class Player extends Entity
 
     public override function moveCollideX(e:Entity)
     {   
-        if (fightingState == 'punching'){
+        if (fightingState == 'punching' || fightingState == 'kicking'){
             if (e.type == "fighter" + enemyNo) 
             {
-                var enemy = cast(e, Player);
-                enemy.health -= 1;
+                if (enemy == null)
+                {
+                    enemy = cast(e, Player);
+                    if (fightingState == 'punching')
+                    {
+                        enemy.health -= 1;                      
+                    }
+                    if (fightingState == 'kicking')
+                    {
+                        enemy.health -= 2;                      
+                    }
+                }
             }    
         } else if (enemyFightingState != 'dead') {
             if (enemyFightingState == 'punching')
             {
                 health -= 1;
+            }
+            if (enemyFightingState == 'kicking')
+            {
+                health -= 2;
             }
         }
         // if (enemyFightingState == 'kicking'){
@@ -197,6 +212,13 @@ class Player extends Entity
 
     private function setAnimations()
     {
+        
+        if (this.x > enemyX) {
+            sprite.flipped = true;        
+        } else {
+            sprite.flipped = false;
+        }
+
         if (velocity == 0)
         {
             sprite.play("idle");
@@ -204,14 +226,10 @@ class Player extends Entity
             sprite.play("walk");
         }
 
-        if (this.x > enemyX) {
-            sprite.flipped = true;        
-        } else {
-            sprite.flipped = false;
-        }
-
         switch(fightingState)
         {
+            case "kicking":
+            sprite.play("kick");
             case "punching":
             sprite.play("punch");
             case "dead":
@@ -219,6 +237,7 @@ class Player extends Entity
             sprite.angle += 10;
         }
 
+        // trace(sprite.name);
         healthBox.health = health;
 
         if (this.x > HXP.screen.width) {
@@ -231,11 +250,11 @@ class Player extends Entity
 
     private function checkFightingState()
     {
-        if (fightingState == 'punching' && health > 0){
+        if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             // attackHitbox = new Hitbox(20,30, Std.int(this.x + 110), Std.int(this.y + 20));
             // trace(attackHitbox);
-            fightingStateCounter ++;
-            if (fightingStateCounter == 30) {
+            fightingStateCounter += HXP.elapsed;
+            if (fightingStateCounter > 0.5) {
                 fightingState = "";
                 sprite.play("idle");
 

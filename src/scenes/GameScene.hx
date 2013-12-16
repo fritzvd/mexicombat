@@ -35,7 +35,7 @@ class GameScene extends Scene
 
         chosenFighterOne = cFO;
         chosenFighterTwo = cFT;
-        roundTime = 90;
+        roundTime = 45;
         deadTime = 0;
 
 
@@ -100,7 +100,6 @@ class GameScene extends Scene
         if (roundTime > 0 && playertwo.fightingState != "dead" && playerone.fightingState != "dead")
         {
             roundTime -= HXP.elapsed;
-
         }
         roundText.text = Std.string(Math.round(roundTime));
         if (roundTime < 0)
@@ -124,7 +123,8 @@ class GameScene extends Scene
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
 
-        } else if (playertwo.fightingState == "dead"){
+        } 
+        if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
