@@ -19,7 +19,7 @@ public class MainActivity extends org.haxe.nme.GameActivity {
 
         cb.startSession();
         // this.cb.showInterstitial();
-        cb.cacheInterstitial();
+        cb.cacheInterstitial("" + 1);
     }
 
     @Override
@@ -51,8 +51,9 @@ public class MainActivity extends org.haxe.nme.GameActivity {
             super.onBackPressed();
     }
 
-    public static void showChartboost() {
-        cb.showInterstitial();
+    public static void showChartboost(int plays) {
+        cb.showInterstitial("" + plays);
+        cb.cacheInterstitial("" + (plays + 1));
         // Log.v(TAG, cb);
     }
 }

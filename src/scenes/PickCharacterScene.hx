@@ -10,9 +10,6 @@ import com.haxepunk.Entity;
 import entities.Character;
 import openfl.Assets;
 
-#if android
-import openfl.utils.JNI;
-#end
 
 class PickCharacterScene extends Scene
 {
@@ -73,16 +70,6 @@ class PickCharacterScene extends Scene
         selectTwo = new Entity(charArray[playerTwoSelected].x - 10, charArray[playerTwoSelected].y - 10, selectTwoRect);
         add(selectTwo);
         
-        #if android
-        var main = cast(HXP.engine, Main);
-        if (main.plays > 0){
-            trace('what is pietje ', main.plays);
-            var showChartboost = JNI.createStaticMethod("com/cheeses/mexicombat/MainActivity", "showChartboost", "()V");
-            showChartboost();
-            trace('what is up with JNI');
-        }
-        #end
-
     }
 
     private function previousScene()
