@@ -58,8 +58,8 @@ class Player extends Entity
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 100, 200);
         sprite.scale = 1.0;
         sprite.add("idle", [0], 6);
-        sprite.add("walk", [7,1,2,3,5,6], 6);
-        sprite.add("punch", [12,13,14,15], 6);
+        sprite.add("walk", [7,1,2,3,5,6], 10);
+        sprite.add("punch", [12,13,14,15], 10);
         sprite.add("kick", [8,9,10,11], 10);
         sprite.add("dead", [0], 12);
         sprite.play("idle");
@@ -219,10 +219,10 @@ class Player extends Entity
             sprite.flipped = false;
         }
 
-        if (velocity == 0)
+        if (velocity == 0 && fightingState == "")
         {
             sprite.play("idle");
-        } else if (velocity > 0 || velocity < 0) {
+        } else if ((velocity > 0 || velocity < 0) && (fightingState == "")) {
             sprite.play("walk");
         }
 
@@ -236,6 +236,7 @@ class Player extends Entity
             sprite.play("dead");
             sprite.angle += 10;
         }
+
 
         // trace(sprite.name);
         healthBox.health = health;
@@ -256,8 +257,6 @@ class Player extends Entity
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.5) {
                 fightingState = "";
-                sprite.play("idle");
-
                 fightingStateCounter = 0;
             }
         }
@@ -280,8 +279,8 @@ class Player extends Entity
         Input.touchPoints(handleTouch);
         #end
         move();
-        setAnimations();
         checkFightingState();
+        setAnimations();
         super.update();
     }
 }
