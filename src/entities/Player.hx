@@ -63,7 +63,7 @@ class Player extends Entity
         sprite.add("kick", [8,9,10,11], 10);
         sprite.add("dead", [0], 12);
         sprite.play("idle");
-        setHitbox(50, 200);
+        setHitbox(30, 200);
         graphic = sprite;
     }
 
