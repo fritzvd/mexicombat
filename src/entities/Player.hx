@@ -258,9 +258,10 @@ class Player extends Entity
             // attackHitbox.parent = this; 
             attackHitbox = new Circle(30, 30, 160);
             // trace(this.mask);
+            mask = attackHitbox;
             // if (enemy == null) { return;}
-            if (this.mask.collide(enemy.mask)) {
-                trace('wiiehaaa');
+            if (attackHitbox.collide(enemy.mask)) {
+                enemy.health -= 1;
             }
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.5) {
