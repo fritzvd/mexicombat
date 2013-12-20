@@ -93,6 +93,9 @@ class GameScene extends Scene
         // kombatText.angle = 20;
         roundTextEntity = new Entity(250,50,roundText);
         add(roundTextEntity);
+
+        playerone.setEnemy(playertwo, 0);
+        playertwo.setEnemy(playerone, 1);
     }
 
     private function updateRoundTime()
@@ -114,8 +117,7 @@ class GameScene extends Scene
 
     public override function update()
     {
-        playerone.setEnemyX(playertwo.x, playertwo.fightingState);
-        playertwo.setEnemyX(playerone.x, playerone.fightingState);
+
 
         if (playerone.fightingState == "dead"){
             deadText.text = "Player one, you died.";

@@ -2,8 +2,9 @@ package entities;
 
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
+import com.haxepunk.masks.Circle;
 import com.haxepunk.masks.Hitbox;
-
+import com.haxepunk.Mask;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.utils.Input;
@@ -19,17 +20,17 @@ class Player extends Entity
     private var sprite:Spritemap;
     public var health:Int;
     private var healthBox:HealthBox;
-    private var enemyX:Float;
 
     public var fightingState:String;
     public var enemyFightingState:String;
     private var fightingStateCounter:Float;
-    public var attackHitbox:Hitbox;
+    // public var attackHitbox:Hitbox;
 
     private var oldPlays:Int;
     private var main:Main;
 
     private var enemy:Player;
+    public var attackHitbox:Hitbox;
 
     #if mobile 
     // Width for touch screen
@@ -41,7 +42,8 @@ class Player extends Entity
 
     public function new(x:Float, y:Float)
     {
-        super(x, y);
+        var mask = new Hitbox(100,200);
+        super(x, y, mask);
 
         health = 100;
 
@@ -72,10 +74,10 @@ class Player extends Entity
         healthBox = hBox;
     }
 
-    public function setEnemyX(enX:Float, enFightingState:String)
+    public function setEnemy(en:Player, no:Int)
     {   
-        enemyX = enX;
-        enemyFightingState = enFightingState;
+        enemy = en;
+        enemyNo = no;  
     }
 
     public function setKeysPlayer(left, right, punch, kick, player)
@@ -213,7 +215,7 @@ class Player extends Entity
     private function setAnimations()
     {
         
-        if (this.x > enemyX) {
+        if (this.x > enemy.x) {
             sprite.flipped = true;        
         } else {
             sprite.flipped = false;
@@ -252,11 +254,18 @@ class Player extends Entity
     private function checkFightingState()
     {
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
-            // attackHitbox = new Hitbox(20,30, Std.int(this.x + 110), Std.int(this.y + 20));
-            // trace(attackHitbox);
+            // attackHitbox = new Hitbox(300,30, Std.int(this.x + 110), Std.int(this.y + 20));
+            // attackHitbox.parent = this; 
+            attackHitbox = new Circle(30, 30, 160);
+            // trace(this.mask);
+            // if (enemy == null) { return;}
+            if (this.mask.collide(enemy.mask)) {
+                trace('wiiehaaa');
+            }
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.5) {
                 fightingState = "";
+                // attackHitbox = null;
                 fightingStateCounter = 0;
             }
         }
