@@ -20,16 +20,20 @@ class Player extends Entity
     private var sprite:Spritemap;
     public var health:Int;
     private var healthBox:HealthBox;
+    private var scaling:Float;
+    private var scalint:Int;
 
     public var fightingState:String;
     public var enemyFightingState:String;
     private var fightingStateCounter:Float;
-    // public var attackHitbox:Hitbox;
+    private var hitboxHeight:Int;
+    private var hitboxWidth:Int;
 
     private var oldPlays:Int;
     private var main:Main;
 
     private var enemy:Player;
+    private var maskOffset:Int;
     public var attackHitbox:Hitbox;
 
     #if mobile 
@@ -42,7 +46,6 @@ class Player extends Entity
 
     public function new(x:Float, y:Float)
     {
-        var mask = new Hitbox(100,200);
         super(x, y, mask);
 
         health = 100;
@@ -53,19 +56,23 @@ class Player extends Entity
         velocity = 0;
         main = cast(HXP.engine, Main);
         oldPlays = main.plays;
+
     }
 
     public function setPlayer(fighterName:String)
     {
+        scaling = main.scaling;
+        hitboxHeight = Math.round(200 * scaling);
+        hitboxWidth = Math.round(60 * scaling);
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 100, 200);
-        sprite.scale = 1.0;
+        sprite.scale = 1.0 * scaling;
         sprite.add("idle", [0], 6);
         sprite.add("walk", [7,1,2,3,5,6], 10);
         sprite.add("punch", [12,13,14,15], 10);
         sprite.add("kick", [8,9,10,11], 10);
         sprite.add("dead", [0], 12);
         sprite.play("idle");
-        setHitbox(30, 200);
+        setHitbox(hitboxWidth, hitboxHeight);
         graphic = sprite;
     }
 
@@ -174,58 +181,63 @@ class Player extends Entity
         return fightingState;
     }
 
-    public override function moveCollideX(e:Entity)
-    {   
-        if (fightingState == 'punching' || fightingState == 'kicking'){
-            if (e.type == "fighter" + enemyNo) 
-            {
-                if (enemy == null)
-                {
-                    enemy = cast(e, Player);
-                    if (fightingState == 'punching')
-                    {
-                        enemy.health -= 1;                      
-                    }
-                    if (fightingState == 'kicking')
-                    {
-                        enemy.health -= 2;                      
-                    }
-                }
-            }    
-        } else if (enemyFightingState != 'dead') {
-            if (enemyFightingState == 'punching')
-            {
-                health -= 1;
-            }
-            if (enemyFightingState == 'kicking')
-            {
-                health -= 2;
-            }
-        }
-        // if (enemyFightingState == 'kicking'){
-        //     health = -20;            
-        // }        
-        // // HXP.console.log([e]);
-        // // HXP.console.log(["PIET"]);
+    // public override function moveCollideX(e:Entity)
+    // {   
+    //     if (fightingState == 'punching' || fightingState == 'kicking'){
+    //         if (e.type == "fighter" + enemyNo) 
+    //         {
+    //             if (enemy == null)
+    //             {
+    //                 enemy = cast(e, Player);
+    //                 if (fightingState == 'punching')
+    //                 {
+    //                     enemy.health -= 1;                      
+    //                 }
+    //                 if (fightingState == 'kicking')
+    //                 {
+    //                     enemy.health -= 2;                      
+    //                 }
+    //             }
+    //         }    
+    //     } else if (enemyFightingState != 'dead') {
+    //         if (enemyFightingState == 'punching')
+    //         {
+    //             health -= 1;
+    //         }
+    //         if (enemyFightingState == 'kicking')
+    //         {
+    //             health -= 2;
+    //         }
+    //     }
+    //     // if (enemyFightingState == 'kicking'){
+    //     //     health = -20;            
+    //     // }        
+    //     // // HXP.console.log([e]);
+    //     // // HXP.console.log(["PIET"]);
 
 
-        return true;
-    }
+    //     return true;
+    // }
 
     private function setAnimations()
     {
         
         if (this.x > enemy.x) {
-            sprite.flipped = true;        
+            sprite.flipped = true;
+            maskOffset = Math.round(-80 * scaling);
         } else {
             sprite.flipped = false;
+            maskOffset = Math.round(20 * scaling);
         }
-
         if (velocity == 0 && fightingState == "")
         {
             sprite.play("idle");
+            mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
+            // mask.x = maskOffset;
         } else if ((velocity > 0 || velocity < 0) && (fightingState == "")) {
             sprite.play("walk");
+            mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
+            // mask.x = maskOffset;
         }
 
         switch(fightingState)
@@ -254,19 +266,23 @@ class Player extends Entity
     private function checkFightingState()
     {
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
-            // attackHitbox = new Hitbox(300,30, Std.int(this.x + 110), Std.int(this.y + 20));
-            // attackHitbox.parent = this; 
-            attackHitbox = new Circle(30, 30, 160);
-            // trace(this.mask);
+            var attackOffset:Int = 0;
+            if (this.x > enemy.x) {
+                attackOffset = Math.round(-120 * scaling);
+            } else {
+                attackOffset = Math.round(40 * scaling);
+            }
+
+            attackHitbox = new Circle(Math.round(20 * scaling), attackOffset, Math.round(10 * scaling));
             mask = attackHitbox;
-            // if (enemy == null) { return;}
-            if (attackHitbox.collide(enemy.mask)) {
+            if (collideWith(enemy, x, y) == enemy) {
                 enemy.health -= 1;
             }
             fightingStateCounter += HXP.elapsed;
-            if (fightingStateCounter > 0.5) {
+            if (fightingStateCounter > 0.3) {
                 fightingState = "";
-                // attackHitbox = null;
+                attackHitbox = null;
+                mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
                 fightingStateCounter = 0;
             }
         }

@@ -44,12 +44,13 @@ class GameScene extends Scene
     public override function begin()
     {
 
-
+        var main = cast(HXP.engine, Main);
         deadText = new Text("");
         // var font = Assets.getFont('font/feast.ttf');
         // deadText.font = font.fontName;
         deadText.size = 30;
         deadText.color = 0xFFFFFF;
+        deadText.scale = main.scaling;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
         deadTextEntity = new Entity(250,250,deadText);
@@ -59,6 +60,7 @@ class GameScene extends Scene
         var bitmap:Image = new Image("graphics/bg.png");
         bitmap.x = - bitmap.width / 2;
         bitmap.y = - bitmap.height / 2;
+        bitmap.scale = main.scaling *2;
         var titleEntity:Entity = new Entity(0,0,bitmap);
         titleEntity.x =  (bitmap.width/2);
         titleEntity.y =  (bitmap.height/2);
@@ -118,6 +120,7 @@ class GameScene extends Scene
     public override function update()
     {
 
+        super.update();
 
         if (playerone.fightingState == "dead"){
             deadText.text = "Player one, you died.";
@@ -143,6 +146,5 @@ class GameScene extends Scene
             HXP.scene = new scenes.TitleScreen();
         }
         updateRoundTime();
-        super.update();
     }
 }

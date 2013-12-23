@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.graphics.Image;
 import com.haxepunk.Entity;
+import com.haxepunk.HXP;
 
 class Character extends Entity
 {
@@ -18,9 +19,10 @@ class Character extends Entity
 
     public function set(characterName:String)
     {
+        var main = cast(HXP.engine, Main);
         name = characterName;
         mugshot = new Image("graphics/" + characterName + ".png");
-        mugshot.scale = 0.3;
+        mugshot.scale = 0.3 * main.scaling;
         graphic = mugshot;
     }
 

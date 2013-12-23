@@ -4,7 +4,7 @@ import android.os.Bundle;
 import com.chartboost.sdk.*;
 import android.util.Log;
 
-public class MainActivity extends org.haxe.nme.GameActivity {
+public class MainActivity extends org.haxe.lime.GameActivity {
     public static Chartboost cb;
     private static final String TAG = "MyActivity";
 
@@ -18,8 +18,7 @@ public class MainActivity extends org.haxe.nme.GameActivity {
         cb.onCreate(this, appId, appSignature, null);
 
         cb.startSession();
-        // this.cb.showInterstitial();
-        cb.cacheInterstitial("" + 1);
+        cb.cacheInterstitial("" + 0);
     }
 
     @Override
@@ -52,9 +51,8 @@ public class MainActivity extends org.haxe.nme.GameActivity {
     }
 
     public static void showChartboost(int plays) {
-        cb.showInterstitial("" + plays);
-        cb.cacheInterstitial("" + (plays + 1));
-        // Log.v(TAG, cb);
+        cb.showInterstitial("" + (plays - 1));
+        cb.cacheInterstitial("" + plays);
     }
 }
 

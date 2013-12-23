@@ -31,7 +31,9 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
+        var main = cast(HXP.engine, Main);
         var bitmap:Image = new Image("graphics/pickcharacterbg.png");
+        bitmap.scale = main.scaling;
         bitmap.x = - bitmap.width / 2;
         bitmap.y = - bitmap.height / 2;
         var titleEntity:Entity = new Entity(0,0,bitmap);
@@ -44,6 +46,7 @@ class PickCharacterScene extends Scene
         // pickCharacterText.font = font.fontName;
         pickCharacterText.size = 80;
         pickCharacterText.color = 0xB22222;
+        pickCharacterText.scale = main.scaling;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
         var kombat:Entity = new Entity(100,50,pickCharacterText);
