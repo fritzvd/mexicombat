@@ -60,7 +60,7 @@ class GameScene extends Scene
         var bitmap:Image = new Image("graphics/bg.png");
         bitmap.x = - bitmap.width / 2;
         bitmap.y = - bitmap.height / 2;
-        bitmap.scale = main.scaling *2;
+        bitmap.scale = main.scaling * 0.677 ;
         var titleEntity:Entity = new Entity(0,0,bitmap);
         titleEntity.x =  (bitmap.width/2);
         titleEntity.y =  (bitmap.height/2);

@@ -268,7 +268,7 @@ class Player extends Entity
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
-                attackOffset = Math.round(-120 * scaling);
+                attackOffset = Math.round(-80 * scaling);
             } else {
                 attackOffset = Math.round(40 * scaling);
             }
