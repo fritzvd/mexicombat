@@ -13,7 +13,7 @@ class Main extends Engine
 		HXP.console.enable();
 #end
         
-            scaling = HXP.windowHeight /480;
+            scaling = HXP.windowWidth / 1024;
             // trace(scaling);
 
 

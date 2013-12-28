@@ -62,14 +62,14 @@ class Player extends Entity
     public function setPlayer(fighterName:String)
     {
         scaling = main.scaling;
-        hitboxHeight = Math.round(200 * scaling);
-        hitboxWidth = Math.round(60 * scaling);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 100, 200);
+        hitboxHeight = Math.round(300 * scaling);
+        hitboxWidth = Math.round(90 * scaling);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 150, 300);
         sprite.scale = 1.0 * scaling;
         sprite.add("idle", [0], 6);
         sprite.add("walk", [7,1,2,3,5,6], 10);
-        sprite.add("punch", [12,13,14,15], 10);
-        sprite.add("kick", [8,9,10,11], 10);
+        sprite.add("punch", [12,13,14,15], 20);
+        sprite.add("kick", [8,9,10,11], 20);
         sprite.add("dead", [0], 12);
         sprite.play("idle");
         setHitbox(hitboxWidth, hitboxHeight);
@@ -224,10 +224,10 @@ class Player extends Entity
         
         if (this.x > enemy.x) {
             sprite.flipped = true;
-            maskOffset = Math.round(-80 * scaling);
+            maskOffset = Math.round(30 * scaling);
         } else {
             sprite.flipped = false;
-            maskOffset = Math.round(20 * scaling);
+            maskOffset = Math.round(30 * scaling);
         }
         if (velocity == 0 && fightingState == "")
         {
@@ -268,12 +268,12 @@ class Player extends Entity
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
-                attackOffset = Math.round(-80 * scaling);
+                attackOffset = Math.round(-5 * scaling);
             } else {
-                attackOffset = Math.round(40 * scaling);
+                attackOffset = Math.round(70 * scaling);
             }
 
-            attackHitbox = new Circle(Math.round(20 * scaling), attackOffset, Math.round(10 * scaling));
+            attackHitbox = new Circle(Math.round(30 * scaling), attackOffset, Math.round(30 * scaling));
             mask = attackHitbox;
             if (collideWith(enemy, x, y) == enemy) {
                 enemy.health -= 1;

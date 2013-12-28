@@ -53,6 +53,7 @@ public class MainActivity extends org.haxe.lime.GameActivity {
     public static void showChartboost(int plays) {
         cb.showInterstitial("" + (plays - 1));
         cb.cacheInterstitial("" + plays);
+        // cb.showInterstitial();
     }
 }
 
