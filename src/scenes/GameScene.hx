@@ -11,9 +11,6 @@ import com.haxepunk.graphics.Image;
 import openfl.Assets;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
-#if android
-import openfl.utils.JNI;
-#end
 
 class GameScene extends Scene
 {
@@ -131,28 +128,12 @@ class GameScene extends Scene
             // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
-           #if android
-            var main = cast(HXP.engine, Main);
-            if (main.plays > 0){
-                var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "(I)V");         
-                showChartboost(main.plays);
-                // trace(main.plays);
-            }
-            #end
         } 
         if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
-           #if android
-            var main = cast(HXP.engine, Main);
-            if (main.plays > 0){
-                var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "(I)V");         
-                // trace(main.plays);
-                showChartboost(main.plays);
-            }
-            #end
         }
 
         if (deadTime > 3) {

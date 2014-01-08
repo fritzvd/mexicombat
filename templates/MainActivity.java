@@ -18,7 +18,8 @@ public class MainActivity extends org.haxe.lime.GameActivity {
         cb.onCreate(this, appId, appSignature, null);
 
         cb.startSession();
-        cb.cacheInterstitial("" + 0);
+        cb.cacheInterstitial();
+        // cb.cacheInterstitial("" + 0);
     }
 
     @Override
@@ -50,10 +51,11 @@ public class MainActivity extends org.haxe.lime.GameActivity {
             super.onBackPressed();
     }
 
-    public static void showChartboost(int plays) {
-        cb.showInterstitial("" + (plays - 1));
-        cb.cacheInterstitial("" + plays);
-        // cb.showInterstitial();
+    public static void showChartboost() {
+        // cb.showInterstitial("" + (plays - 1));
+        // cb.cacheInterstitial("" + plays);
+        cb.showInterstitial();
+        cb.cacheInterstitial();
     }
 }
 

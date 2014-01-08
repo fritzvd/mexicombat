@@ -11,6 +11,10 @@ import com.haxepunk.Tween;
 import com.haxepunk.graphics.Image;
 import openfl.Assets;
 
+#if android
+import openfl.utils.JNI;
+#end
+
 class TitleScreen extends Scene
 {
 
@@ -55,7 +59,14 @@ class TitleScreen extends Scene
         var textEntity:Entity = new Entity(0, 50, titleText);
         textEntity.x = (HXP.width / 2) - (titleText.width/2);
         add(textEntity);
-        
+            #if android
+            var main = cast(HXP.engine, Main);
+            if (main.plays > 0){
+                var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "()V");         
+                trace(main.plays);
+                showChartboost();
+            }
+            #end   
     }
 
     #if mobile
