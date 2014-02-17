@@ -5,6 +5,7 @@ import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
 import com.haxepunk.utils.Input;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
 import entities.Character;
@@ -17,10 +18,13 @@ class PickCharacterScene extends Scene
     private var playerOne:String;
     private var playerTwo:String;
     private var selectOne:Entity;
-    private var selectOneRect:Image;
+    private var selectOneText:Text;
     private var selectTwo:Entity;
-    private var selectTwoRect:Image;
+    private var selectTwoText:Text;
+    private var sPlayerButton:Entity;
     private var charArray:Array<Entity>;
+    private var singlePlayer:Bool;
+    private var spImg:Spritemap;
 
     private var playerOneSelected:Int;
     private var playerTwoSelected:Int;
@@ -31,6 +35,7 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
+        singlePlayer = false;
         var main = cast(HXP.engine, Main);
         var bitmap:Image = new Image("graphics/pickcharacterbg.png");
         bitmap.scale = main.scaling;
@@ -44,17 +49,33 @@ class PickCharacterScene extends Scene
         var pickCharacterText:Text = new Text("PICK a Character ");
         // var font = Assets.getFont('font/feast.ttf');
         // pickCharacterText.font = font.fontName;
-        pickCharacterText.size = 80;
+        pickCharacterText.size = 70;
         pickCharacterText.color = 0xB22222;
         pickCharacterText.scale = main.scaling;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
         var kombat:Entity = new Entity(100,50,pickCharacterText);
-
         add(kombat);
 
-        playerOne = "gbjam";
-        playerTwo = "gbjam";
+        // var singlePlayerText:Text = new Text("Single Player");
+        // var font = Assets.getFont('font/feast.ttf');
+        // singlePlayerText.font = font.fontName;
+        // singlePlayerText.size = 40;
+        // singlePlayerText.color = 0xB22222;
+        // singlePlayerText.scale = main.scaling;
+        spImg = new Spritemap("graphics/singleplayer.png", 150, 50);
+        spImg.add("single", [1], 12);
+        spImg.add("multi", [0], 12);
+        spImg.play("multi");
+        // kombatText.angle = 20;
+        sPlayerButton = new Entity(HXP.windowWidth - 200 * main.scaling, 150, spImg);
+        sPlayerButton.width = spImg.width;
+        sPlayerButton.height = spImg.height;
+        sPlayerButton.name = "singlePlayer";
+        add(sPlayerButton);
+
+        playerOne = "";
+        playerTwo = "";
 
         playerOneSelected = 0;
         playerTwoSelected = 1;
@@ -68,11 +89,15 @@ class PickCharacterScene extends Scene
         addCharacter('daniel', 300, 200);
         addCharacter('fritz', 100, 400);
         addCharacter('daniel', 300, 400);
-        selectOneRect = Image.createRect(charArray[playerOneSelected].width + 20 , charArray[playerOneSelected].height + 20, 0xB22222);
-        selectOne = new Entity(charArray[playerOneSelected].x - 10, charArray[playerOneSelected].y - 10, selectOneRect);
+        selectOneText = new Text("1");
+        selectOneText.size = 20;
+        selectOne = new Entity(charArray[playerOneSelected].x, charArray[playerOneSelected].y, selectOneText);
         add(selectOne);
-        selectTwoRect = Image.createRect(charArray[playerTwoSelected].width + 50 , charArray[playerTwoSelected].height + 20, 0x191970);
-        selectTwo = new Entity(charArray[playerTwoSelected].x - 10, charArray[playerTwoSelected].y - 10, selectTwoRect);
+        selectTwoText = new Text("2");
+        selectTwoText.size = 20;
+        selectTwo = new Entity(charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15, 
+            charArray[playerTwoSelected].y, selectTwoText);
+        trace(charArray[playerTwoSelected].width);
         add(selectTwo);
         
     }
@@ -95,16 +120,31 @@ class PickCharacterScene extends Scene
     {
         playerOne = charArray[playerOneSelected].name;
         playerTwo = charArray[playerTwoSelected].name;
-        HXP.scene = new scenes.GameScene(playerOne, playerTwo);
+        HXP.scene = new scenes.GameScene(playerOne, playerTwo, singlePlayer);
     }
 
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
-        
-        if (touch.pressed){
-            nextScene();
+        // if (sPlayerButton.collidePoi)
+        var buttonCheck:Bool = sPlayerButton.collideRect(
+            touch.x, touch.y, sPlayerButton.x, sPlayerButton.y,
+            sPlayerButton.width, sPlayerButton.height);
+        trace(buttonCheck, singlePlayer);
+        if (buttonCheck) {
+            if (singlePlayer) {
+                spImg.play("multi");
+                singlePlayer = false;    
+            } else if (!singlePlayer) {
+                spImg.play("single");
+                singlePlayer = true;   
+            }    
         }
+        
+        
+        // if (touch.pressed){
+        //     nextScene();
+        // }
     }
     #end
 
@@ -122,10 +162,10 @@ class PickCharacterScene extends Scene
 
     private function updateselectRect()
     {
-        selectOne.x = charArray[playerOneSelected].x - 10;
-        selectOne.y = charArray[playerOneSelected].y - 10;
-        selectTwo.x = charArray[playerTwoSelected].x - 50;
-        selectTwo.y = charArray[playerTwoSelected].y - 10;
+        selectOne.x = charArray[playerOneSelected].x;
+        selectOne.y = charArray[playerOneSelected].y;
+        selectTwo.x = charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15;
+        selectTwo.y = charArray[playerTwoSelected].y;
     }
 
     private function selecting()

@@ -181,43 +181,10 @@ class Player extends Entity
         return fightingState;
     }
 
-    // public override function moveCollideX(e:Entity)
-    // {   
-    //     if (fightingState == 'punching' || fightingState == 'kicking'){
-    //         if (e.type == "fighter" + enemyNo) 
-    //         {
-    //             if (enemy == null)
-    //             {
-    //                 enemy = cast(e, Player);
-    //                 if (fightingState == 'punching')
-    //                 {
-    //                     enemy.health -= 1;                      
-    //                 }
-    //                 if (fightingState == 'kicking')
-    //                 {
-    //                     enemy.health -= 2;                      
-    //                 }
-    //             }
-    //         }    
-    //     } else if (enemyFightingState != 'dead') {
-    //         if (enemyFightingState == 'punching')
-    //         {
-    //             health -= 1;
-    //         }
-    //         if (enemyFightingState == 'kicking')
-    //         {
-    //             health -= 2;
-    //         }
-    //     }
-    //     // if (enemyFightingState == 'kicking'){
-    //     //     health = -20;            
-    //     // }        
-    //     // // HXP.console.log([e]);
-    //     // // HXP.console.log(["PIET"]);
-
-
-    //     return true;
-    // }
+    public override function moveCollideX(e:Entity)
+    {   
+        return true;
+    }
 
     private function setAnimations()
     {

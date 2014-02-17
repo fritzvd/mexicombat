@@ -21,6 +21,7 @@ class GameScene extends Scene
     private var healthTwo:HealthBox;
     private var chosenFighterOne:String;
     private var chosenFighterTwo:String;
+    private var singlePlayer:Bool;
 
     public var roundTime:Float;
     private var roundText:Text;
@@ -29,7 +30,7 @@ class GameScene extends Scene
     private var deadTextEntity:Entity;
     private var deadTime:Float;
 
-    public function new(cFO:String, cFT:String)
+    public function new(cFO:String, cFT:String, sP:Bool)
     {
         super();
 
@@ -37,7 +38,7 @@ class GameScene extends Scene
         chosenFighterTwo = cFT;
         roundTime = 45;
         deadTime = 0;
-
+        singlePlayer = sP;
 
     }
 
@@ -73,8 +74,12 @@ class GameScene extends Scene
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
-        playertwo = new Player(400, 250);
-        playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
+        if (singlePlayer) {
+
+        } else {
+            playertwo = new Player(400, 250);
+            playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
+        }
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);
 
