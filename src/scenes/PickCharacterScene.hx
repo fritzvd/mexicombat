@@ -22,6 +22,7 @@ class PickCharacterScene extends Scene
     private var selectTwo:Entity;
     private var selectTwoText:Text;
     private var sPlayerButton:Entity;
+    private var sNextButton:Entity;
     private var charArray:Array<Entity>;
     private var singlePlayer:Bool;
     private var spImg:Spritemap;
@@ -73,6 +74,17 @@ class PickCharacterScene extends Scene
         sPlayerButton.height = spImg.height;
         sPlayerButton.name = "singlePlayer";
         add(sPlayerButton);
+
+
+        var nextText:Text = new Text("Next");
+        var font = Assets.getFont('font/feast.ttf');
+        nextText.font = font.fontName;
+        nextText.size = 40;
+        sNextButton = new Entity(HXP.windowWidth - 200 * main.scaling, 450 * main.scaling, nextText);
+        sNextButton.width = nextText.width+5;
+        sNextButton.height = nextText.height;
+        sNextButton.name = "next";
+        add(sNextButton);
 
         playerOne = "";
         playerTwo = "";
@@ -130,7 +142,7 @@ class PickCharacterScene extends Scene
         var buttonCheck:Bool = sPlayerButton.collideRect(
             touch.x, touch.y, sPlayerButton.x, sPlayerButton.y,
             sPlayerButton.width, sPlayerButton.height);
-        trace(buttonCheck, singlePlayer);
+        // trace(touch.pressed, touch.time);
         if (buttonCheck) {
             if (singlePlayer) {
                 spImg.play("multi");
@@ -140,7 +152,12 @@ class PickCharacterScene extends Scene
                 singlePlayer = true;   
             }    
         }
-        
+        var next:Bool = sNextButton.collideRect(
+            touch.x, touch.y, sNextButton.x, sNextButton.y,
+            sNextButton.width, sNextButton.height);
+        if (next) {
+            nextScene();
+        }
         
         // if (touch.pressed){
         //     nextScene();
