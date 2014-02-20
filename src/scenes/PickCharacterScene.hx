@@ -36,7 +36,7 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
-        singlePlayer = false;
+        singlePlayer = true;
         var main = cast(HXP.engine, Main);
         var bitmap:Image = new Image("graphics/pickcharacterbg.png");
         bitmap.scale = main.scaling;

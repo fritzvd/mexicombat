@@ -10,6 +10,7 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.utils.Input;
 
 import entities.HealthBox;
+import entities.AIPlayer;
 
 class Player extends Entity
 {
@@ -103,7 +104,7 @@ class Player extends Entity
     }
 
 #if !mobile
-    private function handleInput()
+    public function handleInput()
     {
         // acceleration = 0;
         if (Input.check("left" + playerNo))
@@ -128,7 +129,7 @@ class Player extends Entity
 #end
 
 #if mobile
-    private function handleTouch(touch:com.haxepunk.utils.Touch) {
+    public function handleTouch(touch:com.haxepunk.utils.Touch) {
         if (playerNo == 0) {
             maxX = HXP.width / 2;
             minX = 0;

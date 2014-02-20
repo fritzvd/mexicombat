@@ -5,6 +5,7 @@ import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
 import com.haxepunk.utils.Input;
 import entities.Player;
+import entities.AIPlayer;
 import entities.HealthBox;
 
 import com.haxepunk.graphics.Image;
@@ -75,7 +76,7 @@ class GameScene extends Scene
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
         if (singlePlayer) {
-
+            playertwo = new AIPlayer(400, 250);
         } else {
             playertwo = new Player(400, 250);
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
