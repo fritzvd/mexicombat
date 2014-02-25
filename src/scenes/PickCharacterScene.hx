@@ -65,8 +65,8 @@ class PickCharacterScene extends Scene
         // singlePlayerText.color = 0xB22222;
         // singlePlayerText.scale = main.scaling;
         spImg = new Spritemap("graphics/singleplayer.png", 150, 50);
-        spImg.add("single", [1], 12);
-        spImg.add("multi", [0], 12);
+        spImg.add("single", [1], 1);
+        spImg.add("multi", [0], 1);
         spImg.play("multi");
         // kombatText.angle = 20;
         sPlayerButton = new Entity(HXP.windowWidth - 200 * main.scaling, 150, spImg);
@@ -109,7 +109,6 @@ class PickCharacterScene extends Scene
         selectTwoText.size = 20;
         selectTwo = new Entity(charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15, 
             charArray[playerTwoSelected].y, selectTwoText);
-        trace(charArray[playerTwoSelected].width);
         add(selectTwo);
         
     }
@@ -138,11 +137,10 @@ class PickCharacterScene extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
-        // if (sPlayerButton.collidePoi)
         var buttonCheck:Bool = sPlayerButton.collideRect(
             touch.x, touch.y, sPlayerButton.x, sPlayerButton.y,
             sPlayerButton.width, sPlayerButton.height);
-        // trace(touch.pressed, touch.time);
+        trace(touch.time, touch);
         if (buttonCheck) {
             if (singlePlayer) {
                 spImg.play("multi");

@@ -68,16 +68,17 @@ class GameScene extends Scene
         titleEntity.y =  (bitmap.height/2);
         add(titleEntity);
 
-        // TODO: players can be chosen
         // TODO: players have namess
         // TODO: 
         playerone = new Player(200, 250);
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
-        if (singlePlayer) {
+        if (singlePlayer == true) {
+            trace(singlePlayer);
             playertwo = new AIPlayer(400, 250);
         } else {
+            trace(singlePlayer);
             playertwo = new Player(400, 250);
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
         }

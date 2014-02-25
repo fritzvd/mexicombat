@@ -192,7 +192,7 @@ class Player extends Entity
         
         if (this.x > enemy.x) {
             sprite.flipped = true;
-            maskOffset = Math.round(-120 * scaling);
+            maskOffset = Math.round(30 * scaling);
             if (scaling == 1) {
                 maskOffset = 30;
             }            
@@ -242,7 +242,7 @@ class Player extends Entity
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
-                attackOffset = Math.round(-120 * scaling);
+                attackOffset = Math.round(30 * scaling);
                 if (scaling == 1) {
                 attackOffset = 0;
                 }
