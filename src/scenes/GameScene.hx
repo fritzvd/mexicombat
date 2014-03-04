@@ -131,15 +131,41 @@ class GameScene extends Scene
         }
     }
 
+    private function changeCamera()
+    {   
+        var random:Float = Math.random();
+        if (random > 0.6) {
+            HXP.camera.x = HXP.camera.x - Std.int(random * 10);
+            HXP.camera.y = HXP.camera.y - Std.int(random * 10);            
+        } else {
+            HXP.camera.x = HXP.camera.x + Std.int(random * 10);
+            HXP.camera.y = HXP.camera.y + Std.int(random * 10);            
+        }
+    }
+
     public override function update()
     {
+
+        trace(HXP.camera.x);    
+        if ((HXP.camera.x > 0) && (HXP.camera.x != 0)) {
+            HXP.camera.x -= 1;
+
+        } else if ((HXP.camera.x < 0) && (HXP.camera.x != 0))  {
+            HXP.camera.x += 1;
+        }
+        if ((HXP.camera.y > 0) && (HXP.camera.y != 0)) {
+            HXP.camera.y -= 1;
+        } else if ((HXP.camera.y < 0) && (HXP.camera.y != 0))  {
+            HXP.camera.y += 1;
+        }
 
         super.update();
 
         if (playerone.impact) {
             ec.impact(playerone.x, playerone.y + 60 * scaling);
-            trace(HXP.camera.x);
+            changeCamera();
         } else if (playertwo.impact) {
+            changeCamera();
             ec.impact(playertwo.x, playertwo.y + 60 * scaling);
         }
 
