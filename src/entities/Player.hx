@@ -12,7 +12,6 @@ import com.haxepunk.utils.Input;
 
 import entities.HealthBox;
 import entities.AIPlayer;
-import entities.EmitController;
 
 
 class Player extends Entity
@@ -39,7 +38,7 @@ class Player extends Entity
     private var enemy:Player;
     private var maskOffset:Int;
     public var attackHitbox:Hitbox;
-    // private var impact:EmitController;
+    public var impact:Bool;
 
 
     #if mobile 
@@ -261,12 +260,13 @@ class Player extends Entity
             attackHitbox = new Circle(Math.round(30 * scaling), attackOffset, Math.round(30 * scaling));
             mask = attackHitbox;
             if (collideWith(enemy, x, y) == enemy) {
-                var ec:EmitController = scene.add(new EmitController());
-                ec.impact(x + width / 2, y + height /2);
+                // var ec:EmitController = scene.add(new EmitController());
+                // ec.impact(x + width / 2, y + 60 * scaling);
                 // scene.remove(impact);
+                impact = true;
                 enemy.health -= 1;
             } else {
-                // impact = false;
+                impact = false;
             }
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.3) {

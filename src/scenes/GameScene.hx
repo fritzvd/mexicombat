@@ -10,6 +10,7 @@ import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 
 import entities.AIPlayer;
+import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
 
@@ -30,6 +31,8 @@ class GameScene extends Scene
     private var deadText:Text;
     private var deadTextEntity:Entity;
     private var deadTime:Float;
+    private var scaling:Float;
+    private var ec:EmitController;
 
     public function new(cFO:String, cFT:String, sP:Bool)
     {
@@ -46,7 +49,10 @@ class GameScene extends Scene
     public override function begin()
     {
 
+        ec = add(new EmitController());
+
         var main = cast(HXP.engine, Main);
+        scaling = main.scaling;
         deadText = new Text("");
         // var font = Assets.getFont('font/feast.ttf');
         // deadText.font = font.fontName;
@@ -75,7 +81,7 @@ class GameScene extends Scene
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
         if (singlePlayer == true) {
-            trace(singlePlayer);
+            
             playertwo = new AIPlayer(400, 250);
         } else {
             trace(singlePlayer);
@@ -130,13 +136,12 @@ class GameScene extends Scene
 
         super.update();
 
-        // if (playerone.impact) {
-        //     // impact.impact(Std.int(playerone.x), Std.int(playerone.y));
-        //     impact.impact(x + width)
-        // }
-        // // } else if (playertwo.impact) {
-        // //     impact.impact(Std.int(playertwo.x), Std.int(playertwo.y));
-        // // }
+        if (playerone.impact) {
+            // impact.impact(Std.int(playerone.x), Std.int(playerone.y));
+            ec.impact(playerone.x, playerone.y + 60 * scaling);
+        } else if (playertwo.impact) {
+            ec.impact(playertwo.x, playertwo.y + 60 * scaling);
+        }
 
         if (playerone.fightingState == "dead"){
             deadText.text = "Player one, you died.";
