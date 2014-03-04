@@ -137,8 +137,8 @@ class GameScene extends Scene
         super.update();
 
         if (playerone.impact) {
-            // impact.impact(Std.int(playerone.x), Std.int(playerone.y));
             ec.impact(playerone.x, playerone.y + 60 * scaling);
+            trace(HXP.camera.x);
         } else if (playertwo.impact) {
             ec.impact(playertwo.x, playertwo.y + 60 * scaling);
         }
