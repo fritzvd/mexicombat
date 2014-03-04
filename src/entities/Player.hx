@@ -6,11 +6,14 @@ import com.haxepunk.masks.Circle;
 import com.haxepunk.masks.Hitbox;
 import com.haxepunk.Mask;
 import com.haxepunk.graphics.Spritemap;
+import com.haxepunk.graphics.Emitter;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.utils.Input;
 
 import entities.HealthBox;
 import entities.AIPlayer;
+import entities.EmitController;
+
 
 class Player extends Entity
 {
@@ -36,6 +39,8 @@ class Player extends Entity
     private var enemy:Player;
     private var maskOffset:Int;
     public var attackHitbox:Hitbox;
+    // private var impact:EmitController;
+
 
     #if mobile 
     // Width for touch screen
@@ -256,7 +261,12 @@ class Player extends Entity
             attackHitbox = new Circle(Math.round(30 * scaling), attackOffset, Math.round(30 * scaling));
             mask = attackHitbox;
             if (collideWith(enemy, x, y) == enemy) {
+                var ec:EmitController = scene.add(new EmitController());
+                ec.impact(x + width / 2, y + height /2);
+                // scene.remove(impact);
                 enemy.health -= 1;
+            } else {
+                // impact = false;
             }
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.3) {

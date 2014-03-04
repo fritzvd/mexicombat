@@ -1,17 +1,17 @@
 package scenes;
 
+// import openfl.Assets;
+import com.haxepunk.Entity;
+import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Text;
 import com.haxepunk.HXP;
 import com.haxepunk.Scene;
-import com.haxepunk.utils.Key;
 import com.haxepunk.utils.Input;
-import entities.Player;
+import com.haxepunk.utils.Key;
+
 import entities.AIPlayer;
 import entities.HealthBox;
-
-import com.haxepunk.graphics.Image;
-import openfl.Assets;
-import com.haxepunk.graphics.Text;
-import com.haxepunk.Entity;
+import entities.Player;
 
 class GameScene extends Scene
 {
@@ -105,6 +105,7 @@ class GameScene extends Scene
 
         playerone.setEnemy(playertwo, 0);
         playertwo.setEnemy(playerone, 1);
+
     }
 
     private function updateRoundTime()
@@ -129,16 +130,21 @@ class GameScene extends Scene
 
         super.update();
 
+        // if (playerone.impact) {
+        //     // impact.impact(Std.int(playerone.x), Std.int(playerone.y));
+        //     impact.impact(x + width)
+        // }
+        // // } else if (playertwo.impact) {
+        // //     impact.impact(Std.int(playertwo.x), Std.int(playertwo.y));
+        // // }
 
         if (playerone.fightingState == "dead"){
             deadText.text = "Player one, you died.";
-            // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
         } 
         if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
-            // deadTextEntity = new Entity(250,250,deadText);
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
         }
