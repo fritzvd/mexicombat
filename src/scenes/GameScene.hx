@@ -146,18 +146,17 @@ class GameScene extends Scene
     public override function update()
     {
 
-        trace(HXP.camera.x);    
-        if ((HXP.camera.x > 0) && (HXP.camera.x != 0)) {
-            HXP.camera.x -= 1;
+        // if ((HXP.camera.x > 0) && (HXP.camera.x != 0)) {
+        //     HXP.camera.x -= 1;
 
-        } else if ((HXP.camera.x < 0) && (HXP.camera.x != 0))  {
-            HXP.camera.x += 1;
-        }
-        if ((HXP.camera.y > 0) && (HXP.camera.y != 0)) {
-            HXP.camera.y -= 1;
-        } else if ((HXP.camera.y < 0) && (HXP.camera.y != 0))  {
-            HXP.camera.y += 1;
-        }
+        // } else if ((HXP.camera.x < 0) && (HXP.camera.x != 0))  {
+        //     HXP.camera.x += 1;
+        // }
+        // if ((HXP.camera.y > 0) && (HXP.camera.y != 0)) {
+        //     HXP.camera.y -= 1;
+        // } else if ((HXP.camera.y < 0) && (HXP.camera.y != 0))  {
+        //     HXP.camera.y += 1;
+        // }
 
         super.update();
 
