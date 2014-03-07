@@ -5,6 +5,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.masks.Circle;
 import com.haxepunk.masks.Hitbox;
 import com.haxepunk.Mask;
+import com.haxepunk.masks.Pixelmask;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Emitter;
 import com.haxepunk.graphics.Image;
@@ -69,8 +70,9 @@ class Player extends Entity
         scaling = main.scaling;
         hitboxHeight = Math.round(300 * scaling);
         hitboxWidth = Math.round(90 * scaling);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 800, 800);
-        sprite.scale = 0.4 * scaling;
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 320, 320);
+
+        sprite.scale = 1.0 * scaling;
         sprite.add("idle", [0, 1, 2], 6);
         sprite.add("walk", [4, 5, 6, 8, 9, 10], 10);
         sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 20);
@@ -244,6 +246,7 @@ class Player extends Entity
 
     private function checkFightingState()
     {
+        // trace(sprite._buffer);
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
