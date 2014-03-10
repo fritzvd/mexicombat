@@ -74,9 +74,9 @@ class Player extends Entity
 
         sprite.scale = 1.0 * scaling;
         sprite.add("idle", [0, 1, 2], 6);
-        sprite.add("walk", [4, 5, 6, 8, 9, 10], 10);
-        sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 20);
-        sprite.add("punch", [20, 21, 22, 24, 25], 20);
+        sprite.add("walk", [4, 5, 6, 8, 9, 10], 6);
+        sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 6);
+        sprite.add("punch", [20, 21, 22, 24, 25], 6);
         sprite.add("dead", [0], 12);
         sprite.add("impact", [28, 29, 30, 32, 33], 12);
         sprite.play("idle");
@@ -291,6 +291,7 @@ class Player extends Entity
 
     public override function update()
     {
+        trace(sprite.)
         acceleration = 0;
         #if !mobile
         handleInput();
