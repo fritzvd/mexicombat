@@ -199,15 +199,15 @@ class Player extends Entity
         
         if (this.x > enemy.x) {
             sprite.flipped = true;
-            maskOffset = Math.round(30 * scaling);
+            maskOffset = Math.round(110 * scaling);
             if (scaling == 1) {
-                maskOffset = 30;
+                maskOffset = 110;
             }            
         } else {
             sprite.flipped = false;
-            maskOffset = Math.round(30 * scaling);
+            maskOffset = Math.round(110 * scaling);
             if (scaling == 1) {
-                maskOffset = 30;
+                maskOffset = 110;
             }
         }
         if (velocity == 0 && fightingState == "")
@@ -252,12 +252,12 @@ class Player extends Entity
             if (this.x > enemy.x) {
                 attackOffset = Math.round(30 * scaling);
                 if (scaling == 1) {
-                attackOffset = 0;
+                attackOffset = 60;
                 }
             } else {
                 attackOffset = Math.round(70 * scaling);
                 if (scaling == 1) {
-                maskOffset = 70;
+                attackOffset = 190;
                 }
             }
 
@@ -291,7 +291,7 @@ class Player extends Entity
 
     public override function update()
     {
-        trace(sprite.)
+        // trace(sprite);
         acceleration = 0;
         #if !mobile
         handleInput();
