@@ -1,11 +1,11 @@
 TODO
 ====
 
-* 1 Player modus
-* Knoppen om op te klikken ipv regio's.. (?)
-* Menu maken
+* Knoppen om op te klikken ipv regio's.. (?) ... wordt aan gewerkt
+* Menu mooier maken
 * AI voor single player.
 * parallax background.
 * niet door elkaar heen lopen
 * niet door beeld heen lopen?
-* particles op impact
+* particles op impact, goede plek
+* collisions fixen voor nieuwe sprites
