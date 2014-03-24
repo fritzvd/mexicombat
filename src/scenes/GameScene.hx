@@ -105,6 +105,8 @@ class GameScene extends Scene
         arrowRight.flipped = true;
         addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
         addGraphic(arrowLeft, 100* scaling, arrowYOffset);
+        addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
+        addGraphic(arrowLeft, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
 
         roundText = new Text(Std.string(Math.round(roundTime)));
         // var font = Assets.getFont('font/feast.ttf');
@@ -168,11 +170,11 @@ class GameScene extends Scene
         super.update();
 
         if (playerone.impact) {
-            ec.impact(playerone.x, playerone.y + 60 * scaling);
+            ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
             // changeCamera();
         } else if (playertwo.impact) {
             // changeCamera();
-            ec.impact(playertwo.x, playertwo.y + 60 * scaling);
+            ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
         }
 
         if (playerone.fightingState == "dead"){

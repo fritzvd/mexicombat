@@ -65,12 +65,21 @@ class Player extends Entity
 
     }
 
+    private function cback()
+    {
+        trace(sprite.currentAnim, sprite.complete);
+        if ((sprite.currentAnim == "impact") && (sprite.complete)) {
+            fightingState = "idle";
+            sprite.play("idle");            
+        }
+    }
+
     public function setPlayer(fighterName:String)
     {
         scaling = main.scaling;
         hitboxHeight = Math.round(300 * scaling);
         hitboxWidth = Math.round(90 * scaling);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 320, 320);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 320, 320, cback);
         // not picked up?
         sprite.scale = 1.0 * scaling;
         sprite.add("idle", [0, 1, 2], 12);
@@ -78,7 +87,7 @@ class Player extends Entity
         sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 12);
         sprite.add("punch", [20, 21, 22, 24, 25], 12);
         sprite.add("dead", [0], 12);
-        sprite.add("impact", [28, 29, 30, 32, 33], 12);
+        sprite.add("impact", [28, 29, 30, 32, 33], 12, false);
         sprite.play("idle");
         setHitbox(hitboxWidth, hitboxHeight);
         graphic = sprite;
@@ -253,7 +262,6 @@ class Player extends Entity
 
     private function checkFightingState()
     {
-        // trace(sprite._buffer);
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
