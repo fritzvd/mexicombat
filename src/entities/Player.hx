@@ -67,7 +67,6 @@ class Player extends Entity
 
     private function cback()
     {
-        trace(sprite.currentAnim, sprite.complete);
         if ((sprite.currentAnim == "impact") && (sprite.complete)) {
             fightingState = "idle";
             sprite.play("idle");            

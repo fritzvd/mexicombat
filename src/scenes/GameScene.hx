@@ -103,10 +103,13 @@ class GameScene extends Scene
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.flipped = true;
+
+        #if mobile
         addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
         addGraphic(arrowLeft, 100* scaling, arrowYOffset);
         addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
         addGraphic(arrowLeft, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
+        #end
 
         roundText = new Text(Std.string(Math.round(roundTime)));
         // var font = Assets.getFont('font/feast.ttf');
