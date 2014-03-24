@@ -59,6 +59,8 @@ class TitleScreen extends Scene
         // titleText.color = 0x99aa59;
 
         #if mobile
+        var scaling = main.scaling;
+        var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.flipped = true;
         addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
@@ -68,7 +70,7 @@ class TitleScreen extends Scene
         textEntity.x = (HXP.width / 2) - (titleText.width/2);
         add(textEntity);
             #if android
-            var main = cast(HXP.engine, Main);
+            // var main = cast(HXP.engine, Main);
             if (main.plays > 0){
                 var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "()V");         
                 trace(main.plays);
