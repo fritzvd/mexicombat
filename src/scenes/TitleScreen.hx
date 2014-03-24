@@ -57,6 +57,13 @@ class TitleScreen extends Scene
         titleText.scale = main.scaling;
         titleText.color = 0xB22222;
         // titleText.color = 0x99aa59;
+
+        #if mobile
+        var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        arrowRight.flipped = true;
+        addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
+        #end
+
         var textEntity:Entity = new Entity(0, 50, titleText);
         textEntity.x = (HXP.width / 2) - (titleText.width/2);
         add(textEntity);

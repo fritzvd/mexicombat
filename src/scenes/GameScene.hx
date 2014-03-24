@@ -99,12 +99,12 @@ class GameScene extends Scene
         add(playerone);
         add(playertwo);
 
+        #if mobile
         var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.flipped = true;
 
-        #if mobile
         addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
         addGraphic(arrowLeft, 100* scaling, arrowYOffset);
         addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
