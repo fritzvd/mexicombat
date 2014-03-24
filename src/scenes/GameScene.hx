@@ -84,7 +84,7 @@ class GameScene extends Scene
             
             playertwo = new AIPlayer(400, 250);
         } else {
-            trace(singlePlayer);
+            // trace(singlePlayer);
             playertwo = new Player(400, 250);
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
         }
@@ -98,6 +98,13 @@ class GameScene extends Scene
         add(healthOne);
         add(playerone);
         add(playertwo);
+
+        var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
+        var arrowLeft:Image = new Image('graphics/ui-arrow.png');
+        var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        arrowRight.flipped = true;
+        addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
+        addGraphic(arrowLeft, 100* scaling, arrowYOffset);
 
         roundText = new Text(Std.string(Math.round(roundTime)));
         // var font = Assets.getFont('font/feast.ttf');

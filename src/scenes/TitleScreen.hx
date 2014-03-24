@@ -55,7 +55,8 @@ class TitleScreen extends Scene
         var titleText:Text = new Text("Press anywhere to start");
         #end
         titleText.scale = main.scaling;
-        titleText.color = 0x99aa59;
+        titleText.color = 0xB22222;
+        // titleText.color = 0x99aa59;
         var textEntity:Entity = new Entity(0, 50, titleText);
         textEntity.x = (HXP.width / 2) - (titleText.width/2);
         add(textEntity);

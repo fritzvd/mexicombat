@@ -233,6 +233,10 @@ class Player extends Entity
             case "dead":
             sprite.play("dead");
             sprite.angle += 10;
+            case "hit":
+            sprite.play("impact");
+            case "idle":
+            sprite.play("idle");
         }
 
 
@@ -271,8 +275,10 @@ class Player extends Entity
                 // ec.impact(x + width / 2, y + 60 * scaling);
                 // scene.remove(impact);
                 impact = true;
+                enemy.fightingState = "hit";
                 enemy.health -= 1;
             } else {
+                enemy.fightingState = "";
                 impact = false;
             }
             fightingStateCounter += HXP.elapsed;
