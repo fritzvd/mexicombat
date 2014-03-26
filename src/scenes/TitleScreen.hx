@@ -72,6 +72,7 @@ class TitleScreen extends Scene
             #if android
             // var main = cast(HXP.engine, Main);
             if (main.plays > 0){
+                trace(main.plays % 3)
                 var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "()V");         
                 trace(main.plays);
                 showChartboost();
