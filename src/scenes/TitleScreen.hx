@@ -71,8 +71,7 @@ class TitleScreen extends Scene
         add(textEntity);
             #if android
             // var main = cast(HXP.engine, Main);
-            if (main.plays > 0){
-                trace(main.plays % 3)
+            if ((main.plays > 0) && (main.plays % 3 == 0)){
                 var showChartboost = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showChartboost", "()V");         
                 trace(main.plays);
                 showChartboost();
