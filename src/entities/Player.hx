@@ -69,7 +69,8 @@ class Player extends Entity
     {
         if ((sprite.currentAnim == "impact") && (sprite.complete)) {
             fightingState = "idle";
-            sprite.play("idle");            
+            sprite.play("idle");
+            impact = false;       
         }
     }
 
@@ -281,12 +282,12 @@ class Player extends Entity
                 // var ec:EmitController = scene.add(new EmitController());
                 // ec.impact(x + width / 2, y + 60 * scaling);
                 // scene.remove(impact);
-                impact = true;
+                enemy.impact = true;
                 enemy.fightingState = "hit";
                 enemy.health -= 1;
             } else {
                 enemy.fightingState = "";
-                impact = false;
+                enemy.impact = false;
             }
             fightingStateCounter += HXP.elapsed;
             if (fightingStateCounter > 0.3) {

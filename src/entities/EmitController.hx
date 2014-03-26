@@ -17,10 +17,10 @@ class EmitController extends Entity
         _emitter.newType("impact", [0]);
         _emitter.setMotion("impact",  		// name
 		        	0, 				// angle
-		        	100, 			// distance
-		        	2, 				// duration
-		        	360, 			// ? angle range
-		        	-40, 			// ? distance range
+		        	20, 			// distance
+		        	0.3, 				// duration
+		        	20, 			// ? angle range
+		        	-30, 			// ? distance range
 		        	1, 				// ? Duration range
 		        	Ease.quadOut	// ? Easing	
 		        	);
@@ -33,7 +33,7 @@ class EmitController extends Entity
 
 	public function impact(x:Float, y:Float)
 	{
-		for (i in 0...20)
+		for (i in 0...10)
 		{
 			_emitter.emit("impact", x, y);
 		}

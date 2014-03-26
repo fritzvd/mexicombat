@@ -175,7 +175,8 @@ class GameScene extends Scene
         if (playerone.impact) {
             ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
             // changeCamera();
-        } else if (playertwo.impact) {
+        } 
+        if (playertwo.impact) {
             // changeCamera();
             ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
         }
