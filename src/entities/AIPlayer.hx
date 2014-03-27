@@ -7,6 +7,8 @@ class AIPlayer extends Player
 {
 	private var oldTime:Float;
 	private var newTime:Float;
+	private var randMove:Float;
+	private var randWalk:Float;
 
 	public override function new(x:Int, y:Int)
 	{
@@ -17,29 +19,33 @@ class AIPlayer extends Player
 
 	private function ai()
 	{
-		var rand:Float = Math.random();
-		if (rand > 0.5) {
-			acceleration = -2;
-			if (rand < 0.75) {
+		if (randMove > 0.5) {
+			if (randMove < 0.75) {
 				// do nothing
 			} else {
-				if (rand > 0.6) {
+				if (randMove > 0.6) {
 					fightingState = "punching";				
 				} else {
 					fightingState = "kicking";
 				}
 			}
 		} else {
-			acceleration = 2;
-			if (rand < 0.25) {
+			if (randMove < 0.25) {
 				// do nothing
 			} else {
-				if (rand > 0.3) {
+				if (randMove > 0.3) {
 					fightingState = "punching";				
 				} else {
 					fightingState = "kicking";
 				}
 			}
+		}
+		if (randWalk > 0.3) {
+			acceleration = 1;
+		} else if (randWalk > 0.6){
+			acceleration = -1;
+		} else {
+			acceleration = 0;
 		}
 	}
 
@@ -58,11 +64,13 @@ class AIPlayer extends Player
 	public override function update()
 	{
 		newTime += HXP.elapsed;
-		// trace(oldTime, newTime, HXP._gameTime);
 		if (newTime > oldTime + 0.5) {
 			oldTime = Std.int(newTime);
-			ai();
+			randMove = Math.random();
+			randWalk = Math.random();
 		}
+		ai();
+		move();
 		super.update();
 	}
 }

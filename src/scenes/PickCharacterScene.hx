@@ -36,7 +36,7 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
-        singlePlayer = false;
+        singlePlayer = true;
         var main = cast(HXP.engine, Main);
         var bitmap:Image = new Image("graphics/pickcharacterbg.png");
         bitmap.scale = main.scaling;
@@ -140,7 +140,7 @@ class PickCharacterScene extends Scene
         var buttonCheck:Bool = sPlayerButton.collideRect(
             touch.x, touch.y, sPlayerButton.x, sPlayerButton.y,
             sPlayerButton.width, sPlayerButton.height);
-        trace(touch.time, touch);
+        // trace(touch.time, touch);
         if (buttonCheck) {
             if (singlePlayer) {
                 spImg.play("multi");

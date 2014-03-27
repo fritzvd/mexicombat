@@ -252,10 +252,14 @@ class Player extends Entity
         // trace(sprite.name);
         healthBox.health = health;
 
-        if (this.x > HXP.screen.width) {
-            this.x  = 0;
-        } else if (this.x < -20) {
-            this.x  = HXP.screen.width - 30;
+        if (this.x > HXP.screen.width - 80) {
+            this.x  = -130;
+        } else if (this.x < -140) {
+            this.x  = HXP.screen.width - 90;
+        }
+
+        if (this.y < 250) {
+            this.y += 10;
         }
 
     }
@@ -283,6 +287,12 @@ class Player extends Entity
                 // ec.impact(x + width / 2, y + 60 * scaling);
                 // scene.remove(impact);
                 enemy.impact = true;
+                enemy.y -= 15 * scaling;
+                if (enemy.sprite.flipped) {
+                    enemy.x += 10;
+                } else {
+                    enemy.x -= 10;
+                }
                 enemy.fightingState = "hit";
                 enemy.health -= 1;
             } else {
@@ -308,7 +318,7 @@ class Player extends Entity
 
     public override function update()
     {
-        // trace(sprite);
+        super.update();
         acceleration = 0;
         #if !mobile
         handleInput();
@@ -319,6 +329,5 @@ class Player extends Entity
         move();
         checkFightingState();
         setAnimations();
-        super.update();
     }
 }
