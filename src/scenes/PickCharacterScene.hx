@@ -36,16 +36,22 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
-        singlePlayer = true;
+        singlePlayer = false;
         var main = cast(HXP.engine, Main);
-        var bitmap:Image = new Image("graphics/pickcharacterbg.png");
-        bitmap.scale = main.scaling;
-        bitmap.x = - bitmap.width / 2;
-        bitmap.y = - bitmap.height / 2;
-        var titleEntity:Entity = new Entity(0,0,bitmap);
-        titleEntity.x =  (bitmap.width/2);
-        titleEntity.y =  (bitmap.height/2);
-        add(titleEntity);
+        var running:Spritemap = new Spritemap("graphics/bg_running_lores2.png", 240, 135);
+        running.add("default", [0,1,2,3,4,5,6,7,8,9,
+            10,11,12,13,14,15,16,17,18,19,
+            20,21,22,23,24,25,26,27,28,29,
+            30,31,32,33,34], 10);
+        running.play("default");
+        // var running:Image = new Image("lmg.gif");
+        running.scale = HXP.windowWidth / running.width;
+        // running.x = - running.width / 2;
+        // running.y = - running.height / 2;
+        // var titleEntity:Entity = new Entity(0,0,running);
+        // titleEntity.x =  (running.width/2);
+        // titleEntity.y =  (running.height/2);
+        addGraphic(running);
 
         var pickCharacterText:Text = new Text("PICK a Character ");
         // var font = Assets.getFont('font/feast.ttf');

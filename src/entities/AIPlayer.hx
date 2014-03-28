@@ -24,7 +24,7 @@ class AIPlayer extends Player
 				// do nothing
 			} else {
 				if (randMove > 0.6) {
-					fightingState = "punching";				
+					fightingState = "punching";
 				} else {
 					fightingState = "kicking";
 				}
