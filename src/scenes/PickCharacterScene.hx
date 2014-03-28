@@ -45,7 +45,8 @@ class PickCharacterScene extends Scene
             30,31,32,33,34], 10);
         running.play("default");
         // var running:Image = new Image("lmg.gif");
-        running.scale = HXP.windowWidth / running.width;
+        running.scaleX = HXP.windowWidth / running.width;
+        running.scaleY = HXP.windowHeight / running.height;
         // running.x = - running.width / 2;
         // running.y = - running.height / 2;
         // var titleEntity:Entity = new Entity(0,0,running);
