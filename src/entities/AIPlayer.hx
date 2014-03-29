@@ -41,10 +41,13 @@ class AIPlayer extends Player
 			}
 		}
 		if (randWalk > 0.3) {
+			fightingState = "walking";
 			acceleration = 1;
 		} else if (randWalk > 0.6){
+			fightingState = "walking";
 			acceleration = -1;
 		} else {
+			sprite.play("idle");
 			acceleration = 0;
 		}
 	}

@@ -80,17 +80,17 @@ class SingleMultiScene extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
-        if (touch.sceneY > HXP.height / 2) {
-            singlePlayer = false;
-        } else {
-            singlePlayer = true;
-        }
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
             sNextButton.width, sNextButton.height);
         if (next && touch.pressed) {
             // touch.stopPropagation();
-            nextScene(singlePlayer);
+            nextScene();
+        }
+        if (touch.sceneY > HXP.height / 2) {
+            singlePlayer = false;
+        } else {
+            singlePlayer = true;
         }
         
     }

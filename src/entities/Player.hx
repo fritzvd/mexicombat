@@ -226,7 +226,7 @@ class Player extends Entity
             sprite.play("idle");
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
             // mask.x = maskOffset;
-        } else if ((velocity > 0 || velocity < 0) && (fightingState == "")) {
+        } else if ((velocity > 0 || velocity < 0) && (fightingState == "idle" || fightingState == "")) {
             sprite.play("walk");
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
         }
@@ -244,6 +244,8 @@ class Player extends Entity
             sprite.play("impact");
             case "idle":
             sprite.play("idle");
+            case "walking":
+            sprite.play("walk");
         }
 
 
