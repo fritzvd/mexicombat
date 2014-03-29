@@ -30,13 +30,13 @@ class PickCharacterScene extends Scene
     private var playerOneSelected:Int;
     private var playerTwoSelected:Int;
 
-    public function new(){
+    public function new(sP:Bool){
         super();
+        singlePlayer = sP;
     }
 
     public override function begin()
     {
-        singlePlayer = false;
         var main = cast(HXP.engine, Main);
         var running:Spritemap = new Spritemap("graphics/bg_running_lores2.png", 240, 135);
         running.add("default", [0,1,2,3,4,5,6,7,8,9,
@@ -44,14 +44,8 @@ class PickCharacterScene extends Scene
             20,21,22,23,24,25,26,27,28,29,
             30,31,32,33,34], 10);
         running.play("default");
-        // var running:Image = new Image("lmg.gif");
         running.scaleX = HXP.windowWidth / running.width;
         running.scaleY = HXP.windowHeight / running.height;
-        // running.x = - running.width / 2;
-        // running.y = - running.height / 2;
-        // var titleEntity:Entity = new Entity(0,0,running);
-        // titleEntity.x =  (running.width/2);
-        // titleEntity.y =  (running.height/2);
         addGraphic(running);
 
         var pickCharacterText:Text = new Text("PICK a Character ");
@@ -64,24 +58,6 @@ class PickCharacterScene extends Scene
         // kombatText.angle = 20;
         var kombat:Entity = new Entity(100,50,pickCharacterText);
         add(kombat);
-
-        // var singlePlayerText:Text = new Text("Single Player");
-        // var font = Assets.getFont('font/feast.ttf');
-        // singlePlayerText.font = font.fontName;
-        // singlePlayerText.size = 40;
-        // singlePlayerText.color = 0xB22222;
-        // singlePlayerText.scale = main.scaling;
-        spImg = new Spritemap("graphics/singleplayer.png", 150, 50);
-        spImg.add("single", [1], 1);
-        spImg.add("multi", [0], 1);
-        spImg.play("multi");
-        // kombatText.angle = 20;
-        sPlayerButton = new Entity(HXP.windowWidth - 200 * main.scaling, 150, spImg);
-        sPlayerButton.width = spImg.width;
-        sPlayerButton.height = spImg.height;
-        sPlayerButton.name = "singlePlayer";
-        add(sPlayerButton);
-
 
         var nextText:Text = new Text("Next");
         var font = Assets.getFont('font/feast.ttf');
@@ -144,29 +120,13 @@ class PickCharacterScene extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
-        var buttonCheck:Bool = sPlayerButton.collideRect(
-            touch.x, touch.y, sPlayerButton.x, sPlayerButton.y,
-            sPlayerButton.width, sPlayerButton.height);
-        // trace(touch.time, touch);
-        if (buttonCheck) {
-            if (singlePlayer) {
-                spImg.play("multi");
-                singlePlayer = false;    
-            } else if (!singlePlayer) {
-                spImg.play("single");
-                singlePlayer = true;   
-            }    
-        }
+
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
             sNextButton.width, sNextButton.height);
         if (next) {
             nextScene();
-        }
-        
-        // if (touch.pressed){
-        //     nextScene();
-        // }
+        }        
     }
     #end
 

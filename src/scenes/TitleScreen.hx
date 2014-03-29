@@ -91,7 +91,7 @@ class TitleScreen extends Scene
 
     private function startNext()
     {
-        HXP.scene = new scenes.PickCharacterScene();
+        HXP.scene = new scenes.SingleMultiScene();
     }
 
     public override function update()
