@@ -76,13 +76,27 @@ class GameScene extends Scene
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
-        if (singlePlayer == true) {
+
+        #if mobile
+        var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
+        var arrowLeft:Image = new Image('graphics/ui-arrow.png');
+        var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        arrowRight.flipped = true;
+
+        addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
+        addGraphic(arrowLeft, 100* scaling, arrowYOffset);
+        #end
+
+        if (singlePlayer) {
             
             playertwo = new AIPlayer(400, Math.floor(200 * scaling));
         } else {
-            // trace(singlePlayer);
             playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
+            #if mobile
+            addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
+            #end
         }
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);

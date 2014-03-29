@@ -17,6 +17,8 @@ class SingleMultiScene extends Scene
 
     private var sNextButton:Entity;
     private var singlePlayer:Bool;
+    private var cheese:Entity;
+    private var scaling:Float;
 
     public function new(){
         super();
@@ -26,7 +28,7 @@ class SingleMultiScene extends Scene
     {
         singlePlayer = false;
         var main = cast(HXP.engine, Main);
-        var scaling = main.scaling;
+        scaling = main.scaling;
         var bg:Image = new Image("graphics/singlebg.png");
         bg.scaleX = HXP.windowWidth / bg.width;
         bg.scaleY = HXP.windowHeight / bg.height;
@@ -57,6 +59,11 @@ class SingleMultiScene extends Scene
         sNextButton.height = nextText.height;
         sNextButton.name = "next";
         add(sNextButton);
+
+        var cheeseImg:Image = new Image('graphics/cheese.png');
+        cheese = new Entity(300 * scaling, 40 * scaling, cheeseImg);
+        cheeseImg.scale = 4.5 * scaling;
+        add(cheese);
         
     }
 
@@ -83,7 +90,7 @@ class SingleMultiScene extends Scene
             sNextButton.width, sNextButton.height);
         if (next && touch.pressed) {
             // touch.stopPropagation();
-            nextScene();
+            nextScene(singlePlayer);
         }
         
     }
@@ -109,7 +116,15 @@ class SingleMultiScene extends Scene
         }
         if (Input.pressed(Key.X)) {
             nextScene();
-        }    
+        }
+        if (Input.pressed(Key.UP) || Input.pressed(Key.DOWN)) {
+            singlePlayer = !singlePlayer;
+        }
+        if (singlePlayer) {
+            cheese.y = 40 * scaling;
+        } else {
+            cheese.y = HXP.windowHeight / 2 + 40 * scaling;
+        }
         #if mobile
         Input.touchPoints(handleTouch);
         #end
