@@ -65,27 +65,23 @@ class GameScene extends Scene
         deadTextEntity.visible = false;
         add(deadTextEntity);
 
-        var bitmap:Image = new Image("graphics/bg.png");
-        bitmap.x = - bitmap.width / 2;
-        bitmap.y = - bitmap.height / 2;
-        bitmap.scale = main.scaling * 0.677 ;
-        var titleEntity:Entity = new Entity(0,0,bitmap);
-        titleEntity.x =  (bitmap.width/2);
-        titleEntity.y =  (bitmap.height/2);
-        add(titleEntity);
+        var bgBitmap:Image = new Image("graphics/bg.png");
+        bgBitmap.scaleX = HXP.windowWidth / bgBitmap.width;
+        bgBitmap.scaleY = HXP.windowHeight / bgBitmap.height;
+        addGraphic(bgBitmap);
 
         // TODO: players have namess
         // TODO: 
-        playerone = new Player(200, 250);
+        playerone = new Player(200 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
         if (singlePlayer == true) {
             
-            playertwo = new AIPlayer(400, 250);
+            playertwo = new AIPlayer(400, Math.floor(200 * scaling));
         } else {
             // trace(singlePlayer);
-            playertwo = new Player(400, 250);
+            playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
         }
         healthTwo = new HealthBox(300, 50);
@@ -158,17 +154,6 @@ class GameScene extends Scene
     public override function update()
     {
 
-        // if ((HXP.camera.x > 0) && (HXP.camera.x != 0)) {
-        //     HXP.camera.x -= 1;
-
-        // } else if ((HXP.camera.x < 0) && (HXP.camera.x != 0))  {
-        //     HXP.camera.x += 1;
-        // }
-        // if ((HXP.camera.y > 0) && (HXP.camera.y != 0)) {
-        //     HXP.camera.y -= 1;
-        // } else if ((HXP.camera.y < 0) && (HXP.camera.y != 0))  {
-        //     HXP.camera.y += 1;
-        // }
 
         super.update();
 

@@ -38,11 +38,9 @@ class PickCharacterScene extends Scene
     public override function begin()
     {
         var main = cast(HXP.engine, Main);
-        var running:Spritemap = new Spritemap("graphics/bg_running_lores2.png", 240, 135);
+        var running:Spritemap = new Spritemap("graphics/bg_running_lores3.png", 80, 41);
         running.add("default", [0,1,2,3,4,5,6,7,8,9,
-            10,11,12,13,14,15,16,17,18,19,
-            20,21,22,23,24,25,26,27,28,29,
-            30,31,32,33,34], 10);
+            10,11,12,13,14,15,16,17,18,19], 10);
         running.play("default");
         running.scaleX = HXP.windowWidth / running.width;
         running.scaleY = HXP.windowHeight / running.height;
@@ -124,7 +122,7 @@ class PickCharacterScene extends Scene
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
             sNextButton.width, sNextButton.height);
-        if (next) {
+        if (next && touch.pressed) {
             nextScene();
         }        
     }

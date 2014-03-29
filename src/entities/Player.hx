@@ -67,7 +67,7 @@ class Player extends Entity
 
     private function cback()
     {
-        if ((sprite.currentAnim == "impact") && (sprite.complete)) {
+        if (sprite.complete) {
             fightingState = "idle";
             sprite.play("idle");
             impact = false;       
@@ -77,15 +77,15 @@ class Player extends Entity
     public function setPlayer(fighterName:String)
     {
         scaling = main.scaling;
-        hitboxHeight = Math.round(300 * scaling);
-        hitboxWidth = Math.round(90 * scaling);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 320, 320, cback);
+        hitboxHeight = Math.round(340 * scaling);
+        hitboxWidth = Math.round(120 * scaling);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 80, 80, cback);
         // not picked up?
-        sprite.scale = 1.0 * scaling;
+        sprite.scale = 4.5 * scaling;
         sprite.add("idle", [0, 1, 2], 12);
         sprite.add("walk", [4, 5, 6, 8, 9, 10], 12);
-        sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 12);
-        sprite.add("punch", [20, 21, 22, 24, 25], 12);
+        sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 12, false);
+        sprite.add("punch", [20, 21, 22, 24, 25], 12, false);
         sprite.add("dead", [0], 12);
         sprite.add("impact", [28, 29, 30, 32, 33], 12, false);
         sprite.play("idle");
@@ -137,7 +137,6 @@ class Player extends Entity
         if (Input.pressed("punch" + playerNo))
         {
             fightingState = "punching";
-            // setHitbox(30,64);
         }
         if (Input.pressed("kick" + playerNo))
         {
@@ -222,7 +221,7 @@ class Player extends Entity
                 maskOffset = 110;
             }
         }
-        if (velocity == 0 && fightingState == "")
+        if (velocity == 0 && (fightingState == "idle" || fightingState == ""))
         {
             sprite.play("idle");
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
@@ -230,7 +229,6 @@ class Player extends Entity
         } else if ((velocity > 0 || velocity < 0) && (fightingState == "")) {
             sprite.play("walk");
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
-            // mask.x = maskOffset;
         }
 
         switch(fightingState)
@@ -258,7 +256,7 @@ class Player extends Entity
             this.x  = HXP.screen.width - 90;
         }
 
-        if (this.y < 250) {
+        if (this.y < 200 * main.scaling) {
             this.y += 10;
         }
 
@@ -269,18 +267,18 @@ class Player extends Entity
         if (fightingState == 'punching' || fightingState == 'kicking' && health > 0){
             var attackOffset:Int = 0;
             if (this.x > enemy.x) {
-                attackOffset = Math.round(30 * scaling);
+                attackOffset = Math.round(50 * scaling);
                 if (scaling == 1) {
-                attackOffset = 60;
+                attackOffset = 50;
                 }
             } else {
-                attackOffset = Math.round(70 * scaling);
+                attackOffset = Math.round(230 * scaling);
                 if (scaling == 1) {
-                attackOffset = 190;
+                attackOffset = 230;
                 }
             }
 
-            attackHitbox = new Circle(Math.round(30 * scaling), attackOffset, Math.round(30 * scaling));
+            attackHitbox = new Circle(Math.round(35 * scaling), attackOffset, Math.round(35 * scaling));
             mask = attackHitbox;
             if (collideWith(enemy, x, y) == enemy) {
                 // var ec:EmitController = scene.add(new EmitController());
@@ -298,13 +296,6 @@ class Player extends Entity
             } else {
                 enemy.fightingState = "";
                 enemy.impact = false;
-            }
-            fightingStateCounter += HXP.elapsed;
-            if (fightingStateCounter > 0.3) {
-                fightingState = "";
-                attackHitbox = null;
-                mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
-                fightingStateCounter = 0;
             }
         }
         if (health <= 0) {
