@@ -11,7 +11,7 @@ class Character extends Entity
 
     public var selected:Bool;
 
-    public function new(x:Float, y:Float)
+    public function new(x:Float=0, y:Float=0)
     {
         super(x, y);
         selected = false;
@@ -21,6 +21,7 @@ class Character extends Entity
     {
         var main = cast(HXP.engine, Main);
         name = characterName;
+        type = "character";
         mugshot = new Image("graphics/" + characterName + ".png");
         mugshot.scale = 0.3 * main.scaling;
         width = Math.round(mugshot.width * mugshot.scale);

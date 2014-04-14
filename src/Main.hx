@@ -11,12 +11,8 @@ class Main extends Engine
 	{
 #if debug
 		HXP.console.enable();
-#end
-        
-            scaling = HXP.windowWidth / 1024;
-            // trace(scaling);
-
-
+#end        
+        scaling = HXP.windowWidth / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
 	}

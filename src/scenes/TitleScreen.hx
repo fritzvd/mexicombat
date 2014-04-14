@@ -9,6 +9,7 @@ import com.haxepunk.graphics.Text;
 import com.haxepunk.HXP;
 import com.haxepunk.Tween;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import openfl.Assets;
 
 #if android
@@ -27,26 +28,23 @@ class TitleScreen extends Scene
     {
         var main = cast(HXP.engine, Main);
         
-        var bitmap:Image = new Image("graphics/splashscreen.png");
-        bitmap.scale = main.scaling;
-        bitmap.x = - bitmap.width / 2;
-        bitmap.y = - bitmap.height / 2;
-        var titleEntity:Entity = new Entity(0,0,bitmap);
-        titleEntity.x =  (bitmap.width/2);
-        titleEntity.y =  (bitmap.height/2);
-        add(titleEntity);
+        var running:Spritemap = new Spritemap("graphics/bg_running_lores3.png", 80, 41);
+        running.add("default", [0,1,2,3,4,5,6,7,8,9,
+            10,11,12,13,14,15,16,17,18,19], 15);
+        running.play("default");
+        running.scaleX = HXP.windowWidth / running.width;
+        running.scaleY = HXP.windowHeight / running.height;
+        addGraphic(running);
 
-        var kombatText:Text = new Text("KOMBAT ");
-        // var font = Assets.getFont("font/feast.ttf");
-        // kombatText.font = font.fontName;
+        var bitmap:Image = new Image("graphics/splashscreen_lores.png");
+        bitmap.scaleX = HXP.windowWidth / bitmap.width;
+        bitmap.scaleY = HXP.windowHeight / bitmap.height;
+        addGraphic(bitmap);
+
+        var kombatText:Text = new Text("KOMBAT ", {color: 0xC50000});
         kombatText.size = 80;
         kombatText.scale = main.scaling;
-        kombatText.color = 0xB22222;
-        // var kombatImg:Image = new Image("graphics/kombat.png");
-        // kombatText.angle = 20;
-        var kombat:Entity = new Entity(360 * main.scaling,280 * main.scaling,kombatText);
-
-        add(kombat);
+        addGraphic(kombatText, 600 * main.scaling, 360 * main.scaling);
 
         #if !mobile
         var titleText:Text = new Text("Press X to start");
@@ -55,8 +53,8 @@ class TitleScreen extends Scene
         var titleText:Text = new Text("Press anywhere to start");
         #end
         titleText.scale = main.scaling;
-        titleText.color = 0xB22222;
-        // titleText.color = 0x99aa59;
+        // titleText.color = 0xB22222;
+        titleText.color = 0x99aa59;
 
         #if mobile
         var scaling = main.scaling;

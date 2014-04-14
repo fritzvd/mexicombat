@@ -9,6 +9,7 @@ import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
 import entities.Character;
+import entities.Player;
 import openfl.Assets;
 
 
@@ -30,6 +31,13 @@ class PickCharacterScene extends Scene
     private var playerOneSelected:Int;
     private var playerTwoSelected:Int;
 
+    private var firstCheese:Entity;
+    private var secondCheese:Entity;
+    private var touchEntity:Entity;
+
+    private var selectedCharacter1:Player;
+    private var selectedCharacter2:Player;
+
     public function new(sP:Bool){
         super();
         singlePlayer = sP;
@@ -38,15 +46,13 @@ class PickCharacterScene extends Scene
     public override function begin()
     {
         var main = cast(HXP.engine, Main);
-        var running:Spritemap = new Spritemap("graphics/bg_running_lores3.png", 80, 41);
-        running.add("default", [0,1,2,3,4,5,6,7,8,9,
-            10,11,12,13,14,15,16,17,18,19], 10);
-        running.play("default");
-        running.scaleX = HXP.windowWidth / running.width;
-        running.scaleY = HXP.windowHeight / running.height;
-        addGraphic(running);
 
-        var pickCharacterText:Text = new Text("PICK a Character ");
+        var bg:Image = new Image("graphics/singlebg.png");
+        bg.scaleX = HXP.windowWidth / bg.width;
+        bg.scaleY = HXP.windowHeight / bg.height;
+        addGraphic(bg);
+
+        var pickCharacterText:Text = new Text("PICK a Character ", {color: 0xC50000});
         // var font = Assets.getFont('font/feast.ttf');
         // pickCharacterText.font = font.fontName;
         pickCharacterText.size = 70;
@@ -75,13 +81,22 @@ class PickCharacterScene extends Scene
 
         charArray = [];
 
-        // loop over characters
-        // If character selected proceed to next window with character
-        // characters for both players
-        addCharacter('fritz', 100, 200);
-        addCharacter('daniel', 300, 200);
-        addCharacter('fritz', 100, 400);
-        addCharacter('daniel', 300, 400);
+        var characters:Array<String> = [
+                'fritz', 
+                'daniel',
+                'fritz',
+                'daniel'
+                ];
+
+        for (i in 0...characters.length) {
+            addCharacter(characters[i], 100 * main.scaling * i + 100,
+                350 * main.scaling);
+        }
+        // // loop over characters
+        // addCharacter('fritz', 100, 200);
+        // addCharacter('daniel', 200, 200);
+        // addCharacter('fritz', 100, 400);
+        // addCharacter('daniel', 300, 400);
         selectOneText = new Text("1");
         selectOneText.size = 20;
         selectOne = new Entity(charArray[playerOneSelected].x, charArray[playerOneSelected].y, selectOneText);
@@ -91,7 +106,27 @@ class PickCharacterScene extends Scene
         selectTwo = new Entity(charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15, 
             charArray[playerTwoSelected].y, selectTwoText);
         add(selectTwo);
-        
+
+        // var cheeseImg:Image = new Image('graphics/cheese.png');
+        // firstCheese = new Entity(300 * main.scaling, 40 * main.scaling, cheeseImg);
+        // firstCheese.width = cheeseImg.width + 5;
+        // firstCheese.height = cheeseImg.height;
+        // cheeseImg.scale = 4.5 * main.scaling;
+        // add(firstCheese);
+
+        selectedCharacter1 = new Player(100 * main.scaling, 250 * main.scaling);
+        // selectedCharacter1.scaling = 0.5;
+        selectedCharacter1.fightingState = "idle";
+        add(selectedCharacter1);
+        selectedCharacter2 = new Player(300 * main.scaling, 250 * main.scaling);
+        // selectedCharacter2.scaling = 0.5;
+        selectedCharacter2.fightingState = "idle";
+        add(selectedCharacter2);
+
+#if mobile
+        touchEntity = new Entity();
+        add(touchEntity);
+#end        
     }
 
     private function previousScene()
@@ -118,6 +153,15 @@ class PickCharacterScene extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) 
     {
+        // var touchEntity = new Entity(touch.x, touch.y);
+        touchEntity.x = touch.x;
+        touchEntity.y = touch.y;
+        var touchedpiet:Entity = touchEntity.collide("character", touch.x, touch.y);
+        if (touchedpiet != null) {
+            var characterTouch:Character = cast(touchedpiet, Character);
+            playerOneSelected = Lambda.indexOf(charArray, characterTouch);
+            updateselectRect();
+        }
 
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
@@ -128,24 +172,16 @@ class PickCharacterScene extends Scene
     }
     #end
 
-    // private function selectOneRectColors()
-    // {
-    //     while (selectOneRect.alpha < 1) {
-    //         selectOneRect.alpha += 0.01;
-    //         trace(selectOneRect.alpha);
-    //     } 
-    //     if (selectOneRect.alpha == 1) {
-    //         selectOneRect.alpha = 0;
-    //     }
-
-    // }
-
     private function updateselectRect()
     {
         selectOne.x = charArray[playerOneSelected].x;
         selectOne.y = charArray[playerOneSelected].y;
         selectTwo.x = charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15;
         selectTwo.y = charArray[playerTwoSelected].y;
+
+        selectedCharacter1.setPlayer(charArray[playerOneSelected].name);
+        selectedCharacter2.setPlayer(charArray[playerTwoSelected].name);
+
     }
 
     private function selecting()
