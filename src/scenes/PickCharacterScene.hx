@@ -8,10 +8,11 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.Entity;
-import entities.Character;
-import entities.Player;
 import openfl.Assets;
 
+import entities.Character;
+import entities.Player;
+import entities.HealthBox;
 
 class PickCharacterScene extends Scene
 {
@@ -92,11 +93,7 @@ class PickCharacterScene extends Scene
             addCharacter(characters[i], 100 * main.scaling * i + 100,
                 350 * main.scaling);
         }
-        // // loop over characters
-        // addCharacter('fritz', 100, 200);
-        // addCharacter('daniel', 200, 200);
-        // addCharacter('fritz', 100, 400);
-        // addCharacter('daniel', 300, 400);
+
         selectOneText = new Text("1");
         selectOneText.size = 20;
         selectOne = new Entity(charArray[playerOneSelected].x, charArray[playerOneSelected].y, selectOneText);
@@ -114,14 +111,25 @@ class PickCharacterScene extends Scene
         // cheeseImg.scale = 4.5 * main.scaling;
         // add(firstCheese);
 
-        selectedCharacter1 = new Player(100 * main.scaling, 250 * main.scaling);
-        // selectedCharacter1.scaling = 0.5;
+        selectedCharacter1 = new Player(200 * main.scaling, 150 * main.scaling);
+        selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 0);
         selectedCharacter1.fightingState = "idle";
+        selectedCharacter1.setPlayer('fritz');
         add(selectedCharacter1);
-        selectedCharacter2 = new Player(300 * main.scaling, 250 * main.scaling);
-        // selectedCharacter2.scaling = 0.5;
+        selectedCharacter2 = new Player(500 * main.scaling, 150 * main.scaling);
+        selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 0);
         selectedCharacter2.fightingState = "idle";
+        selectedCharacter2.setPlayer('fritz');
         add(selectedCharacter2);
+
+        // refactor this shit
+        selectedCharacter1.setEnemy(selectedCharacter2, 1);
+        selectedCharacter2.setEnemy(selectedCharacter1, 0);
+        var healthTwo = new HealthBox(1000, 1000);
+        selectedCharacter2.setHealthBox(healthTwo);
+        selectedCharacter1.setHealthBox(healthTwo);
+        // Y height etc. Should be going in the scene not in the player.hx
+
 
 #if mobile
         touchEntity = new Entity();
