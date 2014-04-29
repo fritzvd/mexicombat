@@ -101,22 +101,36 @@ class GameScene extends Scene
         punch.alpha = 0.6;
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.alpha = 0.6;
-
-        addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
-        addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
         #end
+
         if (singlePlayer) {
             playertwo = new AIPlayer(400, Math.floor(200 * scaling));
             #if mobile
             playerone.singlePlayer = true;
+            addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
+            addGraphic(kick, -4, HXP.windowWidth - 200 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
             #end
         } else {
-            
             playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
-            addGraphic(arrowRight, -4, HXP.windowWidth - 200 * scaling, arrowYOffset);
-            addGraphic(arrowLeft, -4, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
+            arrowRight.scale = 0.6;
+            arrowLeft.scale = 0.6;
+            kick.scale = 0.6;
+            punch.scale = 0.6;
+            // player one
+            addGraphic(arrowRight, -4, 150 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, 50 * scaling, arrowYOffset);
+            addGraphic(kick, -4, HXP.windowWidth / 2 - 100 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.windowWidth / 2 - 200* scaling, arrowYOffset);
+
+            // player two
+            addGraphic(kick, -4, HXP.windowWidth - 100 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.windowWidth - 200* scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, HXP.windowWidth / 2 + 150 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, HXP.windowWidth / 2 + 50 * scaling, arrowYOffset);
             #end
         }
         healthTwo = new HealthBox(300, 50);

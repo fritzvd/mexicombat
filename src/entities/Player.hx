@@ -190,19 +190,19 @@ class Player extends Entity
             // right side of screen or left depending on player
             if (touch.sceneX > minX && touch.sceneX < maxX) {
                 // move or fight
-                if (touch.sceneY > halfY){
-                    // forward backward
-                    if (touch.sceneX < halfX) {
-                        acceleration = -2;
-                    } else if (touch.sceneX > halfX) {
-                        acceleration = 2;
-                    }
-                } else if (touch.sceneY < halfY) {                
-                    if (touch.sceneX < halfX) {
-                        fightingState = "punching";
-                    } else if (touch.sceneX > halfX) {
-                        fightingState = "kicking";
-                    }
+                // forward backward
+                if (touch.sceneX < halfX / 2) {
+                    acceleration = -2;
+                } else if ((touch.sceneX > halfX / 2) && (
+                    touch.sceneX < halfX)) {
+                    acceleration = 2;
+                }
+                if ((touch.sceneX > halfX) && (
+                    touch.sceneX < halfX + halfX / 2)) {
+                    fightingState = "punching";
+                } else if ((touch.sceneX > halfX) && (
+                    touch.sceneX > halfX + halfX / 2)) {
+                    fightingState = "kicking";
                 }
             }   
         }
