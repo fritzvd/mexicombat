@@ -191,7 +191,8 @@ class Player extends Entity
             if (touch.sceneX > minX && touch.sceneX < maxX) {
                 // move or fight
                 // forward backward
-                var halfwayhalfX = minX + HXP.width / 4 / 2;
+                var oneEighth = HXP.width / 4 / 2;
+                var halfwayhalfX = minX + oneEighth;
                 if ((touch.sceneX > halfwayhalfX) && (
                     touch.sceneX < halfX)) {
                     acceleration = 2;
@@ -200,10 +201,9 @@ class Player extends Entity
                     acceleration = -2;
                 }
                 if (touch.sceneX > halfX) {
-                    if (touch.sceneX < halfX + halfwayhalfX) {
+                    if (touch.sceneX < halfX + oneEighth) {
                         fightingState = "punching";
-                    }
-                    if (touch.sceneX > halfX + halfwayhalfX) {
+                    } else if (touch.sceneX > halfX + oneEighth) {
                         fightingState = "kicking";
                     }
                 }
