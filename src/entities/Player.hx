@@ -168,7 +168,7 @@ class Player extends Entity
                         fightingState = "walking";
                     }
                 // } 
-                if (touch.sceneX > maxX) {                
+                if (touch.sceneX > maxX) {                 
                     if (touch.sceneX < halfX * 3) {
                         fightingState = "punching";
                     } else if (touch.sceneX > halfX * 3) {
@@ -184,25 +184,28 @@ class Player extends Entity
             } else if (playerNo == 1){
                 maxX = HXP.width;
                 minX = HXP.width / 2;
-                halfX = HXP.width / 4 * 3;
+                halfX = (HXP.width / 4) * 3;
             }
             halfY = HXP.height / 2;
             // right side of screen or left depending on player
             if (touch.sceneX > minX && touch.sceneX < maxX) {
                 // move or fight
                 // forward backward
-                if (touch.sceneX < halfX / 2) {
-                    acceleration = -2;
-                } else if ((touch.sceneX > halfX / 2) && (
+                var halfwayhalfX = minX + HXP.width / 4 / 2;
+                if ((touch.sceneX > halfwayhalfX) && (
                     touch.sceneX < halfX)) {
                     acceleration = 2;
                 }
-                if ((touch.sceneX > halfX) && (
-                    touch.sceneX < halfX + halfX / 2)) {
-                    fightingState = "punching";
-                } else if ((touch.sceneX > halfX) && (
-                    touch.sceneX > halfX + halfX / 2)) {
-                    fightingState = "kicking";
+                if (touch.sceneX < halfwayhalfX) {
+                    acceleration = -2;
+                }
+                if (touch.sceneX > halfX) {
+                    if (touch.sceneX < halfX + halfwayhalfX) {
+                        fightingState = "punching";
+                    }
+                    if (touch.sceneX > halfX + halfwayhalfX) {
+                        fightingState = "kicking";
+                    }
                 }
             }   
         }
