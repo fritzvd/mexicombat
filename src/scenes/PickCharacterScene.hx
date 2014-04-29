@@ -38,6 +38,7 @@ class PickCharacterScene extends Scene
 
     private var selectedCharacter1:Player;
     private var selectedCharacter2:Player;
+    private var main:Main;
 
     public function new(sP:Bool){
         super();
@@ -46,7 +47,7 @@ class PickCharacterScene extends Scene
 
     public override function begin()
     {
-        var main = cast(HXP.engine, Main);
+        main = cast(HXP.engine, Main);
 
         var bg:Image = new Image("graphics/singlebg.png");
         bg.scaleX = HXP.windowWidth / bg.width;
@@ -104,28 +105,23 @@ class PickCharacterScene extends Scene
             charArray[playerTwoSelected].y, selectTwoText);
         add(selectTwo);
 
-        // var cheeseImg:Image = new Image('graphics/cheese.png');
-        // firstCheese = new Entity(300 * main.scaling, 40 * main.scaling, cheeseImg);
-        // firstCheese.width = cheeseImg.width + 5;
-        // firstCheese.height = cheeseImg.height;
-        // cheeseImg.scale = 4.5 * main.scaling;
-        // add(firstCheese);
-
-        selectedCharacter1 = new Player(200 * main.scaling, 150 * main.scaling);
-        selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 0);
+        selectedCharacter1 = new Player(200 * main.scaling, 120 * main.scaling);
+        selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter1.fightingState = "idle";
         selectedCharacter1.setPlayer('fritz');
+        selectedCharacter1.sprite.scale = 1.5 * main.scaling;
         add(selectedCharacter1);
-        selectedCharacter2 = new Player(500 * main.scaling, 150 * main.scaling);
-        selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 0);
+        selectedCharacter2 = new Player(500 * main.scaling, 120 * main.scaling);
+        selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter2.fightingState = "idle";
-        selectedCharacter2.setPlayer('fritz');
+        selectedCharacter2.setPlayer('daniel');
+        selectedCharacter2.sprite.scale = 1.5 * main.scaling;
         add(selectedCharacter2);
 
         // refactor this shit
         selectedCharacter1.setEnemy(selectedCharacter2, 1);
         selectedCharacter2.setEnemy(selectedCharacter1, 0);
-        var healthTwo = new HealthBox(1000, 1000);
+        var healthTwo = new HealthBox(4000, 4000);
         selectedCharacter2.setHealthBox(healthTwo);
         selectedCharacter1.setHealthBox(healthTwo);
         // Y height etc. Should be going in the scene not in the player.hx
@@ -188,7 +184,9 @@ class PickCharacterScene extends Scene
         selectTwo.y = charArray[playerTwoSelected].y;
 
         selectedCharacter1.setPlayer(charArray[playerOneSelected].name);
+        selectedCharacter1.sprite.scale = 1.5 * main.scaling;
         selectedCharacter2.setPlayer(charArray[playerTwoSelected].name);
+        selectedCharacter2.sprite.scale = 1.5 * main.scaling;
 
     }
 
@@ -201,7 +199,7 @@ class PickCharacterScene extends Scene
             }
         }
         if (Input.pressed(Key.RIGHT)) {
-            if (playerOneSelected != charArray.length) {
+            if (playerOneSelected != charArray.length - 1) {
                 playerOneSelected += 1;
                 updateselectRect();
             }
@@ -213,7 +211,7 @@ class PickCharacterScene extends Scene
             }
         }
         if (Input.pressed(Key.D)) {
-            if (playerTwoSelected != charArray.length) {
+            if (playerTwoSelected != charArray.length - 1) {
                 playerTwoSelected += 1;
                 updateselectRect();
             }

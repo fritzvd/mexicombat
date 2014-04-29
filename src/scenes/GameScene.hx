@@ -14,6 +14,9 @@ import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
 
+import vault.Sfxr;
+import vault.SfxrParams;
+
 class GameScene extends Scene
 {
 
@@ -34,6 +37,8 @@ class GameScene extends Scene
     private var scaling:Float;
     private var ec:EmitController;
 
+    private var sfx:Map<String, Sfxr>;
+
     public function new(cFO:String, cFT:String, sP:Bool)
     {
         super();
@@ -44,6 +49,14 @@ class GameScene extends Scene
         deadTime = 0;
         singlePlayer = sP;
 
+        var params = new SfxrParams();
+        params.generateExplosion();
+        var hparams = new SfxrParams();
+        hparams.generateHitHurt();
+
+        sfx = new Map();
+        sfx.set("explosion", new Sfxr(params));
+        sfx.set("hithurt", new Sfxr(hparams));
     }
 
     public override function begin()
@@ -65,10 +78,10 @@ class GameScene extends Scene
         deadTextEntity.visible = false;
         add(deadTextEntity);
 
-        var bgBitmap:Image = new Image("graphics/bg.png");
-        bgBitmap.scaleX = HXP.windowWidth / bgBitmap.width;
-        bgBitmap.scaleY = HXP.windowHeight / bgBitmap.height;
-        addGraphic(bgBitmap);
+        var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
+        // bgBitmap.scale = HXP.windowWidth / bgBitmap.width;
+        bgBitmap.scale = HXP.windowHeight / bgBitmap.height;
+        addGraphic(bgBitmap, -370*scaling, 0);
 
         // TODO: players have namess
         // TODO: 
@@ -82,18 +95,23 @@ class GameScene extends Scene
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.flipped = true;
+        arrowRight.alpha = 0.6;
+        arrowLeft.alpha = 0.6;
 
-        addGraphic(arrowRight, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
-        addGraphic(arrowLeft, 100* scaling, arrowYOffset);
+        addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
+        addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
         #end
         if (singlePlayer) {
             playertwo = new AIPlayer(400, Math.floor(200 * scaling));
+            #if mobile
+            playerone.singlePlayer = true;
+            #end
         } else {
             playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
-            addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
-            addGraphic(arrowLeft, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, HXP.windowWidth - 200 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
             #end
         }
         healthTwo = new HealthBox(300, 50);
@@ -111,7 +129,7 @@ class GameScene extends Scene
         // var font = Assets.getFont('font/feast.ttf');
         // pickCharacterText.font = font.fontName;
         roundText.size = 30;
-        roundText.color = 0xB22222;
+        roundText.color = 0xf9cd22;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
         roundTextEntity = new Entity(250,50,roundText);
@@ -139,17 +157,14 @@ class GameScene extends Scene
         }
     }
 
-    private function changeCamera()
-    {   
-        var random:Float = Math.random();
-        if (random > 0.6) {
-            HXP.camera.x = HXP.camera.x - Std.int(random * 10);
-            HXP.camera.y = HXP.camera.y - Std.int(random * 10);            
-        } else {
-            HXP.camera.x = HXP.camera.x + Std.int(random * 10);
-            HXP.camera.y = HXP.camera.y + Std.int(random * 10);            
+    private function soundFx()
+    {
+        if (playerone.impact || playertwo.impact) {
+
+            sfx.get("hithurt").play();
         }
     }
+
 
     public override function update()
     {
@@ -157,12 +172,11 @@ class GameScene extends Scene
 
         super.update();
 
+        soundFx();
         if (playerone.impact) {
             ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
-            // changeCamera();
         } 
         if (playertwo.impact) {
-            // changeCamera();
             ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
         }
 
@@ -170,10 +184,13 @@ class GameScene extends Scene
             deadText.text = "Player one, you died.";
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
+            sfx.get("explosion").play();
+
         } 
         if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             deadTextEntity.visible = true;
+            sfx.get("explosion").play();
             deadTime += HXP.elapsed;
         }
 
@@ -181,6 +198,13 @@ class GameScene extends Scene
             HXP.scene = new scenes.TitleScreen();
         }
 
+        // quasi physics
+        if (playerone.y < 200 * scaling) {
+            playerone.y += 10;
+        }
+        if (playertwo.y < 200 * scaling) {
+            playertwo.y += 10;
+        }
 
         if (Input.pressed(Key.ESCAPE)) {
             HXP.screen.color = 0x222233;

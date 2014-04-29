@@ -21,7 +21,7 @@ class Player extends Entity
     private var enemyNo:Int;
     private var velocity:Float;
     private var acceleration:Float;
-    private var sprite:Spritemap;
+    public var sprite:Spritemap;
     public var health:Int;
     private var healthBox:HealthBox;
     private var scaling:Float;
@@ -48,6 +48,7 @@ class Player extends Entity
     private var minX:Float;
     private var halfX:Float;
     private var halfY:Float;
+    public var singlePlayer:Bool;
     #end
 
     public function new(x:Float, y:Float)
@@ -79,9 +80,10 @@ class Player extends Entity
         scaling = main.scaling;
         hitboxHeight = Math.round(340 * scaling);
         hitboxWidth = Math.round(120 * scaling);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 80, 80, cback);
+        // sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 80, 80, cback);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 160, 160, cback);
         // not picked up?
-        sprite.scale = 4.5 * scaling;
+        sprite.scale = 2.25 * scaling;
         sprite.add("idle", [0, 1, 2], 12);
         sprite.add("walk", [4, 5, 6, 8, 9, 10], 12);
         sprite.add("kick", [12, 13, 14, 15, 16, 17, 18], 12, false);
@@ -91,6 +93,7 @@ class Player extends Entity
         sprite.play("idle");
         setHitbox(hitboxWidth, hitboxHeight);
         graphic = sprite;
+        layer = -1;
     }
 
     public function setHealthBox (hBox:HealthBox)
@@ -148,34 +151,62 @@ class Player extends Entity
 
 #if mobile
     public function handleTouch(touch:com.haxepunk.utils.Touch) {
-        if (playerNo == 0) {
+        if (singlePlayer) {
             maxX = HXP.width / 2;
             minX = 0;
             halfX = HXP.width / 4;
-        } else if (playerNo == 1){
-            maxX = HXP.width;
-            minX = HXP.width / 2;
-            halfX = HXP.width / 4 * 3;
-        }
-        halfY = HXP.height / 2;
-        // right side of screen or left depending on player
-        if (touch.sceneX > minX && touch.sceneX < maxX) {
-            // move or fight
-            if (touch.sceneY > halfY){
-                // forward backward
-                if (touch.sceneX < halfX) {
-                    acceleration = -2;
-                } else if (touch.sceneX > halfX) {
-                    acceleration = 2;
+            // if (touch.sceneX > minX && touch.sceneX < maxX) {
+                // move or fight
+                // if (touch.sceneY > halfY){
+                    // forward backward
+                    if (touch.sceneX < halfX) {
+                        acceleration = -2;
+                        fightingState = "walking";
+                    } else if ((touch.sceneX > halfX) && 
+                        (touch.sceneX < maxX)) {
+                        acceleration = 2;
+                        fightingState = "walking";
+                    }
+                // } 
+                if (touch.sceneX > maxX) {                
+                    if (touch.sceneX < halfX * 3) {
+                        fightingState = "punching";
+                    } else if (touch.sceneX > halfX * 3) {
+                        fightingState = "kicking";
+                    }
                 }
-            } else if (touch.sceneY < halfY) {                
-                if (touch.sceneX < halfX) {
-                    fightingState = "punching";
-                } else if (touch.sceneX > halfX) {
-                    fightingState = "kicking";
-                }
+            // }
+        } else {
+            if (playerNo == 0) {
+                maxX = HXP.width / 2;
+                minX = 0;
+                halfX = HXP.width / 4;
+            } else if (playerNo == 1){
+                maxX = HXP.width;
+                minX = HXP.width / 2;
+                halfX = HXP.width / 4 * 3;
             }
+            halfY = HXP.height / 2;
+            // right side of screen or left depending on player
+            if (touch.sceneX > minX && touch.sceneX < maxX) {
+                // move or fight
+                if (touch.sceneY > halfY){
+                    // forward backward
+                    if (touch.sceneX < halfX) {
+                        acceleration = -2;
+                    } else if (touch.sceneX > halfX) {
+                        acceleration = 2;
+                    }
+                } else if (touch.sceneY < halfY) {                
+                    if (touch.sceneX < halfX) {
+                        fightingState = "punching";
+                    } else if (touch.sceneX > halfX) {
+                        fightingState = "kicking";
+                    }
+                }
+            }   
         }
+        
     }
 #end
 
@@ -221,13 +252,13 @@ class Player extends Entity
                 maskOffset = 110;
             }
         }
-        if (velocity == 0 && (fightingState == "idle" || fightingState == ""))
+        if (velocity == 0 && (fightingState == "walking" || fightingState == ""))
         {
-            sprite.play("idle");
+            fightingState = "idle";
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
             // mask.x = maskOffset;
         } else if ((velocity > 0 || velocity < 0) && (fightingState == "idle" || fightingState == "")) {
-            sprite.play("walk");
+            fightingState = "walking";
             mask = new Hitbox(hitboxWidth, hitboxHeight, maskOffset, 0);
         }
 
@@ -248,8 +279,6 @@ class Player extends Entity
             sprite.play("walk");
         }
 
-
-        // trace(sprite.name);
         healthBox.health = health;
 
         if (this.x > HXP.screen.width - 80) {
@@ -257,11 +286,6 @@ class Player extends Entity
         } else if (this.x < -140) {
             this.x  = HXP.screen.width - 90;
         }
-
-        if (this.y < 200 * main.scaling) {
-            this.y += 10;
-        }
-
     }
 
     private function checkFightingState()
