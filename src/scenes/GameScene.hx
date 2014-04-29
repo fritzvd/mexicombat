@@ -93,10 +93,14 @@ class GameScene extends Scene
         #if mobile
         var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
-        var arrowRight:Image = new Image('graphics/ui-arrow.png');
-        arrowRight.flipped = true;
-        arrowRight.alpha = 0.6;
         arrowLeft.alpha = 0.6;
+        var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        arrowRight.alpha = 0.6;
+        arrowRight.flipped = true;
+        var punch:Image = new Image('graphics/ui-punch.png');
+        punch.alpha = 0.6;
+        var kick:Image = new Image('graphics/ui-kick.png');
+        kick.alpha = 0.6;
 
         addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
         addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
@@ -107,6 +111,7 @@ class GameScene extends Scene
             playerone.singlePlayer = true;
             #end
         } else {
+            
             playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
