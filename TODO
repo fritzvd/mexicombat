@@ -10,3 +10,21 @@ TODO
 [*] particles op impact, goede plek
 [*] collisions fixen voor nieuwe sprites
 [ ] event propagation voorkomen bij back button.
+
+
+
+GUI/graphics:
+- GUI en keuzemenu werkt, alhoewel de gele stip niet echt een duidelijke indicator van keuze is. 
+- Het woordje Next is veeel te klein. 
+- De feedback van wanneer een klap/trap raak is is nog niet duidelijk. Suggestie: een "explosie" op het punt van impact. 
+
+Gameplay:
+- Spelen werkt best verslavend nu al
+- AI is niet erg sterk. Of logisch. Maar het werkt wel. 
+- Controls: in single player mode kan je op zich kiezen voor een bredere layout (linkerduim: links/rechts, rechterduim: trap/klap), dat houdt makkelijker vast. In two-player mode zijn de huidige controls goed omdat ik er van uitga dat de spelers toch de telefoon op een tafel leggen. 
+
+Bugs:
+- animatie annulering: als je met player 1 (of 2) een trap of trap uitdeelt, en je trapt of klapt snel daarna met de andere speler, dan cancelled de animatie van de eerste speler. 
+
+Sounds: 
+- Geen sounds :( Waar is het vieze gehijg, gekreun en geschreeuw?
