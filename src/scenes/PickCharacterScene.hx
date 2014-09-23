@@ -85,7 +85,7 @@ class PickCharacterScene extends Scene
 
         var characters:Array<String> = [
                 'fritz', 
-                'daniel',
+                'jonathan',
                 'fritz',
                 'daniel'
                 ];
