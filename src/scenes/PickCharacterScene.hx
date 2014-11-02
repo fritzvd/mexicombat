@@ -67,8 +67,8 @@ class PickCharacterScene extends Scene
 
         var nextText:Text = new Text("Next");
         var font = Assets.getFont('font/feast.ttf');
-        nextText.font = font.fontName;
-        nextText.size = 40;
+        nextText.font = font.fontName;  
+        nextText.size = Std.int(100 * main.scaling);
         sNextButton = new Entity(HXP.windowWidth - 200 * main.scaling, 450 * main.scaling, nextText);
         sNextButton.width = nextText.width+5;
         sNextButton.height = nextText.height;

@@ -14,8 +14,8 @@ import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
 
-import vault.Sfxr;
-import vault.SfxrParams;
+// import vault.Sfxr;
+// import vault.SfxrParams;
 
 class GameScene extends Scene
 {
@@ -37,7 +37,7 @@ class GameScene extends Scene
     private var scaling:Float;
     private var ec:EmitController;
 
-    private var sfx:Map<String, Sfxr>;
+    // private var sfx:Map<String, Sfxr>;
 
     public function new(cFO:String, cFT:String, sP:Bool)
     {
@@ -49,14 +49,14 @@ class GameScene extends Scene
         deadTime = 0;
         singlePlayer = sP;
 
-        var params = new SfxrParams();
-        params.generateExplosion();
-        var hparams = new SfxrParams();
-        hparams.generateHitHurt();
+        // var params = new SfxrParams();
+        // params.generateExplosion();
+        // var hparams = new SfxrParams();
+        // hparams.generateHitHurt();
 
-        sfx = new Map();
-        sfx.set("explosion", new Sfxr(params));
-        sfx.set("hithurt", new Sfxr(hparams));
+        // sfx = new Map();
+        // sfx.set("explosion", new Sfxr(params));
+        // sfx.set("hithurt", new Sfxr(hparams));
     }
 
     public override function begin()
@@ -180,7 +180,7 @@ class GameScene extends Scene
     {
         if (playerone.impact || playertwo.impact) {
 
-            sfx.get("hithurt").play();
+            // sfx.get("hithurt").play();
         }
     }
 
@@ -203,13 +203,13 @@ class GameScene extends Scene
             deadText.text = "Player one, you died.";
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
-            sfx.get("explosion").play();
+            // sfx.get("explosion").play();
 
         } 
         if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             deadTextEntity.visible = true;
-            sfx.get("explosion").play();
+            // sfx.get("explosion").play();
             deadTime += HXP.elapsed;
         }
 
