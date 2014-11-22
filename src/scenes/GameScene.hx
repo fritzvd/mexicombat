@@ -49,14 +49,6 @@ class GameScene extends Scene
         deadTime = 0;
         singlePlayer = sP;
 
-        // var params = new SfxrParams();
-        // params.generateExplosion();
-        // var hparams = new SfxrParams();
-        // hparams.generateHitHurt();
-
-        // sfx = new Map();
-        // sfx.set("explosion", new Sfxr(params));
-        // sfx.set("hithurt", new Sfxr(hparams));
     }
 
     public override function begin()
