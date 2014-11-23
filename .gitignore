@@ -1,3 +1,4 @@
 bin/
 assets/font/*.hash
+.DS_Store
 
