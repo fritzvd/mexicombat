@@ -22,7 +22,7 @@ class Character extends Entity
         var main = cast(HXP.engine, Main);
         name = characterName;
         type = "character";
-        mugshot = new Spritemap("graphics/"+ characterName + ".png", 200, 200);
+        mugshot = new Spritemap("graphics/"+ characterName + ".png", 199, 274);
         mugshot.add("idle", [0, 1, 2], 12);
         mugshot.play("idle");
         mugshot.scale = 0.3 * main.scaling;
