@@ -1,7 +1,6 @@
 import com.haxepunk.Engine;
 import com.haxepunk.HXP;
 import com.haxepunk.Sfx;
-import openfl.display.StageQuality;
 
 class Main extends Engine
 {
@@ -18,7 +17,6 @@ class Main extends Engine
         scaling = HXP.windowWidth / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
-        HXP.stage.quality = StageQuality.LOW;
         music = new Sfx("audio/letmego.ogg");   
         music.loop();
 	}

@@ -4,6 +4,7 @@ import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
 import com.haxepunk.utils.Input;
+import com.haxepunk.utils.Joystick;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
@@ -109,15 +110,37 @@ class SingleMultiScene extends Scene
     // }
 
 
+    private function handleJoysticks(joystick:Joystick) {
+        var xbox = XBOX_GAMEPAD;
+        if (joystick.pressed(xbox.B_BUTTON)) {
+            previousScene();
+        }
+        if (joystick.pressed(xbox.A_BUTTON)) {
+            nextScene();
+        }
+        if (joystick.pressed(xbox.DPAD_UP) || joystick.pressed(xbox.DPAD_DOWN)) {
+            singlePlayer = !singlePlayer;
+        }
+    }
+
+
     public override function update()
     {
+        if (Input.joysticks > 0) {
+            for (i in 0...Input.joysticks) {
+                var joystick:Joystick = Input.joystick(i);
+                handleJoysticks(joystick);        
+            }
+        }
+
         if (Input.pressed(Key.ESCAPE)) {
             previousScene();
         }
-        if (Input.pressed(Key.X)) {
+        if (Input.pressed(Key.X) || Input.pressed(Key.ENTER)) {
             nextScene();
         }
-        if (Input.pressed(Key.UP) || Input.pressed(Key.DOWN)) {
+        if (Input.pressed(Key.UP) || Input.pressed(Key.DOWN) ||
+            Input.pressed(Key.W) || Input.pressed(Key.S)) {
             singlePlayer = !singlePlayer;
         }
         if (singlePlayer) {

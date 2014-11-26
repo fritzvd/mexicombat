@@ -94,6 +94,11 @@ class TitleScreen extends Scene
     public override function update()
     {
         #if !mobile
+        if (Input.joysticks > 0 ) {
+           if (Input.joystick(0).pressed()) {
+                startNext();
+           }
+        }
         if (Input.pressed(Key.X)) {
             // Input.stopProp
             startNext();
