@@ -26,7 +26,8 @@ class PickCharacterScene extends Scene
     private var selectTwoText:Text;
     private var sPlayerButton:Entity;
     private var sNextButton:Entity;
-    private var charArray:Array<Entity>;
+    private var char1Array:Array<Entity>;
+    private var char2Array:Array<Entity>;
     private var singlePlayer:Bool;
     private var spImg:Spritemap;
 
@@ -82,7 +83,8 @@ class PickCharacterScene extends Scene
         playerOneSelected = 0;
         playerTwoSelected = 1;
 
-        charArray = [];
+        char1Array = [];
+        char2Array = [];
 
         var characters:Array<String> = [
                 'fritz', 
@@ -95,18 +97,20 @@ class PickCharacterScene extends Scene
 
         for (i in 0...characters.length) {
 			var screenFifth = HXP.stage.stageHeight / 5;
+            addCharacter(characters[i], HXP.stage.stageWidth - 100 * main.scaling,
+                screenFifth * i, 2);
             addCharacter(characters[i], 100 * main.scaling,
-                screenFifth * i);
+                screenFifth * i, 1);
         }
 
         selectOneText = new Text("1");
         selectOneText.size = 20;
-        selectOne = new Entity(charArray[playerOneSelected].x, charArray[playerOneSelected].y, selectOneText);
+        selectOne = new Entity(char1Array[playerOneSelected].x, char1Array[playerOneSelected].y, selectOneText);
         add(selectOne);
         selectTwoText = new Text("2");
         selectTwoText.size = 20;
-        selectTwo = new Entity(charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15, 
-            charArray[playerTwoSelected].y, selectTwoText);
+        selectTwo = new Entity(char2Array[playerTwoSelected].x + char2Array[playerTwoSelected].width - 15, 
+            char2Array[playerTwoSelected].y, selectTwoText);
         add(selectTwo);
 
         selectedCharacter1 = new Player(200 * main.scaling, 120 * main.scaling);
@@ -142,19 +146,23 @@ class PickCharacterScene extends Scene
         HXP.scene = new scenes.TitleScreen();
     }
 
-    private function addCharacter(charName:String, charX:Float, charY:Float)
+    private function addCharacter(charName:String, charX:Float, charY:Float, player:Int)
     {
 
         var newChar:Character = new Character(charX, charY);
         add(newChar);
         newChar.set(charName);
-        charArray.push(newChar);
+		if (player == 1) {
+			char1Array.push(newChar);
+		} else {
+			char2Array.push(newChar);
+		}
     }
 
     private function nextScene()
     {
-        playerOne = charArray[playerOneSelected].name;
-        playerTwo = charArray[playerTwoSelected].name;
+        playerOne = char1Array[playerOneSelected].name;
+        playerTwo = char2Array[playerTwoSelected].name;
         HXP.scene = new scenes.GameScene(playerOne, playerTwo, singlePlayer);
     }
 
@@ -167,7 +175,7 @@ class PickCharacterScene extends Scene
         var touchedpiet:Entity = touchEntity.collide("character", touch.x, touch.y);
         if (touchedpiet != null) {
             var characterTouch:Character = cast(touchedpiet, Character);
-            playerOneSelected = Lambda.indexOf(charArray, characterTouch);
+            playerOneSelected = Lambda.indexOf(char1Array, characterTouch);
             updateselectRect();
         }
 
@@ -182,14 +190,14 @@ class PickCharacterScene extends Scene
 
     private function updateselectRect()
     {
-        selectOne.x = charArray[playerOneSelected].x;
-        selectOne.y = charArray[playerOneSelected].y;
-        selectTwo.x = charArray[playerTwoSelected].x + charArray[playerTwoSelected].width - 15;
-        selectTwo.y = charArray[playerTwoSelected].y;
+        selectOne.x = char1Array[playerOneSelected].x;
+        selectOne.y = char1Array[playerOneSelected].y;
+        selectTwo.x = char2Array[playerTwoSelected].x + char1Array[playerTwoSelected].width - 15;
+        selectTwo.y = char2Array[playerTwoSelected].y;
 
-        selectedCharacter1.setPlayer(charArray[playerOneSelected].name);
+        selectedCharacter1.setPlayer(char1Array[playerOneSelected].name);
         selectedCharacter1.sprite.scale = 1.5 * main.scaling;
-        selectedCharacter2.setPlayer(charArray[playerTwoSelected].name);
+        selectedCharacter2.setPlayer(char2Array[playerTwoSelected].name);
         selectedCharacter2.sprite.scale = 1.5 * main.scaling;
 
     }
@@ -223,7 +231,7 @@ class PickCharacterScene extends Scene
         }
         if (Input.pressed(Key.RIGHT) ||
             getJoystick(0) == 'RIGHT') {
-            if (playerOneSelected != charArray.length - 1) {
+            if (playerOneSelected != char1Array.length - 1) {
                 playerOneSelected += 1;
                 updateselectRect();
             }
@@ -237,7 +245,7 @@ class PickCharacterScene extends Scene
         }
         if (Input.pressed(Key.D) ||
             getJoystick(1) == 'LEFT') {
-            if (playerTwoSelected != charArray.length - 1) {
+            if (playerTwoSelected != char2Array.length - 1) {
                 playerTwoSelected += 1;
                 updateselectRect();
             }
