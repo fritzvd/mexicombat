@@ -88,12 +88,15 @@ class PickCharacterScene extends Scene
                 'fritz', 
                 'jonathan',
                 'fritz',
+				'daniel',
                 'daniel'
                 ];
 
+
         for (i in 0...characters.length) {
-            addCharacter(characters[i], 100 * main.scaling * i + 100,
-                350 * main.scaling);
+			var screenFifth = HXP.stage.stageHeight / 5;
+            addCharacter(characters[i], 100 * main.scaling,
+                screenFifth * i);
         }
 
         selectOneText = new Text("1");

@@ -52,6 +52,7 @@ class TitleScreen extends Scene
         #if mobile
         var titleText:Text = new Text("Press anywhere to start");
         #end
+		titleText.size = 30;
         titleText.scale = main.scaling;
         // titleText.color = 0xB22222;
         titleText.color = 0x99aa59;

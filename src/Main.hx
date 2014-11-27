@@ -17,8 +17,8 @@ class Main extends Engine
         scaling = HXP.windowWidth / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
-        music = new Sfx("audio/letmego.ogg");   
-        music.loop();
+        //music = new Sfx("audio/thisvalley8bit.wav");   
+        //music.loop();
 	}
 
 	public static function main() {
