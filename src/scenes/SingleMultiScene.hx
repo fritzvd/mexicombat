@@ -112,13 +112,13 @@ class SingleMultiScene extends Scene
 
     private function handleJoysticks(joystick:Joystick) {
         var xbox = XBOX_GAMEPAD;
-        if (joystick.pressed(xbox.B_BUTTON)) {
+        if (joystick.check(xbox.B_BUTTON)) {
             previousScene();
         }
-        if (joystick.pressed(xbox.A_BUTTON)) {
+        if (joystick.check(xbox.A_BUTTON)) {
             nextScene();
         }
-        if (joystick.pressed(xbox.DPAD_UP) || joystick.pressed(xbox.DPAD_DOWN)) {
+        if (joystick.check(xbox.DPAD_UP) || joystick.check(xbox.DPAD_DOWN)) {
             singlePlayer = !singlePlayer;
         }
     }

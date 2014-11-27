@@ -4,6 +4,7 @@ import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
 import com.haxepunk.utils.Input;
+import com.haxepunk.utils.Joystick;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
@@ -190,27 +191,49 @@ class PickCharacterScene extends Scene
 
     }
 
+    private function getJoystick(joyNr) {
+        if (Input.joysticks == 0 ||
+            Input.joystick(joyNr) == null) {
+            return '';
+        } else {
+            var joystick:Joystick = Input.joystick(joyNr);
+            if (joystick.check(XBOX_GAMEPAD.DPAD_LEFT)) {
+                return 'LEFT';
+            }
+            if (joystick.check(XBOX_GAMEPAD.DPAD_RIGHT)) {
+                return 'RIGHT';
+            }
+            return '';
+        }
+        return '';
+    }
+
     private function selecting()
     {
-        if (Input.pressed(Key.LEFT)) {
+        
+        if (Input.pressed(Key.LEFT) ||
+            getJoystick(0) == 'LEFT') {
             if (playerOneSelected != 0) {
                 playerOneSelected -= 1;
                 updateselectRect();
             }
         }
-        if (Input.pressed(Key.RIGHT)) {
+        if (Input.pressed(Key.RIGHT) ||
+            getJoystick(0) == 'RIGHT') {
             if (playerOneSelected != charArray.length - 1) {
                 playerOneSelected += 1;
                 updateselectRect();
             }
         }
-        if (Input.pressed(Key.A)) {
+        if (Input.pressed(Key.A) ||
+            getJoystick(1) == 'LEFT') {
             if (playerTwoSelected != 0) {
                 playerTwoSelected -= 1;
                 updateselectRect();
             }
         }
-        if (Input.pressed(Key.D)) {
+        if (Input.pressed(Key.D) ||
+            getJoystick(1) == 'LEFT') {
             if (playerTwoSelected != charArray.length - 1) {
                 playerTwoSelected += 1;
                 updateselectRect();
