@@ -284,11 +284,12 @@ class Player extends Entity
 
         healthBox.health = health;
 
-        if (this.x > HXP.screen.width - 80) {
-            this.x  = -130;
-        } else if (this.x < -140) {
-            this.x  = HXP.screen.width - 90;
-        }
+        //// TODO: this should not wrap around but make camera move.
+        //if (this.x > HXP.screen.width - 80) {
+            //this.x  = -130;
+        //} else if (this.x < -140) {
+            //this.x  = HXP.screen.width - 90;
+        /*}*/
     }
 
     private function checkFightingState()

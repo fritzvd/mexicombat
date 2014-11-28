@@ -36,6 +36,7 @@ class GameScene extends Scene
     private var deadTime:Float;
     private var scaling:Float;
     private var ec:EmitController;
+    private var maxWidth:Float;
 
 	private var sfx:Map<String, Sfxr>;
 
@@ -80,8 +81,9 @@ class GameScene extends Scene
 
         var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
         // bgBitmap.scale = HXP.windowWidth / bgBitmap.width;
-        bgBitmap.scale = HXP.windowHeight / bgBitmap.height;
-        addGraphic(bgBitmap, -370*scaling, 0);
+        bgBitmap.scale = 1.2 * scaling;
+        addGraphic(bgBitmap, 0, 0);
+        maxWidth = bgBitmap.scaledWidth;
 
         // TODO: players have namess
         // TODO: 
@@ -184,12 +186,34 @@ class GameScene extends Scene
         }
     }
 
+    private function playerClamp () {
+        var xDist = Math.abs(playerone.x - playertwo.x);
+        var xMax = Math.max(playerone.x, playertwo.y);
+        var xMin = Math.min(playerone.x, playertwo.y);
+        var oneDistToScreen = Math.abs(playerone.x - HXP.camera.x);
+        var twoDistToScreen = Math.abs(playertwo.x - HXP.camera.x);
+        var xMaxDistToScreen = Math.max(oneDistToScreen, twoDistToScreen);
+        var xMinDistToScreen = Math.min(oneDistToScreen, twoDistToScreen);
+        if (xDist < HXP.screen.width &&
+            xMax < maxWidth &&
+            xMaxDistToScreen > HXP.screen.width - 200 * scaling) {
+                HXP.camera.x += 10; 
+        }
+        if (xDist < HXP.screen.width &&
+            xMin > 0 &&
+            xMinDistToScreen < 200 * scaling) {
+                HXP.camera.x -= 10; 
+        }
+
+    }
+
 
     public override function update()
     {
 
-
         super.update();
+
+        playerClamp();
 
         soundFx();
         if (playerone.impact) {
