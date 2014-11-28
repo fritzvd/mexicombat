@@ -40,6 +40,7 @@ class Player extends Entity
     private var maskOffset:Int;
     public var attackHitbox:Hitbox;
     public var impact:Bool;
+    public var clamp:Bool;
 
 
     #if mobile 
@@ -215,18 +216,20 @@ class Player extends Entity
 
     private function move()
     {
-        velocity += acceleration;
-        if (Math.abs(velocity) > 5) {
-            velocity = 5 * HXP.sign(velocity);
-        }
-        if (velocity < 0) {
-        velocity = Math.min(velocity + 0.4, 0);
-        }
-         else if (velocity > 0) {
-        velocity = Math.max(velocity - 0.4, 0);
-        }
+        if (!this.clamp) {
+            velocity += acceleration;
+            if (Math.abs(velocity) > 5) {
+                velocity = 5 * HXP.sign(velocity);
+            }
+            if (velocity < 0) {
+            velocity = Math.min(velocity + 0.4, 0);
+            }
+             else if (velocity > 0) {
+            velocity = Math.max(velocity - 0.4, 0);
+            }
 
-        moveBy(velocity, 0, "fighter" + enemyNo);
+            moveBy(velocity, 0, "fighter" + enemyNo);
+        }
     }
 
     public function getfightingState()
@@ -283,14 +286,7 @@ class Player extends Entity
         }
 
         healthBox.health = health;
-
-        //// TODO: this should not wrap around but make camera move.
-        //if (this.x > HXP.screen.width - 80) {
-            //this.x  = -130;
-        //} else if (this.x < -140) {
-            //this.x  = HXP.screen.width - 90;
-        /*}*/
-    }
+   }
 
     private function checkFightingState()
     {
@@ -316,10 +312,12 @@ class Player extends Entity
                 // scene.remove(impact);
                 enemy.impact = true;
                 enemy.y -= 15 * scaling;
-                if (enemy.sprite.flipped) {
-                    enemy.x += 10;
-                } else {
-                    enemy.x -= 10;
+                if (!clamp) {
+                    if (enemy.sprite.flipped) {
+                        enemy.x += 10;
+                    } else {
+                        enemy.x -= 10;
+                    }
                 }
                 enemy.fightingState = "hit";
                 enemy.health -= 1;

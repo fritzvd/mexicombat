@@ -187,6 +187,8 @@ class GameScene extends Scene
     }
 
     private function playerClamp () {
+        playerone.clamp = false;
+        playertwo.clamp = false;
         var xDist = Math.abs(playerone.x - playertwo.x);
         var xMax = Math.max(playerone.x, playertwo.y);
         var xMin = Math.min(playerone.x, playertwo.y);
@@ -198,12 +200,33 @@ class GameScene extends Scene
             xMax < maxWidth &&
             xMaxDistToScreen > HXP.screen.width - 200 * scaling) {
                 HXP.camera.x += 10; 
-        }
-        if (xDist < HXP.screen.width &&
+         } 
+                   
+         if (xDist < HXP.screen.width &&
             xMin > 0 &&
             xMinDistToScreen < 200 * scaling) {
                 HXP.camera.x -= 10; 
-        }
+         }
+
+         if (xMinDistToScreen == oneDistToScreen &&
+                 xMinDistToScreen < 200 * scaling) {
+                     playerone.clamp = true;
+                 }
+         if (xMinDistToScreen == twoDistToScreen &&
+                 xMinDistToScreen < 200 * scaling) {
+                     playertwo.clamp = true;
+                 }
+         if (xMaxDistToScreen == oneDistToScreen &&
+                 xMaxDistToScreen > 200 * scaling) {
+                     playerone.clamp = true;
+                 }
+         if (xMaxDistToScreen == twoDistToScreen &&
+                 xMaxDistToScreen < 200 * scaling) {
+                     playertwo.clamp = true;
+                 }
+
+
+         
 
     }
 
