@@ -14,7 +14,14 @@ class Main extends Engine
 #if debug
 		HXP.console.enable();
 #end        
-        scaling = HXP.windowWidth / 1024;
+        //scaling = HXP.windowWidth / 1024;
+		scaling = 1;
+		this.scaleX = HXP.windowWidth / 1024;
+		this.scaleY = HXP.windowHeight / 640;
+#if ios
+		this.scaleX = this.scaleX / 2;
+		this.scaleY = this.scaleY / 2;
+#end
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
         //music = new Sfx("audio/thisvalley8bit.wav");   

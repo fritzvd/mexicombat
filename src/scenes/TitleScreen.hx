@@ -34,11 +34,13 @@ class TitleScreen extends Scene
         running.play("default");
         running.scaleX = HXP.windowWidth / running.width;
         running.scaleY = HXP.windowHeight / running.height;
+		running.smooth = false;
         addGraphic(running);
 
         var bitmap:Image = new Image("graphics/splashscreen_lores.png");
         bitmap.scaleX = HXP.windowWidth / bitmap.width;
         bitmap.scaleY = HXP.windowHeight / bitmap.height;
+		bitmap.smooth = false;
         addGraphic(bitmap);
 
         var kombatText:Text = new Text("KOMBAT ", {color: 0xC50000});
@@ -62,6 +64,7 @@ class TitleScreen extends Scene
         var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.flipped = true;
+		arrowRight.smooth = true;
         addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
         #end
 
@@ -89,7 +92,7 @@ class TitleScreen extends Scene
 
     private function startNext()
     {
-        HXP.scene = new scenes.SingleMultiScene();
+        HXP.scene = new scenes.PickCharacterScene(false);
     }
 
     public override function update()

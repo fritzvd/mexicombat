@@ -81,6 +81,7 @@ class GameScene extends Scene
 
         var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
         // bgBitmap.scale = HXP.windowWidth / bgBitmap.width;
+		bgBitmap.smooth = false;
         bgBitmap.scale = 1.2 * scaling;
         addGraphic(bgBitmap, 0, 0);
         maxWidth = bgBitmap.scaledWidth;
@@ -190,8 +191,8 @@ class GameScene extends Scene
         playerone.clamp = false;
         playertwo.clamp = false;
         var xDist = Math.abs(playerone.x - playertwo.x);
-        var xMax = Math.max(playerone.x, playertwo.y);
-        var xMin = Math.min(playerone.x, playertwo.y);
+        var xMax = Math.max(playerone.x, playertwo.x);
+        var xMin = Math.min(playerone.x, playertwo.x);
         var oneDistToScreen = Math.abs(playerone.x - HXP.camera.x);
         var twoDistToScreen = Math.abs(playertwo.x - HXP.camera.x);
         var xMaxDistToScreen = Math.max(oneDistToScreen, twoDistToScreen);
