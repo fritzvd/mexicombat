@@ -40,7 +40,8 @@ class Player extends Entity
     private var maskOffset:Int;
     public var attackHitbox:Hitbox;
     public var impact:Bool;
-    public var clamp:Bool;
+    public var clampright:Bool;
+    public var clampleft:Bool;
 
 
     #if mobile 
@@ -131,11 +132,13 @@ class Player extends Entity
     public function handleInput()
     {
         // acceleration = 0;
-        if (Input.check("left" + playerNo))
+        if (Input.check("left" + playerNo) &&
+			!this.clampleft)
         {
             acceleration = -2;
         }
-        if (Input.check("right" + playerNo))
+        if (Input.check("right" + playerNo) &&
+			!this.clampright)
         {
             acceleration = 2;
         }
@@ -161,11 +164,13 @@ class Player extends Entity
                 // move or fight
                 // if (touch.sceneY > halfY){
                     // forward backward
-                    if (touch.sceneX < halfX) {
+                    if (touch.sceneX < halfX &&
+						!clampleft) {
                         acceleration = -2;
                         fightingState = "walking";
                     } else if ((touch.sceneX > halfX) && 
-                        (touch.sceneX < maxX)) {
+                        (touch.sceneX < maxX) &&
+						!clampright) {
                         acceleration = 2;
                         fightingState = "walking";
                     }
@@ -196,10 +201,12 @@ class Player extends Entity
                 var oneEighth = HXP.width / 4 / 2;
                 var halfwayhalfX = minX + oneEighth;
                 if ((touch.sceneX > halfwayhalfX) && (
-                    touch.sceneX < halfX)) {
+                    touch.sceneX < halfX) &&
+					!this.clampright) {
                     acceleration = 2;
                 }
-                if (touch.sceneX < halfwayhalfX) {
+                if (touch.sceneX < halfwayhalfX &&
+					!this.clampleft) {
                     acceleration = -2;
                 }
                 if (touch.sceneX > halfX) {
@@ -217,20 +224,18 @@ class Player extends Entity
 
     private function move()
     {
-        if (!this.clamp) {
-            velocity += acceleration;
-            if (Math.abs(velocity) > 5) {
-                velocity = 5 * HXP.sign(velocity);
-            }
-            if (velocity < 0) {
-            velocity = Math.min(velocity + 0.4, 0);
-            }
-             else if (velocity > 0) {
-            velocity = Math.max(velocity - 0.4, 0);
-            }
+		velocity += acceleration;
+		if (Math.abs(velocity) > 5) {
+			velocity = 5 * HXP.sign(velocity);
+		}
+		if (velocity < 0) {
+		velocity = Math.min(velocity + 0.4, 0);
+		}
+		 else if (velocity > 0) {
+		velocity = Math.max(velocity - 0.4, 0);
+		}
 
-            moveBy(velocity, 0, "fighter" + enemyNo, true);
-        }
+		moveBy(velocity, 0, "fighter" + enemyNo, true);
     }
 
     public function getfightingState()
@@ -313,13 +318,11 @@ class Player extends Entity
                 // scene.remove(impact);
                 enemy.impact = true;
                 enemy.y -= 15 * scaling;
-                if (!clamp) {
-                    if (enemy.sprite.flipped) {
-                        enemy.x += 10;
-                    } else {
-                        enemy.x -= 10;
-                    }
-                }
+				if (enemy.sprite.flipped && !enemy.clampleft) {
+					enemy.x += 10;
+				} else if (!enemy.clampright) {
+					enemy.x -= 10;
+				}
                 enemy.fightingState = "hit";
                 enemy.health -= 1;
             } else {
