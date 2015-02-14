@@ -86,9 +86,11 @@ class GameScene extends Scene
         addGraphic(bgBitmap, 0, 0);
         maxWidth = bgBitmap.scaledWidth;
 
+		camera.x = bgBitmap.width / 2;
+
         // TODO: players have namess
         // TODO: 
-        playerone = new Player(200 * scaling, Math.floor(200 * scaling));
+        playerone = new Player(500 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
@@ -107,7 +109,7 @@ class GameScene extends Scene
         #end
 
         if (singlePlayer) {
-            playertwo = new AIPlayer(400, Math.floor(200 * scaling));
+            playertwo = new AIPlayer(800, Math.floor(200 * scaling));
             #if mobile
             playerone.singlePlayer = true;
             addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
@@ -116,7 +118,7 @@ class GameScene extends Scene
             addGraphic(punch, -4, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
             #end
         } else {
-            playertwo = new Player(400 * scaling, Math.floor(200 * scaling));
+            playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
             arrowRight.scale = 0.6;
@@ -193,10 +195,10 @@ class GameScene extends Scene
         var xDist = Math.abs(playerone.x - playertwo.x);
         var xMax = Math.max(playerone.x, playertwo.x);
         var xMin = Math.min(playerone.x, playertwo.x);
-        var oneDistToScreen = Math.abs(playerone.x - HXP.camera.x);
-        var twoDistToScreen = Math.abs(playertwo.x - HXP.camera.x);
-        var xMaxDistToScreen = Math.max(oneDistToScreen, twoDistToScreen);
-        var xMinDistToScreen = Math.min(oneDistToScreen, twoDistToScreen);
+        var oneDistToScreen = playerone.x - HXP.camera.x;
+        var twoDistToScreen = playertwo.x - HXP.camera.x;
+		var xMaxDistToScreen = Math.max(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
+        var xMinDistToScreen = Math.min(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
         if (xDist < HXP.screen.width &&
             xMax < maxWidth &&
             xMaxDistToScreen > HXP.screen.width - 200 * scaling) {
@@ -209,20 +211,20 @@ class GameScene extends Scene
                 HXP.camera.x -= 10; 
          }
 
-         if (xMinDistToScreen == oneDistToScreen &&
+         if (xMinDistToScreen == Math.abs(oneDistToScreen) &&
                  xMinDistToScreen < 200 * scaling) {
                      playerone.clamp = true;
                  }
-         if (xMinDistToScreen == twoDistToScreen &&
+         if (xMinDistToScreen == Math.abs(twoDistToScreen) &&
                  xMinDistToScreen < 200 * scaling) {
                      playertwo.clamp = true;
                  }
-         if (xMaxDistToScreen == oneDistToScreen &&
+         if (xMaxDistToScreen == Math.abs(oneDistToScreen) &&
                  xMaxDistToScreen > 200 * scaling) {
                      playerone.clamp = true;
                  }
-         if (xMaxDistToScreen == twoDistToScreen &&
-                 xMaxDistToScreen < 200 * scaling) {
+         if (xMaxDistToScreen == Math.abs(twoDistToScreen) &&
+                 xMaxDistToScreen > 200 * scaling) {
                      playertwo.clamp = true;
                  }
 

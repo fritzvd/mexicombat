@@ -82,7 +82,7 @@ class Player extends Entity
         hitboxHeight = Math.round(340 * scaling);
         hitboxWidth = Math.round(120 * scaling);
         // sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 80, 80, cback);
-        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".jpg", 256, 300, cback);
+        sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 256, 300, cback);
 		sprite.smooth = false;
         // not picked up?
         sprite.scale = 1.25 * scaling;
@@ -229,7 +229,7 @@ class Player extends Entity
             velocity = Math.max(velocity - 0.4, 0);
             }
 
-            moveBy(velocity, 0, "fighter" + enemyNo);
+            moveBy(velocity, 0, "fighter" + enemyNo, true);
         }
     }
 
