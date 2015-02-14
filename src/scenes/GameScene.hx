@@ -222,16 +222,15 @@ class GameScene extends Scene
                      playertwo.clampleft = true;
                  }
          if (xMaxDistToScreen == Math.abs(oneDistToScreen) &&
-                 xMaxDistToScreen > 200 * scaling) {
+                 xMaxDistToScreen < 200 * scaling) {
                      playerone.clampright = true;
                  }
          if (xMaxDistToScreen == Math.abs(twoDistToScreen) &&
-                 xMaxDistToScreen > 200 * scaling) {
+                 xMaxDistToScreen < 200 * scaling) {
                      playertwo.clampright = true;
                  }
-
-
-         
+		 
+		 
 
     }
 
