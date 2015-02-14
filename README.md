@@ -2,9 +2,9 @@
 Fighter game in Haxepunk for the upcoming EP release for http://cheesesofmexico.com
 
 ## Requirements
-Openfl
-HaxePunk
-Sfxr
+* Openfl
+* HaxePunk
+* Sfxr
 
 ## Install
 Clone project and make a project.xml. 
