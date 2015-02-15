@@ -32,14 +32,14 @@ class TitleScreen extends Scene
         running.add("default", [0,1,2,3,4,5,6,7,8,9,
             10,11,12,13,14,15,16,17,18,19], 15);
         running.play("default");
-        running.scaleX = HXP.windowWidth / running.width;
-        running.scaleY = HXP.windowHeight / running.height;
+        running.scaleX = HXP.width / running.width;
+        running.scaleY = HXP.height / running.height;
 		running.smooth = false;
         addGraphic(running);
 
         var bitmap:Image = new Image("graphics/splashscreen_lores.png");
-        bitmap.scaleX = HXP.windowWidth / bitmap.width;
-        bitmap.scaleY = HXP.windowHeight / bitmap.height;
+        bitmap.scaleX = HXP.width / bitmap.width;
+        bitmap.scaleY = HXP.height / bitmap.height;
 		bitmap.smooth = false;
         addGraphic(bitmap);
 

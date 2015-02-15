@@ -24,9 +24,7 @@ class Main extends Engine
          *
          */
 
-        trace(HXP.width, HXP.windowWidth, HXP.height, HXP.windowHeight);
         resizeForAspect();  
-        trace(HXP.width, HXP.windowWidth, HXP.height, HXP.windowHeight);
         scaling = HXP.width / 1024;
 #if ios
         this.scaleX = this.scaleX / 2;
@@ -52,9 +50,7 @@ class Main extends Engine
             var newWidth = Math.floor(HXP.windowHeight * ASPECT);
             HXP.resize(newWidth, HXP.windowHeight);
             var diff = newWidth - HXP.windowWidth;
-            trace(diff);
             HXP.screen.originX = Math.floor(diff / 2);
-            HXP.screen.shake(1, 5.0);
             //this.scaleX = aspect / ASPECT;
         }
 

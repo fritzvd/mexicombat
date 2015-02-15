@@ -80,7 +80,7 @@ class GameScene extends Scene
         add(deadTextEntity);
 
         var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
-        // bgBitmap.scale = HXP.windowWidth / bgBitmap.width;
+        // bgBitmap.scale = HXP.width / bgBitmap.width;
 		bgBitmap.smooth = false;
         bgBitmap.scale = 1.2 * scaling;
         addGraphic(bgBitmap, 0, 0);
@@ -96,7 +96,7 @@ class GameScene extends Scene
         playerone.setHealthBox(healthOne);
 
         #if mobile
-        var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
+        var arrowYOffset = HXP.height / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         arrowLeft.alpha = 0.6;
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
@@ -112,10 +112,10 @@ class GameScene extends Scene
             playertwo = new AIPlayer(800, Math.floor(200 * scaling));
             #if mobile
             playerone.singlePlayer = true;
-            addGraphic(arrowRight, -4, HXP.windowWidth / 2 - 200 * scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
-            addGraphic(kick, -4, HXP.windowWidth - 200 * scaling, arrowYOffset);
-            addGraphic(punch, -4, HXP.windowWidth / 2 + 100* scaling, arrowYOffset);
+            addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
             #end
         } else {
             playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
@@ -128,14 +128,14 @@ class GameScene extends Scene
             // player one
             addGraphic(arrowRight, -4, 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 50 * scaling, arrowYOffset);
-            addGraphic(kick, -4, HXP.windowWidth / 2 - 100 * scaling, arrowYOffset);
-            addGraphic(punch, -4, HXP.windowWidth / 2 - 200* scaling, arrowYOffset);
+            addGraphic(kick, -4, HXP.width / 2 - 100 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.width / 2 - 200* scaling, arrowYOffset);
 
             // player two
-            addGraphic(kick, -4, HXP.windowWidth - 100 * scaling, arrowYOffset);
-            addGraphic(punch, -4, HXP.windowWidth - 200* scaling, arrowYOffset);
-            addGraphic(arrowRight, -4, HXP.windowWidth / 2 + 150 * scaling, arrowYOffset);
-            addGraphic(arrowLeft, -4, HXP.windowWidth / 2 + 50 * scaling, arrowYOffset);
+            addGraphic(kick, -4, HXP.width - 100 * scaling, arrowYOffset);
+            addGraphic(punch, -4, HXP.width - 200* scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, HXP.width / 2 + 150 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
             #end
         }
         healthTwo = new HealthBox(300, 50);

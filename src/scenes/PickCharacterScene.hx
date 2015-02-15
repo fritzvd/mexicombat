@@ -52,8 +52,8 @@ class PickCharacterScene extends Scene
         main = cast(HXP.engine, Main);
 
         var bg:Image = new Image("graphics/singlebg.png");
-        bg.scaleX = HXP.windowWidth / bg.width;
-        bg.scaleY = HXP.windowHeight / bg.height;
+        bg.scaleX = HXP.width / bg.width;
+        bg.scaleY = HXP.height / bg.height;
         addGraphic(bg);
 
         var pickCharacterText:Text = new Text("PICK a Character ", {color: 0xC50000});
@@ -71,7 +71,7 @@ class PickCharacterScene extends Scene
         var font = Assets.getFont('font/feast.ttf');
         nextText.font = font.fontName;  
         nextText.size = Std.int(100 * main.scaling);
-        sNextButton = new Entity(HXP.windowWidth - 200 * main.scaling, 450 * main.scaling, nextText);
+        sNextButton = new Entity(HXP.width - 200 * main.scaling, 450 * main.scaling, nextText);
         sNextButton.width = nextText.width+5;
         sNextButton.height = nextText.height;
         sNextButton.name = "next";
@@ -96,8 +96,8 @@ class PickCharacterScene extends Scene
 
 
         for (i in 0...characters.length) {
-			var screenFifth = HXP.stage.stageHeight / 5;
-            addCharacter(characters[i], HXP.stage.stageWidth - 100 * main.scaling,
+			var screenFifth = HXP.height / 5;
+            addCharacter(characters[i], HXP.width - 100 * main.scaling,
                 screenFifth * i, 2);
             addCharacter(characters[i], 100 * main.scaling,
                 screenFifth * i, 1);
