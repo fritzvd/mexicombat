@@ -26,10 +26,6 @@ class Main extends Engine
 
         resizeForAspect();  
         scaling = HXP.width / 1024;
-#if ios
-        this.scaleX = this.scaleX / 2;
-        this.scaleY = this.scaleY / 2;
-#end
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
 #if !debug
