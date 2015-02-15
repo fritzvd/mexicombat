@@ -6,11 +6,12 @@ You need Haxe/neko.
 Setting up Haxe can be a hassle if you go to the haxe website.
 Just do it through the [OpenFl links](http://www.openfl.org/documentation/getting-started/installing-openfl/)
 
-Then install the dependencies 
-
+Then install the dependencies.
 * Openfl
 * HaxePunk
-* Sfxr (from fritzvd/sfxr)
+* Sfxr (from fritzvd/sfxr).
+
+Which can be installed like so.
 
 
     haxelib install openfl HaxePunk
