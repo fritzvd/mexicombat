@@ -71,7 +71,7 @@ class PickCharacterScene extends Scene
         var font = Assets.getFont('font/feast.ttf');
         nextText.font = font.fontName;  
         nextText.size = Std.int(100 * main.scaling);
-        sNextButton = new Entity(HXP.width - 200 * main.scaling, 450 * main.scaling, nextText);
+        sNextButton = new Entity(HXP.width - 500 * main.scaling, 450 * main.scaling, nextText);
         sNextButton.width = nextText.width+5;
         sNextButton.height = nextText.height;
         sNextButton.name = "next";
@@ -175,7 +175,11 @@ class PickCharacterScene extends Scene
         var touchedpiet:Entity = touchEntity.collide("character", touch.x, touch.y);
         if (touchedpiet != null) {
             var characterTouch:Character = cast(touchedpiet, Character);
-            playerOneSelected = Lambda.indexOf(char1Array, characterTouch);
+            if (touch.x < HXP.halfWidth) {
+                playerOneSelected = Lambda.indexOf(char1Array, characterTouch);
+            } else if (touch.x > HXP.halfWidth) {
+                playerTwoSelected = Lambda.indexOf(char2Array, characterTouch);
+            }
             updateselectRect();
         }
 

@@ -135,12 +135,12 @@ class Player extends Entity
         if (Input.check("left" + playerNo) &&
 			!this.clampleft)
         {
-            acceleration = -2;
+            acceleration = -2 * scaling;
         }
         if (Input.check("right" + playerNo) &&
 			!this.clampright)
         {
-            acceleration = 2;
+            acceleration = 2 * scaling;
         }
         if (Input.pressed("punch" + playerNo))
         {
@@ -166,12 +166,12 @@ class Player extends Entity
                     // forward backward
                     if (touch.sceneX < halfX &&
 						!clampleft) {
-                        acceleration = -2;
+                        acceleration = -2 * scaling;
                         fightingState = "walking";
                     } else if ((touch.sceneX > halfX) && 
                         (touch.sceneX < maxX) &&
 						!clampright) {
-                        acceleration = 2;
+                        acceleration = 2 * scaling;
                         fightingState = "walking";
                     }
                 // } 
