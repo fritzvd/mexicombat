@@ -2,9 +2,19 @@
 Fighter game in Haxepunk for the upcoming EP release for http://cheesesofmexico.com
 
 ## Requirements
+You need Haxe/neko.
+Setting up Haxe can be a hassle if you go to the haxe website.
+Just do it through the [OpenFl links](http://www.openfl.org/documentation/getting-started/installing-openfl/)
+
+Then install the dependencies 
+
 * Openfl
 * HaxePunk
-* Sfxr
+* Sfxr (from fritzvd/sfxr)
+    
+    haxelib install openfl HaxePunk
+    haxelib setup openfl
+    haxelib git sfxr https://github.com/fritzvd/sfxr.git
 
 ## Install
 Clone project and make a project.xml. 
