@@ -41,17 +41,8 @@ class Character extends Entity
         selected = false;
     }
 
-    private function selectedBox()
-    {
-        if (selected) {
-            //draw big ass sprite
-        }
-    
-    }
-
     public override function update()
     {
-        selectedBox();
         super.update();
     }
 }
