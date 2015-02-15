@@ -11,7 +11,8 @@ Then install the dependencies
 * Openfl
 * HaxePunk
 * Sfxr (from fritzvd/sfxr)
-    
+
+
     haxelib install openfl HaxePunk
     haxelib setup openfl
     haxelib git sfxr https://github.com/fritzvd/sfxr.git
