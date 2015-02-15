@@ -3,4 +3,5 @@ assets/font/*.hash
 .DS_Store
 *.keystore
 project.xml
+project.xml.hxml
 keystore/

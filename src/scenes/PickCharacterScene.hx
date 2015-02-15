@@ -80,8 +80,8 @@ class PickCharacterScene extends Scene
         playerOne = "";
         playerTwo = "";
 
-        playerOneSelected = 0;
-        playerTwoSelected = 1;
+        playerOneSelected = Math.round(Math.random() * 4);
+        playerTwoSelected = Math.round(Math.random() * 4);
 
         char1Array = [];
         char2Array = [];
@@ -116,13 +116,13 @@ class PickCharacterScene extends Scene
         selectedCharacter1 = new Player(200 * main.scaling, 120 * main.scaling);
         selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter1.fightingState = "idle";
-        selectedCharacter1.setPlayer('fritz');
+        selectedCharacter1.setPlayer(characters[playerOneSelected]);
         selectedCharacter1.sprite.scale = 1.5 * main.scaling;
         add(selectedCharacter1);
         selectedCharacter2 = new Player(500 * main.scaling, 120 * main.scaling);
         selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter2.fightingState = "idle";
-        selectedCharacter2.setPlayer('daniel');
+        selectedCharacter2.setPlayer(characters[playerTwoSelected]);
         selectedCharacter2.sprite.scale = 1.5 * main.scaling;
         add(selectedCharacter2);
 
