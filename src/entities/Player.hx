@@ -79,7 +79,6 @@ class Player extends Entity
         scaling = main.scaling;
         hitboxHeight = Math.round(340 * scaling);
         hitboxWidth = Math.round(120 * scaling);
-        // sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 80, 80, cback);
         sprite = new Spritemap("graphics/fighters/"+ fighterName + ".png", 256, 300, cback);
 		sprite.smooth = false;
         // not picked up?

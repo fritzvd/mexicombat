@@ -2,6 +2,7 @@ package scenes;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.HXP;
 import com.haxepunk.Scene;
@@ -87,6 +88,13 @@ class GameScene extends Scene
         maxWidth = bgBitmap.scaledWidth;
 
 		camera.x = bgBitmap.width / 2;
+        
+        var hatdancer = new Spritemap("graphics/dancers/hat.jpg", 85, 133);
+        hatdancer.smooth = false;
+        hatdancer.scale = 1.2 * scaling;
+        hatdancer.add("dance", [0,1,2], 6);
+        hatdancer.play("dance");
+        addGraphic(hatdancer, 362 * 1.2, 86 * 1.2);
 
         // TODO: players have namess
         // TODO: 
