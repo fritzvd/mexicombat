@@ -28,8 +28,13 @@ class Main extends Engine
         scaling = HXP.width / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
+#if (android || linux)
+        music = new Sfx("audio/caulfield8bit.ogg");
+#end
+#if (ios || mac)
+        music = new Sfx("audio/caulfield8bit.m4a");
+#end
 #if !debug
-        music = new Sfx("audio/caulfield8bit.wav");   
         music.loop();
 #end
 	}
