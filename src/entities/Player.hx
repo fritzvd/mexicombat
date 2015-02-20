@@ -40,9 +40,6 @@ class Player extends Entity
     private var maskOffset:Int;
     public var attackHitbox:Hitbox;
     public var impact:Bool;
-    public var clampright:Bool;
-    public var clampleft:Bool;
-
 
     #if mobile 
     // Width for touch screen
@@ -132,15 +129,13 @@ class Player extends Entity
     public function handleInput()
     {
         // acceleration = 0;
-        if (Input.check("left" + playerNo) &&
-			!this.clampleft)
+        if (Input.check("left" + playerNo))
         {
-            acceleration = -2 * scaling;
+            acceleration = -5 * scaling;
         }
-        if (Input.check("right" + playerNo) &&
-			!this.clampright)
+        if (Input.check("right" + playerNo))
         {
-            acceleration = 2 * scaling;
+            acceleration = 5 * scaling;
         }
         if (Input.pressed("punch" + playerNo))
         {
@@ -164,14 +159,12 @@ class Player extends Entity
                 // move or fight
                 // if (touch.sceneY > halfY){
                     // forward backward
-                    if (touch.sceneX < halfX &&
-						!clampleft) {
-                        acceleration = -2 * scaling;
+                    if (touch.sceneX < halfX) {
+                        acceleration = -5 * scaling;
                         fightingState = "walking";
                     } else if ((touch.sceneX > halfX) && 
-                        (touch.sceneX < maxX) &&
-						!clampright) {
-                        acceleration = 2 * scaling;
+                        (touch.sceneX < maxX)) {
+                        acceleration = 5 * scaling;
                         fightingState = "walking";
                     }
                 // } 
@@ -201,13 +194,11 @@ class Player extends Entity
                 var oneEighth = HXP.width / 4 / 2;
                 var halfwayhalfX = minX + oneEighth;
                 if ((touch.sceneX > halfwayhalfX) && (
-                    touch.sceneX < halfX) &&
-					!this.clampright) {
-                    acceleration = 2;
+                    touch.sceneX < halfX)) {
+                    acceleration = 5 * scaling;
                 }
-                if (touch.sceneX < halfwayhalfX &&
-					!this.clampleft) {
-                    acceleration = -2;
+                if (touch.sceneX < halfwayhalfX) {
+                    acceleration = -5 * scaling;
                 }
                 if (touch.sceneX > halfX) {
                     if (touch.sceneX < halfX + oneEighth) {
@@ -313,14 +304,11 @@ class Player extends Entity
             attackHitbox = new Circle(Math.round(35 * scaling), attackOffset, Math.round(35 * scaling));
             mask = attackHitbox;
             if (collideWith(enemy, x, y) == enemy) {
-                // var ec:EmitController = scene.add(new EmitController());
-                // ec.impact(x + width / 2, y + 60 * scaling);
-                // scene.remove(impact);
-                enemy.impact = true;
+               enemy.impact = true;
                 enemy.y -= 15 * scaling;
-				if (enemy.sprite.flipped && !enemy.clampleft) {
+				if (enemy.sprite.flipped) {
 					enemy.x += 10;
-				} else if (!enemy.clampright) {
+				} else {
 					enemy.x -= 10;
 				}
                 enemy.fightingState = "hit";

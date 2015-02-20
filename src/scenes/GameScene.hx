@@ -14,6 +14,7 @@ import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
 
+
 import vault.Sfxr;
 import vault.SfxrParams;
 
@@ -28,7 +29,6 @@ class GameScene extends Scene
     private var chosenFighterTwo:String;
     private var singlePlayer:Bool;
 
-    public var roundTime:Float;
     private var roundText:Text;
     private var roundTextEntity:Entity;
     private var deadText:Text;
@@ -39,6 +39,8 @@ class GameScene extends Scene
     private var maxWidth:Float;
 
 	private var sfx:Map<String, Sfxr>;
+
+    public var roundTime:Float;
 
     public function new(cFO:String, cFT:String, sP:Bool)
     {
@@ -55,6 +57,9 @@ class GameScene extends Scene
 		var hparams = new SfxrParams();
 		hparams.generateHitHurt();
 
+        var main = cast(HXP.engine, Main);
+        scaling = main.scaling;
+
 		sfx = new Map();
 		sfx.set("explosion", new Sfxr(params));
 		sfx.set("hithurt", new Sfxr(hparams));
@@ -65,14 +70,12 @@ class GameScene extends Scene
 
         ec = add(new EmitController());
 
-        var main = cast(HXP.engine, Main);
-        scaling = main.scaling;
         deadText = new Text("");
         // var font = Assets.getFont('font/feast.ttf');
         // deadText.font = font.fontName;
         deadText.size = 30;
         deadText.color = 0xFFFFFF;
-        deadText.scale = main.scaling;
+        deadText.scale = scaling;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
         deadTextEntity = new Entity(250,250,deadText);
@@ -80,7 +83,6 @@ class GameScene extends Scene
         add(deadTextEntity);
 
         var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
-        // bgBitmap.scale = HXP.width / bgBitmap.width;
 		bgBitmap.smooth = false;
         bgBitmap.scale = 1.2 * scaling;
         addGraphic(bgBitmap, 0, 0);
@@ -95,7 +97,7 @@ class GameScene extends Scene
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
 
-        #if mobile
+        //#if mobile
         var arrowYOffset = HXP.height / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         arrowLeft.alpha = 0.6;
@@ -106,21 +108,21 @@ class GameScene extends Scene
         punch.alpha = 0.6;
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.alpha = 0.6;
-        #end
+        //#end
 
         if (singlePlayer) {
             playertwo = new AIPlayer(800, Math.floor(200 * scaling));
-            #if mobile
-            playerone.singlePlayer = true;
+            //#if mobile
+            //playerone.singlePlayer = true;
             addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
             addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
-            #end
+            //#end
         } else {
             playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
-            #if mobile
+            //#if mobile
             arrowRight.scale = 0.6;
             arrowLeft.scale = 0.6;
             kick.scale = 0.6;
@@ -136,13 +138,14 @@ class GameScene extends Scene
             addGraphic(punch, -4, HXP.width - 200* scaling, arrowYOffset);
             addGraphic(arrowRight, -4, HXP.width / 2 + 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
-            #end
+            //#end
         }
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);
 
         playerone.setPlayer(chosenFighterOne);
         playertwo.setPlayer(chosenFighterTwo);
+        
 
         add(healthTwo);
         add(healthOne);
@@ -153,6 +156,7 @@ class GameScene extends Scene
         // var font = Assets.getFont('font/feast.ttf');
         // pickCharacterText.font = font.fontName;
         roundText.size = 30;
+        roundText.scale = scaling;
         roundText.color = 0xf9cd22;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
@@ -189,49 +193,30 @@ class GameScene extends Scene
         }
     }
 
-    private function playerClamp () {
-        playerone.clampright = false;
-        playertwo.clampright = false;
-        playerone.clampleft = false;
-        playertwo.clampleft = false;
+    private function cameraFollow () {
         var xDist = Math.abs(playerone.x - playertwo.x);
         var xMax = Math.max(playerone.x, playertwo.x);
         var xMin = Math.min(playerone.x, playertwo.x);
         var oneDistToScreen = playerone.x - HXP.camera.x;
         var twoDistToScreen = playertwo.x - HXP.camera.x;
-		var xMaxDistToScreen = Math.max(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
+        var xMaxDistToScreen = Math.max(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
         var xMinDistToScreen = Math.min(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
         if (xDist < HXP.screen.width &&
             xMax < maxWidth &&
             xMaxDistToScreen > HXP.screen.width - 200 * scaling) {
-                HXP.camera.x += 10; 
+                HXP.camera.x += 10 * scaling;
          } 
                    
          if (xDist < HXP.screen.width &&
             xMin > 0 &&
-            xMinDistToScreen < 200 * scaling) {
-                HXP.camera.x -= 10; 
+            xMinDistToScreen < 200 * scaling &&
+            HXP.camera.x >= 0) {
+                HXP.camera.x -= 10 * scaling; 
          }
 
-         if (xMinDistToScreen == Math.abs(oneDistToScreen) &&
-                 xMinDistToScreen < 200 * scaling) {
-					 playerone.clampleft = true;
-                 }
-         if (xMinDistToScreen == Math.abs(twoDistToScreen) &&
-				 xMinDistToScreen < 200 * scaling) {
-                     playertwo.clampleft = true;
-                 }
-         if (xMaxDistToScreen == Math.abs(oneDistToScreen) &&
-                 xMaxDistToScreen < 200 * scaling) {
-                     playerone.clampright = true;
-                 }
-         if (xMaxDistToScreen == Math.abs(twoDistToScreen) &&
-                 xMaxDistToScreen < 200 * scaling) {
-                     playertwo.clampright = true;
-                 }
-		 
-		 
-
+         if (HXP.camera.x < 0) {
+             HXP.camera.x = 0;
+         }
     }
 
 
@@ -240,8 +225,9 @@ class GameScene extends Scene
 
         super.update();
 
-        playerClamp();
-
+        cameraFollow();
+        playerone.clampHorizontal(0, maxWidth, 50 * scaling);
+        playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
         soundFx();
         if (playerone.impact) {
             ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
@@ -277,7 +263,6 @@ class GameScene extends Scene
         }
 
         if (Input.pressed(Key.ESCAPE)) {
-            HXP.screen.color = 0x222233;
             HXP.scene = new scenes.TitleScreen();
         }
         updateRoundTime();

@@ -18,7 +18,7 @@ class Main extends Engine
         /**
          * This is the "standard width"
          * 1024 * 640
-         * The aspect is 16:10 (that's weird huh?)
+         * The aspect is 16:10 
          * So we need to calculate what the largest
          * version of that is on the screen we're displaying
          *
@@ -28,6 +28,7 @@ class Main extends Engine
         scaling = HXP.width / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
+        HXP.screen.color = 0x000000;
 #if (android || linux)
         music = new Sfx("audio/caulfield8bit.ogg");
 #end
@@ -35,6 +36,7 @@ class Main extends Engine
         music = new Sfx("audio/caulfield8bit.m4a");
 #end
 #if !debug
+        music.setVolume(music.getVolume * 0.7);
         music.loop();
 #end
 	}
@@ -42,17 +44,17 @@ class Main extends Engine
     public function resizeForAspect () {
         var aspect = HXP.windowWidth / HXP.windowHeight;
         if (aspect > ASPECT) {
-            var newHeight = Math.floor(HXP.windowWidth / ASPECT);
-            var diff = HXP.windowHeight - newHeight;
-            HXP.resize(HXP.windowWidth, newHeight);
-            HXP.screen.originY = Math.floor(diff / 2);
-            //this.scaleY = ASPECT / aspect;
-        } else if (aspect < ASPECT) {
             var newWidth = Math.floor(HXP.windowHeight * ASPECT);
             HXP.resize(newWidth, HXP.windowHeight);
             var diff = newWidth - HXP.windowWidth;
             HXP.screen.originX = Math.floor(diff / 2);
-            //this.scaleX = aspect / ASPECT;
+            //this.scaleY = ASPECT / aspect;
+        } else if (aspect < ASPECT) {
+            var newHeight = Math.floor(HXP.windowWidth / ASPECT);
+            var diff = HXP.windowHeight - newHeight;
+            HXP.resize(HXP.windowWidth, newHeight);
+            HXP.screen.originY = Math.floor(diff / 2);
+
         }
 
 
