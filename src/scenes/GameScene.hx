@@ -96,6 +96,13 @@ class GameScene extends Scene
         hatdancer.play("dance");
         addGraphic(hatdancer, 362 * 1.2, 86 * 1.2);
 
+        var chicken = new Spritemap("graphics/dancers/chicken.jpg", 125, 161);
+        chicken.smooth = false;
+        chicken.scale = 1.2 * scaling;
+        chicken.add("dance", [0,1,2,3], 6);
+        chicken.play("dance");
+        addGraphic(chicken, 815 * 1.2, 223 * 1.2);
+
         // TODO: players have namess
         // TODO: 
         playerone = new Player(500 * scaling, Math.floor(200 * scaling));
