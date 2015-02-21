@@ -14,6 +14,7 @@ class HealthBox extends Entity
         super(x, y);
         health = 100;
         rectImg = Image.createRect(health, 20, 0xDDDDDD);
+		rectImg.scrollX = 0;
         graphic = rectImg;
     }
 

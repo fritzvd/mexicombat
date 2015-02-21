@@ -1,6 +1,5 @@
 package scenes;
 
-// import openfl.Assets;
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Text;
@@ -13,8 +12,6 @@ import entities.AIPlayer;
 import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
-
-import openfl.display.Bitmap;
 
 import vault.Sfxr;
 import vault.SfxrParams;
@@ -79,11 +76,11 @@ class GameScene extends Scene
         deadText.scale = scaling;
         // var kombatImg:Image = new Image("graphics/kombat.png");
         // kombatText.angle = 20;
-        deadTextEntity = new Entity(250,250,deadText);
+        deadTextEntity = new Entity(250, 250, deadText);
         deadTextEntity.visible = false;
         add(deadTextEntity);
 
-        var bgBitmap:Image = new Image("graphics/bg_jochem.jpg");
+        var bgBitmap:Image = new Image("graphics/background.jpg");
 		bgBitmap.smooth = false;
         bgBitmap.scale = 1.2 * scaling;
         addGraphic(bgBitmap, 0, 0);
@@ -101,16 +98,18 @@ class GameScene extends Scene
         //#if mobile
         var arrowYOffset = HXP.height / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
+        arrowLeft.scrollX = 0;
         arrowLeft.alpha = 0.6;
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        arrowRight.scrollX = 0;
         arrowRight.alpha = 0.6;
         arrowRight.flipped = true;
         // add bitmaps that will stay in the same place mofo
-        var punch:Bitmap = new Bitmap('graphics/ui-punch.png');
-
-        stage.addChild(punch);
-        punch.alpha = 0.6;
+        var punch:Image = new Image('graphics/ui-punch.png');
+		punch.scrollX = 0;
+		punch.alpha = 0.6;
         var kick:Image = new Image('graphics/ui-kick.png');
+        kick.scrollX = 0;
         kick.alpha = 0.6;
         //#end
 
@@ -121,7 +120,7 @@ class GameScene extends Scene
             addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
-            addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
+            //addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
             //#end
         } else {
             playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
@@ -158,6 +157,7 @@ class GameScene extends Scene
         add(playertwo);
 
         roundText = new Text(Std.string(Math.round(roundTime)));
+		roundText.scrollX = 0;
         // var font = Assets.getFont('font/feast.ttf');
         // pickCharacterText.font = font.fontName;
         roundText.size = 30;
@@ -228,9 +228,9 @@ class GameScene extends Scene
     public override function update()
     {
 
-        super.update();
-
         cameraFollow();
+
+        super.update();
         playerone.clampHorizontal(0, maxWidth, 50 * scaling);
         playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
         soundFx();
