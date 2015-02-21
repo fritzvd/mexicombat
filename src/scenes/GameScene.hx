@@ -8,14 +8,12 @@ import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
+import com.haxepunk.Sfx;
 
 import entities.AIPlayer;
 import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
-
-import vault.Sfxr;
-import vault.SfxrParams;
 
 class GameScene extends Scene
 {
@@ -37,7 +35,7 @@ class GameScene extends Scene
     private var ec:EmitController;
     private var maxWidth:Float;
 
-	private var sfx:Map<String, Sfxr>;
+	private var sfx:Map<String, Sfx>;
 
     public var roundTime:Float;
 
@@ -51,17 +49,17 @@ class GameScene extends Scene
         deadTime = 0;
         singlePlayer = sP;
 
-		var params = new SfxrParams();
-		params.generateExplosion();
-		var hparams = new SfxrParams();
-		hparams.generateHitHurt();
-
         var main = cast(HXP.engine, Main);
         scaling = main.scaling;
 
 		sfx = new Map();
-		sfx.set("explosion", new Sfxr(params));
-		sfx.set("hithurt", new Sfxr(hparams));
+		sfx.set("dead", new Sfx("audio/dead.ogg"));
+		sfx.set("impact0", new Sfx("audio/impact0.ogg"));
+		sfx.set("impact1", new Sfx("audio/impact1.ogg"));
+		sfx.set("impact2", new Sfx("audio/impact2.ogg"));
+		sfx.set("punch0", new Sfx("audio/punch0.ogg"));
+		sfx.set("punch1", new Sfx("audio/punch1.ogg"));
+		sfx.set("punch2", new Sfx("audio/punch2.ogg"));
 	}
 
     public override function begin()
@@ -222,8 +220,10 @@ class GameScene extends Scene
     private function soundFx()
     {
         if (playerone.impact || playertwo.impact) {
+			var list:Array<String> = ["impact0", "impact1", "impact2","punch0", "punch1", "punch2"];
+			var sound = Math.round(Math.random() * 5);
 
-			sfx.get("hithurt").play();
+			sfx.get(list[sound]).play(1);
         }
     }
 
@@ -274,13 +274,13 @@ class GameScene extends Scene
             deadText.text = "Player one, you died.";
             deadTextEntity.visible = true;
             deadTime += HXP.elapsed;
-			sfx.get("explosion").play();
+			sfx.get("dead").play();
 
         } 
         if (playertwo.fightingState == "dead"){
             deadText.text = "Player two, you died.";
             deadTextEntity.visible = true;
-			sfx.get("explosion").play();
+			sfx.get("dead").play();
             deadTime += HXP.elapsed;
         }
 

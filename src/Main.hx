@@ -29,12 +29,7 @@ class Main extends Engine
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
         HXP.screen.color = 0x000000;
-#if (android || linux)
         music = new Sfx("audio/caulfield8bit.ogg");
-#end
-#if (ios || mac)
-        music = new Sfx("audio/caulfield8bit.wav");
-#end
 #if !debug
         music.loop(0.7);
 #end
