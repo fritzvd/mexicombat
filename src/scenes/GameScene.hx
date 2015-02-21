@@ -83,7 +83,7 @@ class GameScene extends Scene
 
         var bgBitmap:Image = new Image("graphics/background.jpg");
 		bgBitmap.smooth = false;
-        bgBitmap.scale = 1.2 * scaling;
+        bgBitmap.scale = 1.3 * scaling;
         addGraphic(bgBitmap, 0, 0);
         maxWidth = bgBitmap.scaledWidth;
 
@@ -91,17 +91,31 @@ class GameScene extends Scene
         
         var hatdancer = new Spritemap("graphics/dancers/hat.jpg", 85, 133);
         hatdancer.smooth = false;
-        hatdancer.scale = 1.2 * scaling;
-        hatdancer.add("dance", [0,1,2], 6);
+        hatdancer.scale = 1.3 * scaling;
+        hatdancer.add("dance", [0,0,0,0,0,0,1,2,2,2,2,2,2], 3);
         hatdancer.play("dance");
-        addGraphic(hatdancer, 362 * 1.2, 86 * 1.2);
+        addGraphic(hatdancer, 362 * 1.3, 86 * 1.3);
 
         var chicken = new Spritemap("graphics/dancers/chicken.jpg", 125, 161);
         chicken.smooth = false;
-        chicken.scale = 1.2 * scaling;
-        chicken.add("dance", [0,1,2,3], 6);
+        chicken.scale = 1.3 * scaling;
+        chicken.add("dance", [0,0,0,0,0,0,0,0,0,1,2,3], 6);
         chicken.play("dance");
-        addGraphic(chicken, 815 * 1.2, 223 * 1.2);
+        addGraphic(chicken, 822 * 1.3, 223 * 1.3);
+
+        var whiteshirt = new Spritemap("graphics/dancers/whiteshirt.jpg", 93, 135);
+        whiteshirt.smooth = false;
+        whiteshirt.scale = 1.3 * scaling;
+        whiteshirt.add("dance", [0,1,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3], 4);
+        whiteshirt.play("dance");
+        addGraphic(whiteshirt, 252 * 1.3, 112 * 1.3);
+
+        var jump = new Spritemap("graphics/dancers/jump.jpg", 123, 141);
+        jump.smooth = false;
+        jump.scale = 1.3 * scaling;
+        jump.add("dance", [0,0,0,0,0,1,2,3, 3, 3, 3], 4);
+        jump.play("dance");
+        addGraphic(jump, 926 * 1.3, 109 * 1.3);
 
         // TODO: players have namess
         // TODO: 
@@ -110,7 +124,7 @@ class GameScene extends Scene
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
 
-        //#if mobile
+		#if mobile
         var arrowYOffset = HXP.height / 2 + 200 * scaling;
         var arrowLeft:Image = new Image('graphics/ui-arrow.png');
         arrowLeft.scrollX = 0;
@@ -126,21 +140,21 @@ class GameScene extends Scene
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.scrollX = 0;
         kick.alpha = 0.6;
-        //#end
+		#end
 
         if (singlePlayer) {
             playertwo = new AIPlayer(800, Math.floor(200 * scaling));
-            //#if mobile
+			#if mobile
             //playerone.singlePlayer = true;
             addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
             //addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
-            //#end
+			#end
         } else {
             playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
-            //#if mobile
+			#if mobile
             arrowRight.scale = 0.6;
             arrowLeft.scale = 0.6;
             kick.scale = 0.6;
@@ -157,7 +171,7 @@ class GameScene extends Scene
             addGraphic(punch, -4, HXP.width - 200* scaling, arrowYOffset);
             addGraphic(arrowRight, -4, HXP.width / 2 + 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
-            //#end
+			#end
         }
         healthTwo = new HealthBox(300, 50);
         playertwo.setHealthBox(healthTwo);
@@ -244,10 +258,10 @@ class GameScene extends Scene
     {
 
         cameraFollow();
-
-        super.update();
         playerone.clampHorizontal(0, maxWidth, 50 * scaling);
         playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
+
+        super.update();
         soundFx();
         if (playerone.impact) {
             ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);

@@ -33,7 +33,7 @@ class Main extends Engine
         music = new Sfx("audio/caulfield8bit.ogg");
 #end
 #if (ios || mac)
-        music = new Sfx("audio/caulfield8bit.m4a");
+        music = new Sfx("audio/caulfield8bit.wav");
 #end
 #if !debug
         music.loop(0.7);
