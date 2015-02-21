@@ -92,28 +92,28 @@ class GameScene extends Scene
         hatdancer.scale = 1.3 * scaling;
         hatdancer.add("dance", [0,0,0,0,0,0,1,2,2,2,2,2,2], 3);
         hatdancer.play("dance");
-        addGraphic(hatdancer, 362 * 1.3, 86 * 1.3);
+        addGraphic(hatdancer, 362 * 1.3 * scaling, 86 * 1.3 * scaling);
 
         var chicken = new Spritemap("graphics/dancers/chicken.jpg", 125, 161);
         chicken.smooth = false;
         chicken.scale = 1.3 * scaling;
         chicken.add("dance", [0,0,0,0,0,0,0,0,0,1,2,3], 6);
         chicken.play("dance");
-        addGraphic(chicken, 822 * 1.3, 223 * 1.3);
+        addGraphic(chicken, 822 * 1.3 * scaling, 223 * 1.3 * scaling);
 
         var whiteshirt = new Spritemap("graphics/dancers/whiteshirt.jpg", 93, 135);
         whiteshirt.smooth = false;
         whiteshirt.scale = 1.3 * scaling;
         whiteshirt.add("dance", [0,1,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3], 4);
         whiteshirt.play("dance");
-        addGraphic(whiteshirt, 252 * 1.3, 112 * 1.3);
+        addGraphic(whiteshirt, 252 * 1.3 * scaling, 112 * 1.3 * scaling);
 
         var jump = new Spritemap("graphics/dancers/jump.jpg", 123, 141);
         jump.smooth = false;
         jump.scale = 1.3 * scaling;
         jump.add("dance", [0,0,0,0,0,1,2,3, 3, 3, 3], 4);
         jump.play("dance");
-        addGraphic(jump, 926 * 1.3, 109 * 1.3);
+        addGraphic(jump, 926 * 1.3 * scaling, 109 * 1.3 * scaling);
 
         // TODO: players have namess
         // TODO: 
