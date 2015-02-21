@@ -36,8 +36,7 @@ class Main extends Engine
         music = new Sfx("audio/caulfield8bit.m4a");
 #end
 #if !debug
-        music.setVolume(music.getVolume * 0.7);
-        music.loop();
+        music.loop(0.7);
 #end
 	}
 

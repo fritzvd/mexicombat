@@ -14,6 +14,7 @@ import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
 
+import openfl.display.Bitmap;
 
 import vault.Sfxr;
 import vault.SfxrParams;
@@ -104,7 +105,10 @@ class GameScene extends Scene
         var arrowRight:Image = new Image('graphics/ui-arrow.png');
         arrowRight.alpha = 0.6;
         arrowRight.flipped = true;
-        var punch:Image = new Image('graphics/ui-punch.png');
+        // add bitmaps that will stay in the same place mofo
+        var punch:Bitmap = new Bitmap('graphics/ui-punch.png');
+
+        stage.addChild(punch);
         punch.alpha = 0.6;
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.alpha = 0.6;
@@ -128,6 +132,7 @@ class GameScene extends Scene
             kick.scale = 0.6;
             punch.scale = 0.6;
             // player one
+
             addGraphic(arrowRight, -4, 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 50 * scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width / 2 - 100 * scaling, arrowYOffset);
