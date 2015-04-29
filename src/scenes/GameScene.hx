@@ -1,5 +1,6 @@
 package scenes;
 
+import openfl.Assets;
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
@@ -34,7 +35,9 @@ class GameScene extends Scene
     private var scaling:Float;
     private var ec:EmitController;
     private var maxWidth:Float;
-
+	private var finished:Bool;
+	
+	private var font = Assets.getFont('font/Fixedsys500c.ttf');
 	private var sfx:Map<String, Sfx>;
 
     public var roundTime:Float;
@@ -43,6 +46,7 @@ class GameScene extends Scene
     {
         super();
 
+		finished = false;
         chosenFighterOne = cFO;
         chosenFighterTwo = cFT;
         roundTime = 45;
@@ -207,10 +211,11 @@ class GameScene extends Scene
             roundTime -= HXP.elapsed;
         }
         roundText.text = Std.string(Math.round(roundTime));
+		roundText.font = font.fontName;
         if (roundTime < 0)
         {
             if (playerone.health > playertwo.health) {
-                playertwo.fightingState = "dead";
+                playertwo.fightingState = "dead";	
             } else {
                 playerone.fightingState = "dead";
             }
@@ -219,38 +224,52 @@ class GameScene extends Scene
 
     private function soundFx()
     {
-        if (playerone.impact || playertwo.impact) {
+        if (playerone.impact || playertwo.impact &&
+			!finished) {
 			var list:Array<String> = ["impact0", "impact1", "impact2","punch0", "punch1", "punch2"];
 			var sound = Math.round(Math.random() * 5);
 
 			sfx.get(list[sound]).play(1);
         }
+		
+		if (finished) {
+			sfx.get("dead").play(1);
+		}
     }
 
     private function cameraFollow () {
         var xDist = Math.abs(playerone.x - playertwo.x);
         var xMax = Math.max(playerone.x, playertwo.x);
         var xMin = Math.min(playerone.x, playertwo.x);
-        var oneDistToScreen = playerone.x - HXP.camera.x;
-        var twoDistToScreen = playertwo.x - HXP.camera.x;
-        var xMaxDistToScreen = Math.max(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
+        var oneDistToCamera = playerone.x - HXP.camera.x;
+        var twoDistToCamera = playertwo.x - HXP.camera.x;
+        var oneDistToScreen = HXP.screen.width + HXP.camera.x - playerone.x;
+        var twoDistToScreen = HXP.screen.width + HXP.camera.x - playertwo.x;
+        var xMinDistToCamera = Math.min(Math.abs(oneDistToCamera), Math.abs(twoDistToCamera));
         var xMinDistToScreen = Math.min(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
+
         if (xDist < HXP.screen.width &&
             xMax < maxWidth &&
-            xMaxDistToScreen > HXP.screen.width - 200 * scaling) {
+            xMinDistToScreen < 280 * scaling) {
                 HXP.camera.x += 10 * scaling;
          } 
-                   
+
          if (xDist < HXP.screen.width &&
             xMin > 0 &&
-            xMinDistToScreen < 200 * scaling &&
+            xMinDistToCamera < 50 * scaling &&
             HXP.camera.x >= 0) {
                 HXP.camera.x -= 10 * scaling; 
          }
 
+		 playerone.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
+		 playertwo.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
+
          if (HXP.camera.x < 0) {
              HXP.camera.x = 0;
          }
+		 if (HXP.camera.x + HXP.screen.width > maxWidth) {
+			 HXP.camera.x = maxWidth - HXP.screen.width;
+		 }
     }
 
 
@@ -261,31 +280,32 @@ class GameScene extends Scene
         playerone.clampHorizontal(0, maxWidth, 50 * scaling);
         playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
 
-        super.update();
-        soundFx();
-        if (playerone.impact) {
-            ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
-        } 
-        if (playertwo.impact) {
-            ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
-        }
-
         if (playerone.fightingState == "dead"){
+			finished = true;
             deadText.text = "Player one, you died.";
             deadTextEntity.visible = true;
+			deadText.font = font.fontName;
             deadTime += HXP.elapsed;
-			sfx.get("dead").play();
-
         } 
         if (playertwo.fightingState == "dead"){
+			finished = true;
             deadText.text = "Player two, you died.";
+			deadText.font = font.fontName;
             deadTextEntity.visible = true;
-			sfx.get("dead").play();
             deadTime += HXP.elapsed;
         }
 
         if (deadTime > 3) {
             HXP.scene = new scenes.TitleScreen();
+        }
+
+        super.update();
+        soundFx();
+        if (playerone.impact && !finished) {
+            ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
+        } 
+        if (playertwo.impact && !finished) {
+            ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
         }
 
         // quasi physics

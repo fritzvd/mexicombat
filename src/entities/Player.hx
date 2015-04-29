@@ -167,7 +167,7 @@ class Player extends Entity
                         fightingState = "walking";
                     }
                 // } 
-                if (touch.x > maxX) {                 
+                if (touch.x > maxX && touch.pressed) {                 
                     if (touch.x < halfX * 3) {
                         fightingState = "punching";
                     } else if (touch.x > halfX * 3) {
@@ -199,7 +199,7 @@ class Player extends Entity
                 if (touch.x < halfwayhalfX) {
                     acceleration = -5 * scaling;
                 }
-                if (touch.x > halfX) {
+                if (touch.x > halfX && touch.pressed) {
                     if (touch.x < halfX + oneEighth) {
                         fightingState = "punching";
                     } else if (touch.x > halfX + oneEighth) {

@@ -3,7 +3,6 @@ package entities;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
-import com.haxepunk.graphics.Text;
 
 class HealthBox extends Entity
 {
