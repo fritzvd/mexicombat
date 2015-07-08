@@ -15,6 +15,7 @@ import entities.AIPlayer;
 import entities.EmitController;
 import entities.HealthBox;
 import entities.Player;
+import entities.RoundText;
 
 class GameScene extends Scene
 {
@@ -27,8 +28,8 @@ class GameScene extends Scene
     private var chosenFighterTwo:String;
     private var singlePlayer:Bool;
 
-    private var roundText:Text;
-    private var roundTextEntity:Entity;
+    private var roundText:RoundText;
+    //private var roundTextEntity:Entity;
     private var deadText:Text;
     private var deadTextEntity:Entity;
     private var deadTime:Float;
@@ -175,7 +176,8 @@ class GameScene extends Scene
             addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
 			#end
         }
-        healthTwo = new HealthBox(300, 50);
+        healthTwo = new HealthBox(Std.int(HXP.windowWidth / 2) + 100, 50);
+        healthTwo.flipped();
         playertwo.setHealthBox(healthTwo);
 
         playerone.setPlayer(chosenFighterOne);
@@ -187,17 +189,20 @@ class GameScene extends Scene
         add(playerone);
         add(playertwo);
 
-        roundText = new Text(Std.string(Math.round(roundTime)));
-		roundText.scrollX = 0;
-        // var font = Assets.getFont('font/feast.ttf');
-        // pickCharacterText.font = font.fontName;
-        roundText.size = 30;
-        roundText.scale = scaling;
-        roundText.color = 0xf9cd22;
-        // var kombatImg:Image = new Image("graphics/kombat.png");
-        // kombatText.angle = 20;
-        roundTextEntity = new Entity(250,50,roundText);
-        add(roundTextEntity);
+        roundText = new RoundText(Std.int(camera.x + HXP.windowWidth / 2), Std.int(50 * scaling));
+        roundText.layer = -1000;
+		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
+        //roundText = new Text(Std.string(Math.round(roundTime)));
+		/*roundText.scrollX = 0;*/
+        //// var font = Assets.getFont('font/feast.ttf');
+        //// pickCharacterText.font = font.fontName;
+        //roundText.size = 30;
+        //roundText.scale = scaling;
+        //roundText.color = 0xf9cd22;
+        //// var kombatImg:Image = new Image("graphics/kombat.png");
+        //// kombatText.angle = 20;
+        /*roundTextEntity = new Entity(250,50,roundText);*/
+        add(roundText);
 
         playerone.setEnemy(playertwo, 0);
         playertwo.setEnemy(playerone, 1);
@@ -210,8 +215,7 @@ class GameScene extends Scene
         {
             roundTime -= HXP.elapsed;
         }
-        roundText.text = Std.string(Math.round(roundTime));
-		roundText.font = font.fontName;
+		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
         if (roundTime < 0)
         {
             if (playerone.health > playertwo.health) {

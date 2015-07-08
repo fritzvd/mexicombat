@@ -281,7 +281,7 @@ class Player extends Entity
             sprite.play("walk");
         }
 
-        healthBox.health = health;
+        healthBox.updateHealth(health);
    }
 
     private function checkFightingState()

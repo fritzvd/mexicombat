@@ -13,7 +13,6 @@ import openfl.Assets;
 
 import entities.Character;
 import entities.Player;
-import entities.OutlineText;
 import entities.HealthBox;
 
 class PickCharacterScene extends Scene
@@ -57,20 +56,21 @@ class PickCharacterScene extends Scene
         bg.scaleY = HXP.height / bg.height;
         addGraphic(bg);
 
-        //var pickCharacterText:Text = new Text("PICK a Character ", {color: 0xC50000});
-		var thingS = new OutlineText(100, 50);
-		thingS.setText("Piet", {color: 0xFFFFFF, border: true, borderSize: 5});
-		//var font = Assets.getFont('font/Fixedsys500c.ttf');
-/*		pickCharacterText.font = font.fontName;
-        pickCharacterText.size = 70;
-		//pickCharacterText.border = true;
-		//pickCharacterText.borderColor = 0x000000;
-        pickCharacterText.color = 0xB22222;
-        pickCharacterText.scale = main.scaling; */
-        // var kombatImg:Image = new Image("graphics/kombat.png");
-        // kombatText.angle = 20;
-        //var kombat:Entity = new Entity(100,50,thingS);
-        add(thingS);
+        ////var pickCharacterText:Text = new Text("PICK a Character ", {color: 0xC50000});
+		//var thingS = new OutlineText(100, 50);
+        //thingS.layer = -1000;
+		//thingS.setText("Piet", {color: 0xFFFFFF, border: true, size: 100, borderSize: 15});
+		////var font = Assets.getFont('font/Fixedsys500c.ttf');
+//[>		pickCharacterText.font = font.fontName;
+        //pickCharacterText.size = 70;
+		////pickCharacterText.border = true;
+		////pickCharacterText.borderColor = 0x000000;
+        //pickCharacterText.color = 0xB22222;
+        //pickCharacterText.scale = main.scaling; */
+        //// var kombatImg:Image = new Image("graphics/kombat.png");
+        //// kombatText.angle = 20;
+        ////var kombat:Entity = new Entity(100,50,thingS);
+        //add(thingS);
 
         var nextText:Text = new Text("Next");
         //var font = Assets.getFont('font/feast.ttf');

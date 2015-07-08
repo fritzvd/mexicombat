@@ -2,6 +2,8 @@ package entities;
 
 import openfl.Assets;
 import com.haxepunk.Entity;
+import com.haxepunk.utils.Input;
+import com.haxepunk.utils.Key;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.graphics.Graphiclist;
 
@@ -22,13 +24,23 @@ class OutlineText extends Entity
 
 	private var textEnsemble:Graphiclist;
 
+    private var centerText:Text;
+    private var shadow1:Text;
+    private var shadow2:Text;
+    private var shadow3:Text;
+    private var shadow4:Text;
+    private var text:String;
+    private var changed:Bool;
+
 	public function new (x:Int, y:Int) {
 		super(x, y);
 		textEnsemble = new Graphiclist();
 		graphic = textEnsemble;
 	}
-	
-	public function setText (text:String, ?options:OutlineOptions) {
+
+
+	public function setText (_text:String, ?options:OutlineOptions) {
+        text = _text;
 		
 		if(!Reflect.hasField(options, "border")) options.border = false;
 		if(!Reflect.hasField(options, "borderSize")) options.borderSize = 1;
@@ -42,7 +54,7 @@ class OutlineText extends Entity
 			size: options.size,
 			font: font.fontName
 		};
-		var centerText:Text = new Text(text, textOptions);
+		centerText = new Text(text, textOptions);
 
 		if (options.border) {
 			var shadowOptions = {
@@ -50,22 +62,44 @@ class OutlineText extends Entity
 				size: options.size + options.borderSize,
 				font: font.fontName
 			}
-			var shadow1 = new Text(text, shadowOptions);
-			shadow1.x - options.borderSize;
+			shadow1 = new Text(text, shadowOptions);
+			shadow1.x -= options.borderSize;
 			textEnsemble.add(shadow1);
-			var shadow2 = new Text(text, shadowOptions);
-			shadow2.x + options.borderSize;
+            shadowOptions.color = 0xFF2200;
+			shadow2 = new Text(text, shadowOptions);
+			shadow2.x += options.borderSize;
 			textEnsemble.add(shadow2);
-			var shadow3 = new Text(text, shadowOptions);
-			shadow3.y - options.borderSize;
+            shadowOptions.color = 0x22FF00;
+			shadow3 = new Text(text, shadowOptions);
+			shadow3.y -= options.borderSize;
 			textEnsemble.add(shadow3);
-			var shadow4 = new Text(text, shadowOptions);
-			shadow4.y + options.borderSize;
+            shadowOptions.color = 0x0000FF;
+			shadow4 = new Text(text, shadowOptions);
+			shadow4.y += options.borderSize;
 			textEnsemble.add(shadow4);
 		}
 
 		centerText.x += options.borderSize / 2.0;
 		centerText.y += options.borderSize / 2.0;
-		textEnsemble.add(centerText);
+        textEnsemble.add(centerText);
 	}
+
+    public function updateText(_text:String) {
+        text = _text;
+        centerText.text = text;
+        shadow1.text = text;
+        shadow2.text = text;
+        shadow3.text = text;
+        shadow4.text = text;
+    }
+	
+    public override function update () {
+        if (Input.pressed(Key.G)) {
+            trace("this", x);
+            trace("center", centerText.x);
+            trace("shadow1", shadow1.x);
+            trace("shadow2", shadow2.x);
+        }
+
+    }
 }
