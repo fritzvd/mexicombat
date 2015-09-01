@@ -127,12 +127,12 @@ class GameScene extends Scene
         healthOne = new HealthBox(100, 50);
         playerone.setHealthBox(healthOne);
 
-		#if mobile
+        #if mobile
         var arrowYOffset = HXP.height / 2 + 200 * scaling;
-        var arrowLeft:Image = new Image('graphics/ui-arrow.png');
+        var arrowLeft:Image = new Image('graphics/ui-arrow.jpg');
         arrowLeft.scrollX = 0;
         arrowLeft.alpha = 0.6;
-        var arrowRight:Image = new Image('graphics/ui-arrow.png');
+        var arrowRight:Image = new Image('graphics/ui-arrow.jpg');
         arrowRight.scrollX = 0;
         arrowRight.alpha = 0.6;
         arrowRight.flipped = true;
@@ -143,25 +143,33 @@ class GameScene extends Scene
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.scrollX = 0;
         kick.alpha = 0.6;
-		#end
+        arrowRight.smooth = false;
+        arrowLeft.smooth = false;
+        kick.smooth = false;
+        punch.smooth = false ;
+        #end
 
         if (singlePlayer) {
             playertwo = new AIPlayer(800, Math.floor(200 * scaling));
-			#if mobile
             //playerone.singlePlayer = true;
+            #if mobile
             addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
             //addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
-			#end
-        } else {
+            arrowRight.scale = scaling * 2;
+            arrowLeft.scale = scaling * 2;
+            kick.scale = scaling * 2;
+            punch.scale = scaling * 2;
+            #end
+         } else {
             playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
-			#if mobile
-            arrowRight.scale = 0.6;
-            arrowLeft.scale = 0.6;
-            kick.scale = 0.6;
-            punch.scale = 0.6;
+            #if mobile
+            arrowRight.scale = 0.6 * scaling * 2;
+            arrowLeft.scale = 0.6 * scaling * 2;
+            kick.scale = 0.6 * scaling * 2;
+            punch.scale = 0.6 * scaling * 2;
             // player one
 
             addGraphic(arrowRight, -4, 150 * scaling, arrowYOffset);
@@ -174,7 +182,7 @@ class GameScene extends Scene
             addGraphic(punch, -4, HXP.width - 200* scaling, arrowYOffset);
             addGraphic(arrowRight, -4, HXP.width / 2 + 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
-			#end
+            #end
         }
         healthTwo = new HealthBox(Std.int(HXP.windowWidth / 2) + 100, 50);
         healthTwo.flipped();
@@ -190,7 +198,7 @@ class GameScene extends Scene
         add(playertwo);
 
         roundText = new RoundText(Std.int(camera.x + HXP.windowWidth / 2), Std.int(50 * scaling));
-        roundText.layer = -1000;
+        roundText.layer = 0;
 		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
         //roundText = new Text(Std.string(Math.round(roundTime)));
 		/*roundText.scrollX = 0;*/
