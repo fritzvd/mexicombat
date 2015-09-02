@@ -15,6 +15,7 @@ class HealthBox extends Entity
     private var rectangle:Polygon;
     private var healthBox:Graphiclist;
     private var flip:Bool = false;
+    private var color:Int = 0xFFD42A;
 
     public function new(x:Int, y:Int)
     {
@@ -28,12 +29,12 @@ class HealthBox extends Entity
                 healthWidth + 8, 28.0,
                 healthWidth + 8, 0.0,
                 ]);
-        outerRect = Image.createPolygon(rectangle, 0x000000, 1, false, 4);
+        outerRect = Image.createPolygon(rectangle, 0x000000, 1, false, 1);
         outerRect.x -= 2;
         outerRect.y -= 2;
         outerRect.scrollX = 0;
 
-        rectImg = Image.createRect(Std.int(healthWidth), 20, 0xDDDDDD);
+        rectImg = Image.createRect(Std.int(healthWidth), 20, color);
 		rectImg.scrollX = 0;
         
         healthBox = new Graphiclist();
@@ -63,7 +64,7 @@ class HealthBox extends Entity
             rectImg.scaledWidth = healthWidth;
         } else {
             healthBox.removeAt(1);
-            rectImg = Image.createRect(Std.int(healthWidth), 20, 0xDDDDDD);
+            rectImg = Image.createRect(Std.int(healthWidth), 20, color);
             healthBox.add(rectImg);
             flipped();
         }

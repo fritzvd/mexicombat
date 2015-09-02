@@ -124,7 +124,8 @@ class GameScene extends Scene
         // TODO: 
         playerone = new Player(500 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
-        healthOne = new HealthBox(100, 50);
+        var healthOffset = 50;
+        healthOne = new HealthBox(Std.int(healthOffset * scaling), 50);
         playerone.setHealthBox(healthOne);
 
         #if mobile
@@ -184,7 +185,8 @@ class GameScene extends Scene
             addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
             #end
         }
-        healthTwo = new HealthBox(Std.int(HXP.windowWidth / 2) + 100, 50);
+        healthTwo = new HealthBox(
+                Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling), 50);
         healthTwo.flipped();
         playertwo.setHealthBox(healthTwo);
 
@@ -197,19 +199,9 @@ class GameScene extends Scene
         add(playerone);
         add(playertwo);
 
-        roundText = new RoundText(Std.int(camera.x + HXP.windowWidth / 2), Std.int(50 * scaling));
-        roundText.layer = 0;
+        roundText = new RoundText(0, Std.int(50 * scaling));
+        roundText.layer = -1000;
 		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
-        //roundText = new Text(Std.string(Math.round(roundTime)));
-		/*roundText.scrollX = 0;*/
-        //// var font = Assets.getFont('font/feast.ttf');
-        //// pickCharacterText.font = font.fontName;
-        //roundText.size = 30;
-        //roundText.scale = scaling;
-        //roundText.color = 0xf9cd22;
-        //// var kombatImg:Image = new Image("graphics/kombat.png");
-        //// kombatText.angle = 20;
-        /*roundTextEntity = new Entity(250,50,roundText);*/
         add(roundText);
 
         playerone.setEnemy(playertwo, 0);
