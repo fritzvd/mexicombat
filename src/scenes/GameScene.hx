@@ -28,6 +28,7 @@ class GameScene extends Scene
     private var chosenFighterTwo:String;
     private var singlePlayer:Bool;
 
+    private var topOffset:Int = 30;
     private var roundText:RoundText;
     //private var roundTextEntity:Entity;
     private var deadText:Text;
@@ -56,6 +57,8 @@ class GameScene extends Scene
 
         var main = cast(HXP.engine, Main);
         scaling = main.scaling;
+
+        topOffset = Std.int(topOffset * scaling);
 
 		sfx = new Map();
 		sfx.set("dead", new Sfx("audio/dead.ogg"));
@@ -121,12 +124,26 @@ class GameScene extends Scene
         addGraphic(jump, 926 * 1.3 * scaling, 109 * 1.3 * scaling);
 
         // TODO: players have namess
-        // TODO: 
         playerone = new Player(500 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
-        var healthOffset = 50;
-        healthOne = new HealthBox(Std.int(healthOffset * scaling), 50);
+        var healthOffset = 80;
+        healthOne = new HealthBox(Std.int(healthOffset * scaling), topOffset);
+        healthOne.flipped();
         playerone.setHealthBox(healthOne);
+        var mugshot1 = new Image("graphics/"+ chosenFighterOne + "sm.png");
+        mugshot1.scrollX = 0;
+        mugshot1.scale = scaling;
+        mugshot1.x = Std.int(healthOffset - 80 * scaling);
+        mugshot1.y = topOffset;
+        mugshot1.smooth = false;
+        addGraphic(mugshot1);
+        var fighterOneName = new Image("graphics/names/" + chosenFighterOne + ".png");
+        fighterOneName.scrollX = 0;
+        fighterOneName.scale = scaling;
+        fighterOneName.x = (Std.int(healthOffset * scaling));
+        fighterOneName.y = topOffset + Std.int(30 * scaling);
+        fighterOneName.smooth = false;
+        addGraphic(fighterOneName);
 
         #if mobile
         var arrowYOffset = HXP.height / 2 + 200 * scaling;
@@ -151,7 +168,7 @@ class GameScene extends Scene
         #end
 
         if (singlePlayer) {
-            playertwo = new AIPlayer(800, Math.floor(200 * scaling));
+            playertwo = new AIPlayer(600, Math.floor(200 * scaling));
             //playerone.singlePlayer = true;
             #if mobile
             addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
@@ -164,7 +181,7 @@ class GameScene extends Scene
             punch.scale = scaling * 2;
             #end
          } else {
-            playertwo = new Player(800 * scaling, Math.floor(200 * scaling));
+            playertwo = new Player(600 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
             arrowRight.scale = 0.6 * scaling * 2;
@@ -186,20 +203,39 @@ class GameScene extends Scene
             #end
         }
         healthTwo = new HealthBox(
-                Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling), 50);
-        healthTwo.flipped();
+                Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling), topOffset);
         playertwo.setHealthBox(healthTwo);
+        var mugshot2 = new Image("graphics/"+ chosenFighterTwo + "sm.png");
+        mugshot2.scrollX = 0;
+        mugshot2.scale = scaling;
+        mugshot2.x = Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth + 10;
+        mugshot2.y = topOffset;
+        mugshot2.smooth = false;
+        addGraphic(mugshot2);
+        var fighterTwoName = new Image("graphics/names/" + chosenFighterTwo + ".png");
+        fighterTwoName.scrollX = 0;
+        fighterTwoName.scale = scaling;
+        fighterTwoName.x = Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth - fighterTwoName.width;
+        fighterTwoName.y = topOffset + Std.int(30 * scaling);
+        fighterTwoName.smooth = false;
+        addGraphic(fighterTwoName);
 
         playerone.setPlayer(chosenFighterOne);
         playertwo.setPlayer(chosenFighterTwo);
-        
 
         add(healthTwo);
         add(healthOne);
         add(playerone);
         add(playertwo);
 
-        roundText = new RoundText(0, Std.int(50 * scaling));
+        var bgcolor:Int = 0xFFD42A;
+        var roundBg = Image.createRect(Std.int(60 * scaling), Std.int(50 * scaling), bgcolor);
+        roundBg.x = HXP.windowWidth / 2 - 25 * scaling;
+        roundBg.y = topOffset; 
+        roundBg.scrollX = 0;
+        addGraphic(roundBg);
+
+        roundText = new RoundText(0, topOffset + Std.int(10 * scaling));
         roundText.layer = -1000;
 		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
         add(roundText);

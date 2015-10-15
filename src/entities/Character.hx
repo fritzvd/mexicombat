@@ -23,7 +23,7 @@ class Character extends Entity
         name = characterName;
         type = "character";
         mugshot = new Image("graphics/"+ characterName + ".png");
-        mugshot.scale = 0.5 * main.scaling;
+        mugshot.scale = main.scaling;
         width = Math.round(mugshot.width * mugshot.scale);
         height = Math.round(mugshot.height * mugshot.scale);
         graphic = mugshot;
