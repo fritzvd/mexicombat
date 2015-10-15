@@ -41,13 +41,13 @@ class Main extends Engine
             var newWidth = Math.floor(HXP.windowHeight * ASPECT);
             HXP.resize(newWidth, HXP.windowHeight);
             var diff = newWidth - HXP.windowWidth;
-            HXP.screen.originX = Math.floor(diff / 2);
+            HXP.screen.x = Math.floor(diff / 2);
             //this.scaleY = ASPECT / aspect;
         } else if (aspect < ASPECT) {
             var newHeight = Math.floor(HXP.windowWidth / ASPECT);
             var diff = HXP.windowHeight - newHeight;
             HXP.resize(HXP.windowWidth, newHeight);
-            HXP.screen.originY = Math.floor(diff / 2);
+            HXP.screen.y = Math.floor(diff / 2);
 
         }
 
