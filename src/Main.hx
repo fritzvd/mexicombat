@@ -37,11 +37,13 @@ class Main extends Engine
 
     public function resizeForAspect () {
         var aspect = HXP.windowWidth / HXP.windowHeight;
+        trace(aspect, ASPECT);
         if (aspect > ASPECT) {
             var newWidth = Math.floor(HXP.windowHeight * ASPECT);
-            HXP.resize(newWidth, HXP.windowHeight);
             var diff = newWidth - HXP.windowWidth;
-            HXP.screen.x = Math.floor(diff / 2);
+            HXP.resize(newWidth, HXP.windowHeight);
+            HXP.screen.x = Math.floor(Math.abs(diff) / 2);
+            trace(diff);
             //this.scaleY = ASPECT / aspect;
         } else if (aspect < ASPECT) {
             var newHeight = Math.floor(HXP.windowWidth / ASPECT);
