@@ -37,18 +37,17 @@ class GameScene extends Scene
     private var scaling:Float;
     private var ec:EmitController;
     private var maxWidth:Float;
-	private var finished:Bool;
-	
-	private var font = Assets.getFont('font/Fixedsys500c.ttf');
-	private var sfx:Map<String, Sfx>;
+    private var finished:Bool;
+    private var halfWidth = HXP.width / 2 - HXP.screen.y;
+    private var font = Assets.getFont('font/Fixedsys500c.ttf');
+    private var sfx:Map<String, Sfx>;
 
     public var roundTime:Float;
 
-    public function new(cFO:String, cFT:String, sP:Bool)
-    {
+    public function new(cFO:String, cFT:String, sP:Bool) {
         super();
 
-		finished = false;
+		    finished = false;
         chosenFighterOne = cFO;
         chosenFighterTwo = cFT;
         roundTime = 45;
@@ -60,15 +59,15 @@ class GameScene extends Scene
 
         topOffset = Std.int(topOffset * scaling);
 
-		sfx = new Map();
-		sfx.set("dead", new Sfx("audio/dead.ogg"));
-		sfx.set("impact0", new Sfx("audio/impact0.ogg"));
-		sfx.set("impact1", new Sfx("audio/impact1.ogg"));
-		sfx.set("impact2", new Sfx("audio/impact2.ogg"));
-		sfx.set("punch0", new Sfx("audio/punch0.ogg"));
-		sfx.set("punch1", new Sfx("audio/punch1.ogg"));
-		sfx.set("punch2", new Sfx("audio/punch2.ogg"));
-	}
+        sfx = new Map();
+        sfx.set("dead", new Sfx("audio/dead.ogg"));
+        sfx.set("impact0", new Sfx("audio/impact0.ogg"));
+        sfx.set("impact1", new Sfx("audio/impact1.ogg"));
+        sfx.set("impact2", new Sfx("audio/impact2.ogg"));
+        sfx.set("punch0", new Sfx("audio/punch0.ogg"));
+        sfx.set("punch1", new Sfx("audio/punch1.ogg"));
+        sfx.set("punch2", new Sfx("audio/punch2.ogg"));
+	  }
 
     public override function begin()
     {
@@ -76,25 +75,21 @@ class GameScene extends Scene
         ec = add(new EmitController());
 
         deadText = new Text("");
-        // var font = Assets.getFont('font/feast.ttf');
-        // deadText.font = font.fontName;
         deadText.size = 30;
         deadText.color = 0xFFFFFF;
         deadText.scale = scaling;
-        // var kombatImg:Image = new Image("graphics/kombat.png");
-        // kombatText.angle = 20;
         deadTextEntity = new Entity(250, 250, deadText);
         deadTextEntity.visible = false;
         add(deadTextEntity);
 
         var bgBitmap:Image = new Image("graphics/background.jpg");
-		bgBitmap.smooth = false;
+        bgBitmap.smooth = false;
         bgBitmap.scale = 1.3 * scaling;
         addGraphic(bgBitmap, 0, 0);
-        maxWidth = bgBitmap.scaledWidth;
+        maxWidth = bgBitmap.scaledWidth - HXP.screen.y;
 
-		camera.x = bgBitmap.width / 2;
-        
+        camera.x = bgBitmap.width / 2;
+
         var hatdancer = new Spritemap("graphics/dancers/hat.jpg", 85, 133);
         hatdancer.smooth = false;
         hatdancer.scale = 1.3 * scaling;
@@ -126,7 +121,7 @@ class GameScene extends Scene
         // TODO: players have namess
         playerone = new Player(500 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
-        var healthOffset = 80;
+        var healthOffset = 60 * scaling - HXP.screen.y;
         healthOne = new HealthBox(Std.int(healthOffset * scaling), topOffset);
         healthOne.flipped();
         playerone.setHealthBox(healthOne);
@@ -156,8 +151,8 @@ class GameScene extends Scene
         arrowRight.flipped = true;
         // add bitmaps that will stay in the same place mofo
         var punch:Image = new Image('graphics/ui-punch.png');
-		punch.scrollX = 0;
-		punch.alpha = 0.6;
+        punch.scrollX = 0;
+        punch.alpha = 0.6;
         var kick:Image = new Image('graphics/ui-kick.png');
         kick.scrollX = 0;
         kick.alpha = 0.6;
@@ -171,10 +166,10 @@ class GameScene extends Scene
             playertwo = new AIPlayer(600, Math.floor(200 * scaling));
             //playerone.singlePlayer = true;
             #if mobile
-            addGraphic(arrowRight, -4, HXP.width / 2 - 200 * scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, halfWidth - 200 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 100* scaling, arrowYOffset);
             addGraphic(kick, -4, HXP.width - 200 * scaling, arrowYOffset);
-            //addGraphic(punch, -4, HXP.width / 2 + 100* scaling, arrowYOffset);
+            //addGraphic(punch, -4, halfWidth + 100* scaling, arrowYOffset);
             arrowRight.scale = scaling * 2;
             arrowLeft.scale = scaling * 2;
             kick.scale = scaling * 2;
@@ -192,30 +187,32 @@ class GameScene extends Scene
 
             addGraphic(arrowRight, -4, 150 * scaling, arrowYOffset);
             addGraphic(arrowLeft, -4, 50 * scaling, arrowYOffset);
-            addGraphic(kick, -4, HXP.width / 2 - 100 * scaling, arrowYOffset);
-            addGraphic(punch, -4, HXP.width / 2 - 200* scaling, arrowYOffset);
+            addGraphic(kick, -4, halfWidth - 100 * scaling, arrowYOffset);
+            addGraphic(punch, -4, halfWidth - 200* scaling, arrowYOffset);
 
             // player two
             addGraphic(kick, -4, HXP.width - 100 * scaling, arrowYOffset);
             addGraphic(punch, -4, HXP.width - 200* scaling, arrowYOffset);
-            addGraphic(arrowRight, -4, HXP.width / 2 + 150 * scaling, arrowYOffset);
-            addGraphic(arrowLeft, -4, HXP.width / 2 + 50 * scaling, arrowYOffset);
+            addGraphic(arrowRight, -4, halfWidth + 150 * scaling, arrowYOffset);
+            addGraphic(arrowLeft, -4, halfWidth + 50 * scaling, arrowYOffset);
             #end
         }
         healthTwo = new HealthBox(
-                Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling), topOffset);
+            Std.int(halfWidth) + Std.int(healthOffset * scaling),
+            topOffset
+        );
         playertwo.setHealthBox(healthTwo);
         var mugshot2 = new Image("graphics/"+ chosenFighterTwo + "sm.png");
         mugshot2.scrollX = 0;
         mugshot2.scale = scaling;
-        mugshot2.x = Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth + 10;
+        mugshot2.x = Std.int(halfWidth) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth + 10;
         mugshot2.y = topOffset;
         mugshot2.smooth = false;
         addGraphic(mugshot2);
         var fighterTwoName = new Image("graphics/names/" + chosenFighterTwo + ".png");
         fighterTwoName.scrollX = 0;
         fighterTwoName.scale = scaling;
-        fighterTwoName.x = Std.int(HXP.windowWidth / 2) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth - fighterTwoName.width;
+        fighterTwoName.x = Std.int(halfWidth) + Std.int(healthOffset * scaling) + healthTwo.originalHealthWidth - fighterTwoName.width;
         fighterTwoName.y = topOffset + Std.int(30 * scaling);
         fighterTwoName.smooth = false;
         addGraphic(fighterTwoName);
@@ -230,14 +227,14 @@ class GameScene extends Scene
 
         var bgcolor:Int = 0xFFD42A;
         var roundBg = Image.createRect(Std.int(60 * scaling), Std.int(50 * scaling), bgcolor);
-        roundBg.x = HXP.windowWidth / 2 - 25 * scaling;
-        roundBg.y = topOffset; 
+        roundBg.x = halfWidth - 25 * scaling;
+        roundBg.y = topOffset;
         roundBg.scrollX = 0;
         addGraphic(roundBg);
 
         roundText = new RoundText(0, topOffset + Std.int(10 * scaling));
         roundText.layer = -1000;
-		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
+		    roundText.updateRoundSign(Std.string(Math.round(roundTime)));
         add(roundText);
 
         playerone.setEnemy(playertwo, 0);
@@ -251,11 +248,11 @@ class GameScene extends Scene
         {
             roundTime -= HXP.elapsed;
         }
-		roundText.updateRoundSign(Std.string(Math.round(roundTime)));
+        roundText.updateRoundSign(Std.string(Math.round(roundTime)));
         if (roundTime < 0)
         {
             if (playerone.health > playertwo.health) {
-                playertwo.fightingState = "dead";	
+                playertwo.fightingState = "dead";
             } else {
                 playerone.fightingState = "dead";
             }
@@ -264,17 +261,17 @@ class GameScene extends Scene
 
     private function soundFx()
     {
-        if (playerone.impact || playertwo.impact &&
-			!finished) {
-			var list:Array<String> = ["impact0", "impact1", "impact2","punch0", "punch1", "punch2"];
-			var sound = Math.round(Math.random() * 5);
+      if (playerone.impact || playertwo.impact &&
+        !finished) {
+          var list:Array<String> = ["impact0", "impact1", "impact2","punch0", "punch1", "punch2"];
+          var sound = Math.round(Math.random() * 5);
 
-			sfx.get(list[sound]).play(1);
+          sfx.get(list[sound]).play(1);
         }
-		
-		if (finished) {
-			sfx.get("dead").play(1);
-		}
+
+        if (finished) {
+          sfx.get("dead").play(1);
+        }
     }
 
     private function cameraFollow () {
@@ -292,24 +289,24 @@ class GameScene extends Scene
             xMax < maxWidth &&
             xMinDistToScreen < 280 * scaling) {
                 HXP.camera.x += 10 * scaling;
-         } 
+         }
 
          if (xDist < HXP.screen.width &&
             xMin > 0 &&
             xMinDistToCamera < 50 * scaling &&
             HXP.camera.x >= 0) {
-                HXP.camera.x -= 10 * scaling; 
+                HXP.camera.x -= 10 * scaling;
          }
 
 		 playerone.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
 		 playertwo.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
 
-         if (HXP.camera.x < 0) {
-             HXP.camera.x = 0;
-         }
-		 if (HXP.camera.x + HXP.screen.width > maxWidth) {
-			 HXP.camera.x = maxWidth - HXP.screen.width;
-		 }
+     if (HXP.camera.x < 0) {
+       HXP.camera.x = 0;
+     }
+     if (HXP.camera.x + HXP.screen.width > maxWidth) {
+       HXP.camera.x = maxWidth - HXP.screen.width;
+     }
     }
 
 
@@ -321,18 +318,18 @@ class GameScene extends Scene
         playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
 
         if (playerone.fightingState == "dead"){
-			finished = true;
-            deadText.text = "Player one, you died.";
-            deadTextEntity.visible = true;
-			deadText.font = font.fontName;
-            deadTime += HXP.elapsed;
-        } 
+          finished = true;
+          deadText.text = "Player one, you died.";
+          deadTextEntity.visible = true;
+          deadText.font = font.fontName;
+          deadTime += HXP.elapsed;
+        }
         if (playertwo.fightingState == "dead"){
-			finished = true;
-            deadText.text = "Player two, you died.";
-			deadText.font = font.fontName;
-            deadTextEntity.visible = true;
-            deadTime += HXP.elapsed;
+          finished = true;
+          deadText.text = "Player two, you died.";
+          deadText.font = font.fontName;
+          deadTextEntity.visible = true;
+          deadTime += HXP.elapsed;
         }
 
         if (deadTime > 3) {
@@ -343,7 +340,7 @@ class GameScene extends Scene
         soundFx();
         if (playerone.impact && !finished) {
             ec.impact(playerone.x + 150 * scaling, playerone.y + 60 * scaling);
-        } 
+        }
         if (playertwo.impact && !finished) {
             ec.impact(playertwo.x + 150 * scaling, playertwo.y + 60 * scaling);
         }

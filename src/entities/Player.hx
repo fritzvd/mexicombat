@@ -41,7 +41,7 @@ class Player extends Entity
     public var attackHitbox:Hitbox;
     public var impact:Bool;
 
-    #if mobile 
+    #if mobile
     // Width for touch screen
     private var maxX:Float;
     private var minX:Float;
@@ -70,7 +70,7 @@ class Player extends Entity
         if (sprite.complete) {
             fightingState = "idle";
             sprite.play("idle");
-            impact = false;       
+            impact = false;
         }
     }
 
@@ -101,9 +101,9 @@ class Player extends Entity
     }
 
     public function setEnemy(en:Player, no:Int)
-    {   
+    {
         enemy = en;
-        enemyNo = no;  
+        enemyNo = no;
     }
 
     public function setKeysPlayer(left, right, punch, kick, player)
@@ -161,13 +161,13 @@ class Player extends Entity
                     if (touch.x < halfX) {
                         acceleration = -5 * scaling;
                         fightingState = "walking";
-                    } else if ((touch.x > halfX) && 
+                    } else if ((touch.x > halfX) &&
                         (touch.x < maxX)) {
                         acceleration = 5 * scaling;
                         fightingState = "walking";
                     }
-                // } 
-                if (touch.x > maxX && touch.pressed) {                 
+                // }
+                if (touch.x > maxX && touch.pressed) {
                     if (touch.x < halfX * 3) {
                         fightingState = "punching";
                     } else if (touch.x > halfX * 3) {
@@ -206,9 +206,9 @@ class Player extends Entity
                         fightingState = "kicking";
                     }
                 }
-            }   
+            }
         }
-        
+
     }
 #end
 
@@ -234,19 +234,19 @@ class Player extends Entity
     }
 
     public override function moveCollideX(e:Entity)
-    {   
+    {
         return true;
     }
 
     private function setAnimations()
     {
-        
+
         if (this.x > enemy.x) {
             sprite.flipped = true;
             maskOffset = Math.round(110 * scaling);
             if (scaling == 1) {
                 maskOffset = 110;
-            }            
+            }
         } else {
             sprite.flipped = false;
             maskOffset = Math.round(110 * scaling);
