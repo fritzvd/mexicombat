@@ -13,18 +13,11 @@ class Main extends Engine
 	{
 #if debug
 		HXP.console.enable();
-#end        
+#end
 
-        /**
-         * This is the "standard width"
-         * 1024 * 640
-         * The aspect is 16:10 
-         * So we need to calculate what the largest
-         * version of that is on the screen we're displaying
-         *
-         */
-
-        resizeForAspect();  
+#if !html5
+        resizeForAspect();
+#end
         scaling = HXP.width / 1024;
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
@@ -35,6 +28,16 @@ class Main extends Engine
 #end
 	}
 
+    /**
+    *
+    * Function to calculate aspect and size (+ borders)
+    * This is the "standard width"
+    * 1024 * 640
+    * The aspect is 16:10
+    * So we need to calculate what the largest
+    * version of that is on the screen we're displaying
+    *
+    */
     public function resizeForAspect () {
         var aspect = HXP.windowWidth / HXP.windowHeight;
         if (aspect > ASPECT) {
@@ -55,8 +58,8 @@ class Main extends Engine
 
     }
 
-	public static function main() { 
-        new Main(); 
+	public static function main() {
+        new Main();
     }
 
 }

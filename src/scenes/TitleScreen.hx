@@ -18,72 +18,61 @@ import openfl.utils.JNI;
 
 class TitleScreen extends Scene
 {
-
+    private var cursorArrow:Text;
+    private var cursor:Entity;
+    private var fade:Bool;
+    private var menuItems:Map<String,Entity>;
+    private var main = cast(HXP.engine, Main);
+    private var state:Map<String, Bool>;
     public function new()
     {
         super();
+
+        state = ['start'=> true, 'select'=> false];
+        menuItems = new Map();
     }
 
     public override function begin()
     {
-        var main = cast(HXP.engine, Main);
-        
-        var running:Spritemap = new Spritemap("graphics/bg_running_lores3.png", 80, 41);
-        running.add("default", [0,1,2,3,4,5,6,7,8,9,
-            10,11,12,13,14,15,16,17,18,19], 15);
-        running.play("default");
-        running.scaleX = HXP.width / running.width;
-        running.scaleY = HXP.height / running.height;
-		running.smooth = false;
-        addGraphic(running);
 
-        var bitmap:Image = new Image("graphics/splashscreen_lores.png");
-        bitmap.scaleX = HXP.width / bitmap.width;
-        bitmap.scaleY = HXP.height / bitmap.height;
-		bitmap.smooth = false;
-        addGraphic(bitmap);
+        var splash:Image = new Image("graphics/menu/mexikombat.png");
+        splash.scale = 1.3 * main.scaling;
+        splash.smooth = false;
+        var splashEntity = addGraphic(splash);
+        splashEntity.x = HXP.windowWidth / 2 - 310 * main.scaling;
+        splashEntity.y = HXP.windowHeight / 2 - 270 * main.scaling;
 
-        var kombatText:Text = new Text("KOMBAT ", {color: 0xC50000});
-        kombatText.size = 80;
-        kombatText.scale = main.scaling;
-        addGraphic(kombatText, 600 * main.scaling, 360 * main.scaling);
+        addMenuItem('startgame');
 
-        #if !mobile
-        var titleText:Text = new Text("Press X to start");
+        cursorArrow = new Text(">");
+		    cursorArrow.size = 30;
+        cursorArrow.scale = main.scaling;
+        cursorArrow.color = 0xffd42a;
+
+        cursor = new Entity(0, 570 * main.scaling, cursorArrow);
+        cursor.x = (HXP.width / 2) - (cursorArrow.width / 2) - 180 * main.scaling;
+        add(cursor);
+        #if android
+        if ((main.plays > 0) && (main.plays % 3 == 0)){
+          var showLink = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showLink", "()V");
+          showLink();
+        }
         #end
-        #if mobile
-        var titleText:Text = new Text("Press anywhere to start");
-        #end
-		titleText.size = 30;
-        titleText.scale = main.scaling;
-        // titleText.color = 0xB22222;
-        titleText.color = 0x99aa59;
+    }
 
-        #if mobile
-        var scaling = main.scaling;
-        var arrowYOffset = HXP.windowHeight / 2 + 200 * scaling;
-        var arrowRight:Image = new Image('graphics/ui-arrow.png');
-        arrowRight.flipped = true;
-		arrowRight.smooth = true;
-        addGraphic(arrowRight, HXP.windowWidth - 200 * scaling, arrowYOffset);
-        #end
+    private function addMenuItem (menuTitle) {
+      menuItems[menuTitle] = new Entity(
+        0,
+        570 * main.scaling,
+        new Image('graphics/menu/' + menuTitle + '.png')
+      );
 
-        var textEntity:Entity = new Entity(0, 50, titleText);
-        textEntity.x = (HXP.width / 2) - (titleText.width/2);
-        add(textEntity);
-            #if android
-            // var main = cast(HXP.engine, Main);
-            if ((main.plays > 0) && (main.plays % 3 == 0)){
-                var showLink = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showLink", "()V");         
-                showLink();
-            }
-            #end   
     }
 
     #if mobile
-    private function handleTouch(touch:com.haxepunk.utils.Touch) 
+    private function handleTouch(touch:com.haxepunk.utils.Touch)
     {
-        
+
         if (touch.pressed){
             startNext();
         }
@@ -95,22 +84,40 @@ class TitleScreen extends Scene
         HXP.scene = new scenes.PickCharacterScene(false);
     }
 
+    private function goBack() {
+
+    }
+
     public override function update()
     {
+
+         if (cursorArrow.alpha >= 1.0) {
+          fade = true;
+        } else if (cursorArrow.alpha <= 0.0) {
+          fade = false;
+        }
+
+        if (fade) {
+          cursorArrow.alpha -= HXP.elapsed;
+        } else {
+          cursorArrow.alpha += HXP.elapsed;
+        }
+
         #if !mobile
         if (Input.joysticks > 0 ) {
            if (Input.joystick(0).pressed()) {
                 startNext();
            }
         }
+
         if (Input.pressed(Key.X)) {
-            // Input.stopProp
             startNext();
         }
         if (Input.check(Key.ESCAPE)) {
             HXP.scene.end();
         }
         #end
+
         #if mobile
         Input.touchPoints(handleTouch);
         #end
