@@ -26,21 +26,18 @@ class HealthBox extends Entity
         originalHealthWidth = (HXP.windowWidth * fractionOfScreen) * health / 100;
         healthWidth = originalHealthWidth;
 
-        rectangle = Polygon.createFromArray([
-                0.0, 0.0,
-                0.0, 28.0,
-                healthWidth + 8, 28.0,
-                healthWidth + 8, 0.0,
-                ]);
-        outerRect = Image.createPolygon(rectangle, 0x000000, 1, false, 1);
+        outerRect = new Image('graphics/numbers/healthbar.png');
+        outerRect.scale = outerRect.width / healthWidth;
         outerRect.smooth = false;
-        outerRect.x -= 2;
-        outerRect.y -= 2;
         outerRect.scrollX = 0;
 
-        rectImg = Image.createRect(Std.int(healthWidth), 20, color);
-		rectImg.scrollX = 0;
-        
+        rectImg = new Image('graphics/numbers/healthbarContent.png');
+        rectImg.smooth = false;
+        rectImg.x = 1;
+        rectImg.y = 1;
+        rectImg.scale = outerRect.scale;
+    		rectImg.scrollX = 0;
+
         healthBox = new Graphiclist();
         healthBox.add(outerRect);
         healthBox.add(rectImg);

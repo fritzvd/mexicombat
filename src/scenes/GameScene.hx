@@ -74,21 +74,13 @@ class GameScene extends Scene
 
         ec = add(new EmitController());
 
-        // deadText = new Text("");
-        // deadText.size = 30;
-        // deadText.color = 0xFFFFFF;
-        // deadText.scale = scaling;
-        // deadTextEntity = new Entity(250, 250, deadText);
-        // deadTextEntity.visible = false;
-        // add(deadTextEntity);
-
         var bgBitmap:Image = new Image("graphics/background.jpg");
         bgBitmap.smooth = false;
         bgBitmap.scale = 1.3 * scaling;
         addGraphic(bgBitmap, 0, 0);
-        maxWidth = bgBitmap.scaledWidth - HXP.screen.y;
+        maxWidth = bgBitmap.scaledWidth - HXP.screen.x;
 
-        camera.x = bgBitmap.width / 2;
+        camera.x = bgBitmap.scaledWidth / 2 - 300 * scaling;
 
         var hatdancer = new Spritemap("graphics/dancers/hat.jpg", 85, 133);
         hatdancer.smooth = false;
@@ -119,7 +111,7 @@ class GameScene extends Scene
         addGraphic(jump, 926 * 1.3 * scaling, 109 * 1.3 * scaling);
 
         // TODO: players have namess
-        playerone = new Player(500 * scaling, Math.floor(200 * scaling));
+        playerone = new Player(350 * scaling, Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         var healthOffset = 60 * scaling - HXP.screen.y;
         healthOne = new HealthBox(Std.int(healthOffset * scaling), topOffset);
@@ -163,7 +155,7 @@ class GameScene extends Scene
         #end
 
         if (singlePlayer) {
-            playertwo = new AIPlayer(600, Math.floor(200 * scaling));
+            playertwo = new AIPlayer(450, Math.floor(200 * scaling));
             //playerone.singlePlayer = true;
             #if mobile
             addGraphic(arrowRight, -4, halfWidth - 200 * scaling, arrowYOffset);
@@ -176,7 +168,7 @@ class GameScene extends Scene
             punch.scale = scaling * 2;
             #end
          } else {
-            playertwo = new Player(600 * scaling, Math.floor(200 * scaling));
+            playertwo = new Player(350 * scaling, Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
             arrowRight.scale = 0.6 * scaling * 2;
@@ -284,21 +276,27 @@ class GameScene extends Scene
         var xMinDistToCamera = Math.min(Math.abs(oneDistToCamera), Math.abs(twoDistToCamera));
         var xMinDistToScreen = Math.min(Math.abs(oneDistToScreen), Math.abs(twoDistToScreen));
 
-        if (xDist < HXP.screen.width &&
+        if (xDist < HXP.screen.width - HXP.screen.x &&
             xMax < maxWidth &&
             xMinDistToScreen < 280 * scaling) {
                 HXP.camera.x += 10 * scaling;
          }
 
          if (xDist < HXP.screen.width &&
-            xMin > 0 &&
+            xMin > HXP.screen.x &&
             xMinDistToCamera < 50 * scaling &&
-            HXP.camera.x >= 0) {
+            HXP.camera.x >= HXP.screen.x) {
                 HXP.camera.x -= 10 * scaling;
          }
 
-         playerone.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
-         playertwo.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
+         playerone.clampHorizontal(
+           HXP.camera.x,
+           HXP.screen.width + HXP.camera.x,
+           30 * scaling);
+         playertwo.clampHorizontal(
+           HXP.camera.x,
+           HXP.screen.width + HXP.camera.x,
+           30 * scaling);
 
          if (HXP.camera.x < 0) {
            HXP.camera.x = 0;

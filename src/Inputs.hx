@@ -60,12 +60,12 @@ class Inputs {
     var _action:String = null;
 #if !mobile
     if (Input.joystick(0).pressed(XBOX_GAMEPAD.A_BUTTON) ||
-        Input.pressed(Key.Z)) {
+        Input.pressed(Key.X) || Input.pressed(Key.ENTER)) {
           _action = 'forward';
     }
 
     if (Input.joystick(0).pressed(XBOX_GAMEPAD.B_BUTTON) ||
-        Input.pressed(Key.X)) {
+        Input.pressed(Key.Z) || Input.pressed(Key.SHIFT)) {
           _action = 'back';
     }
 #end
