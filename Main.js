@@ -63,11 +63,11 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/danielsm.png");
 	types.push("IMAGE");
-	urls.push("graphics/splashscreen.png");
-	types.push("IMAGE");
 	urls.push("graphics/bob.png");
 	types.push("IMAGE");
 	urls.push("graphics/ui-kick.png");
+	types.push("IMAGE");
+	urls.push("graphics/numbers/healthbar.png");
 	types.push("IMAGE");
 	urls.push("graphics/numbers/1.png");
 	types.push("IMAGE");
@@ -87,13 +87,13 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/numbers/5.png");
 	types.push("IMAGE");
+	urls.push("graphics/numbers/healthbarContent.png");
+	types.push("IMAGE");
 	urls.push("graphics/numbers/0.png");
 	types.push("IMAGE");
 	urls.push("graphics/right.jpg");
 	types.push("IMAGE");
 	urls.push("graphics/daniel.png");
-	types.push("IMAGE");
-	urls.push("graphics/singleplayer.png");
 	types.push("IMAGE");
 	urls.push("graphics/fritz.png");
 	types.push("IMAGE");
@@ -135,8 +135,6 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/fighters/jilles.png");
 	types.push("IMAGE");
-	urls.push("graphics/fighters/sprite sheet Super fusion 256 300 px.jpg");
-	types.push("IMAGE");
 	urls.push("graphics/fighters/bob.png");
 	types.push("IMAGE");
 	urls.push("graphics/fighters/daniel.png");
@@ -146,8 +144,6 @@ ApplicationMain.create = function() {
 	urls.push("graphics/fighters/jonathan.png");
 	types.push("IMAGE");
 	urls.push("graphics/ui-arrow.png");
-	types.push("IMAGE");
-	urls.push("graphics/splashscreen_lores.png");
 	types.push("IMAGE");
 	urls.push("graphics/dancers/hat.jpg");
 	types.push("IMAGE");
@@ -159,8 +155,6 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/jonathan.png");
 	types.push("IMAGE");
-	urls.push("graphics/bg_running_lores3.png");
-	types.push("IMAGE");
 	urls.push("graphics/ui-punch.png");
 	types.push("IMAGE");
 	urls.push("graphics/jonathansm.png");
@@ -169,11 +163,7 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/background.jpg");
 	types.push("IMAGE");
-	urls.push("graphics/singlebg.png");
-	types.push("IMAGE");
 	urls.push("graphics/ui-arrow.jpg");
-	types.push("IMAGE");
-	urls.push("graphics/streefighter_a2_ryu.png");
 	types.push("IMAGE");
 	urls.push("audio/caulfield8bit.ogg");
 	types.push("MUSIC");
@@ -213,7 +203,7 @@ ApplicationMain.init = function() {
 	if(total == 0) ApplicationMain.start();
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "662", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
+	ApplicationMain.config = { build : "687", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2064,13 +2054,13 @@ var DefaultAssetLibrary = function() {
 	id = "graphics/danielsm.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
-	id = "graphics/splashscreen.png";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
 	id = "graphics/bob.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/ui-kick.png";
+	this.path.set(id,id);
+	this.type.set(id,"IMAGE");
+	id = "graphics/numbers/healthbar.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/numbers/1.png";
@@ -2100,6 +2090,9 @@ var DefaultAssetLibrary = function() {
 	id = "graphics/numbers/5.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
+	id = "graphics/numbers/healthbarContent.png";
+	this.path.set(id,id);
+	this.type.set(id,"IMAGE");
 	id = "graphics/numbers/0.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
@@ -2107,9 +2100,6 @@ var DefaultAssetLibrary = function() {
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/daniel.png";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
-	id = "graphics/singleplayer.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/fritz.png";
@@ -2172,9 +2162,6 @@ var DefaultAssetLibrary = function() {
 	id = "graphics/fighters/jilles.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
-	id = "graphics/fighters/sprite sheet Super fusion 256 300 px.jpg";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
 	id = "graphics/fighters/bob.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
@@ -2188,9 +2175,6 @@ var DefaultAssetLibrary = function() {
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/ui-arrow.png";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
-	id = "graphics/splashscreen_lores.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/dancers/hat.jpg";
@@ -2208,9 +2192,6 @@ var DefaultAssetLibrary = function() {
 	id = "graphics/jonathan.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
-	id = "graphics/bg_running_lores3.png";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
 	id = "graphics/ui-punch.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
@@ -2223,13 +2204,7 @@ var DefaultAssetLibrary = function() {
 	id = "graphics/background.jpg";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
-	id = "graphics/singlebg.png";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
 	id = "graphics/ui-arrow.jpg";
-	this.path.set(id,id);
-	this.type.set(id,"IMAGE");
-	id = "graphics/streefighter_a2_ryu.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "audio/caulfield8bit.ogg";
@@ -2610,8 +2585,8 @@ Inputs.direction = function() {
 };
 Inputs.action = function() {
 	var _action = null;
-	if(com_haxepunk_utils_Input.joystick(0).pressed(10) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(90))) _action = "forward";
-	if(com_haxepunk_utils_Input.joystick(0).pressed(11) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(88))) _action = "back";
+	if(com_haxepunk_utils_Input.joystick(0).pressed(10) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(88)) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(13))) _action = "forward";
+	if(com_haxepunk_utils_Input.joystick(0).pressed(11) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(90)) || com_haxepunk_utils_Input.pressed(com_haxepunk_utils__$Input_InputType_$Impl_$.fromRight(16))) _action = "back";
 	return _action;
 };
 Inputs.holding = function() {
@@ -12884,15 +12859,45 @@ var entities_HealthBox = function(x,y) {
 	this.health = 100;
 	this.originalHealthWidth = com_haxepunk_HXP.windowWidth * this.fractionOfScreen * this.health / 100;
 	this.healthWidth = this.originalHealthWidth;
-	this.rectangle = com_haxepunk_masks_Polygon.createFromArray([0.0,0.0,0.0,28.0,this.healthWidth + 8,28.0,this.healthWidth + 8,0.0]);
-	this.outerRect = com_haxepunk_graphics_Image.createPolygon(this.rectangle,0,1,false,1);
+	this.outerRect = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+		var $r;
+		var e = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+			var $r;
+			var data = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/numbers/healthbar.png",true);
+			$r = data;
+			return $r;
+		}($this))));
+		$r = e;
+		return $r;
+	}(this)):(function($this) {
+		var $r;
+		var e1 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/numbers/healthbar.png"));
+		$r = e1;
+		return $r;
+	}(this)));
+	this.outerRect.set_scale(this.outerRect.get_width() / this.healthWidth);
 	this.outerRect.smooth = false;
-	var _g = this.outerRect;
-	_g.x = _g.x - 2;
-	var _g1 = this.outerRect;
-	_g1.y = _g1.y - 2;
 	this.outerRect.scrollX = 0;
-	this.rectImg = com_haxepunk_graphics_Image.createRect(this.healthWidth | 0,20,this.color);
+	this.rectImg = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+		var $r;
+		var e2 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+			var $r;
+			var data1 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/numbers/healthbarContent.png",true);
+			$r = data1;
+			return $r;
+		}($this))));
+		$r = e2;
+		return $r;
+	}(this)):(function($this) {
+		var $r;
+		var e3 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/numbers/healthbarContent.png"));
+		$r = e3;
+		return $r;
+	}(this)));
+	this.rectImg.smooth = false;
+	this.rectImg.x = 1;
+	this.rectImg.y = 1;
+	this.rectImg._scale = this.outerRect._scale;
 	this.rectImg.scrollX = 0;
 	this.healthBox = new com_haxepunk_graphics_Graphiclist();
 	this.healthBox.add(this.outerRect);
@@ -48131,8 +48136,8 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		bgBitmap.smooth = false;
 		bgBitmap._scale = 1.3 * this.scaling;
 		this.addGraphic(bgBitmap,0,0);
-		this.maxWidth = bgBitmap.get_width() * bgBitmap.scaleX * bgBitmap._scale - com_haxepunk_HXP.screen.y;
-		this.camera.x = bgBitmap.get_width() / 2;
+		this.maxWidth = bgBitmap.get_width() * bgBitmap.scaleX * bgBitmap._scale - com_haxepunk_HXP.screen.x;
+		this.camera.x = bgBitmap.get_width() * bgBitmap.scaleX * bgBitmap._scale / 2 - 300 * this.scaling;
 		var hatdancer = new com_haxepunk_graphics_Spritemap(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
 			var $r;
 			var e2 = com_haxepunk_ds_Either.Right(new com_haxepunk_graphics_atlas_TileAtlas((function($this) {
@@ -48217,7 +48222,7 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		jump.add("dance",[0,0,0,0,0,1,2,3,3,3,3],4);
 		jump.play("dance");
 		this.addGraphic(jump,null,1203.8 * this.scaling,141.700000000000017 * this.scaling);
-		this.playerone = new entities_Player(500 * this.scaling,Math.floor(200 * this.scaling));
+		this.playerone = new entities_Player(350 * this.scaling,Math.floor(200 * this.scaling));
 		this.playerone.setKeysPlayer(65,68,88,90,0);
 		var healthOffset = 60 * this.scaling - com_haxepunk_HXP.screen.y;
 		this.healthOne = new entities_HealthBox(healthOffset * this.scaling | 0,this.topOffset);
@@ -48277,8 +48282,8 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		fighterOneName.y = this.topOffset + (30 * this.scaling | 0);
 		fighterOneName.smooth = false;
 		this.addGraphic(fighterOneName);
-		if(this.singlePlayer) this.playertwo = new entities_AIPlayer(600,Math.floor(200 * this.scaling)); else {
-			this.playertwo = new entities_Player(600 * this.scaling,Math.floor(200 * this.scaling));
+		if(this.singlePlayer) this.playertwo = new entities_AIPlayer(450,Math.floor(200 * this.scaling)); else {
+			this.playertwo = new entities_Player(350 * this.scaling,Math.floor(200 * this.scaling));
 			this.playertwo.setKeysPlayer(37,39,16,13,1);
 		}
 		this.healthTwo = new entities_HealthBox((this.halfWidth | 0) + (healthOffset * this.scaling | 0),this.topOffset);
@@ -48381,8 +48386,8 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		var twoDistToScreen = com_haxepunk_HXP.screen.width + com_haxepunk_HXP.camera.x - this.playertwo.get_x();
 		var xMinDistToCamera = Math.min(Math.abs(oneDistToCamera),Math.abs(twoDistToCamera));
 		var xMinDistToScreen = Math.min(Math.abs(oneDistToScreen),Math.abs(twoDistToScreen));
-		if(xDist < com_haxepunk_HXP.screen.width && xMax < this.maxWidth && xMinDistToScreen < 280 * this.scaling) com_haxepunk_HXP.camera.x += 10 * this.scaling;
-		if(xDist < com_haxepunk_HXP.screen.width && xMin > 0 && xMinDistToCamera < 50 * this.scaling && com_haxepunk_HXP.camera.x >= 0) com_haxepunk_HXP.camera.x -= 10 * this.scaling;
+		if(xDist < com_haxepunk_HXP.screen.width - com_haxepunk_HXP.screen.x && xMax < this.maxWidth && xMinDistToScreen < 280 * this.scaling) com_haxepunk_HXP.camera.x += 10 * this.scaling;
+		if(xDist < com_haxepunk_HXP.screen.width && xMin > com_haxepunk_HXP.screen.x && xMinDistToCamera < 50 * this.scaling && com_haxepunk_HXP.camera.x >= com_haxepunk_HXP.screen.x) com_haxepunk_HXP.camera.x -= 10 * this.scaling;
 		this.playerone.clampHorizontal(com_haxepunk_HXP.camera.x,com_haxepunk_HXP.screen.width + com_haxepunk_HXP.camera.x,30 * this.scaling);
 		this.playertwo.clampHorizontal(com_haxepunk_HXP.camera.x,com_haxepunk_HXP.screen.width + com_haxepunk_HXP.camera.x,30 * this.scaling);
 		if(com_haxepunk_HXP.camera.x < 0) com_haxepunk_HXP.camera.x = 0;
