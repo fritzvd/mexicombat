@@ -14,11 +14,13 @@ class Main extends Engine
 #if debug
 		HXP.console.enable();
 #end
-
-#if !html5
         resizeForAspect();
-#end
         scaling = HXP.width / 1024;
+
+#if html5
+        HXP.screen.x = 0;
+#end
+
         plays = 0;
         HXP.scene = new scenes.TitleScreen();
         HXP.screen.color = 0x000000;
