@@ -99,6 +99,8 @@ ApplicationMain.create = function() {
 	types.push("IMAGE");
 	urls.push("graphics/menu/developer.png");
 	types.push("IMAGE");
+	urls.push("graphics/menu/cursor.png");
+	types.push("IMAGE");
 	urls.push("graphics/menu/2players.png");
 	types.push("IMAGE");
 	urls.push("graphics/menu/music.png");
@@ -189,8 +191,6 @@ ApplicationMain.create = function() {
 	types.push("SOUND");
 	urls.push("audio/punch2.ogg");
 	types.push("SOUND");
-	urls.push("Fixedsys True Type Font");
-	types.push("FONT");
 	if(ApplicationMain.config.assetsPrefix != null) {
 		var _g1 = 0;
 		var _g = urls.length;
@@ -213,7 +213,7 @@ ApplicationMain.init = function() {
 	if(total == 0) ApplicationMain.start();
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "644", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
+	ApplicationMain.config = { build : "662", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -1885,7 +1885,9 @@ Main.prototype = $extend(com_haxepunk_Engine.prototype,{
 	,music: null
 	,ASPECT: null
 	,init: function() {
+		this.resizeForAspect();
 		this.scaling = com_haxepunk_HXP.width / 1024;
+		com_haxepunk_HXP.screen.set_x(0);
 		this.plays = 0;
 		com_haxepunk_HXP.set_scene(new scenes_TitleScreen());
 		com_haxepunk_HXP.screen.set_color(0);
@@ -2001,7 +2003,6 @@ var DefaultAssetLibrary = function() {
 	this.className = new haxe_ds_StringMap();
 	lime_AssetLibrary.call(this);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$font_$04b_$03_$_$_$ttf);
-	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf);
 	var id;
 	id = "graphics/preloader/haxepunk.png";
 	this.path.set(id,id);
@@ -2115,6 +2116,9 @@ var DefaultAssetLibrary = function() {
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/menu/developer.png";
+	this.path.set(id,id);
+	this.type.set(id,"IMAGE");
+	id = "graphics/menu/cursor.png";
 	this.path.set(id,id);
 	this.type.set(id,"IMAGE");
 	id = "graphics/menu/2players.png";
@@ -2252,9 +2256,6 @@ var DefaultAssetLibrary = function() {
 	id = "audio/punch2.ogg";
 	this.path.set(id,id);
 	this.type.set(id,"SOUND");
-	id = "font/Fixedsys500c.ttf";
-	this.className.set(id,_$_$ASSET_$_$font_$fixedsys500c_$ttf);
-	this.type.set(id,"FONT");
 	var assetsPrefix = null;
 	if(ApplicationMain.config != null && Object.prototype.hasOwnProperty.call(ApplicationMain.config,"assetsPrefix")) assetsPrefix = ApplicationMain.config.assetsPrefix;
 	if(assetsPrefix != null) {
@@ -2467,16 +2468,6 @@ _$_$ASSET_$_$font_$04b_$03_$_$_$ttf.__super__ = lime_text_Font;
 _$_$ASSET_$_$font_$04b_$03_$_$_$ttf.prototype = $extend(lime_text_Font.prototype,{
 	__class__: _$_$ASSET_$_$font_$04b_$03_$_$_$ttf
 });
-var _$_$ASSET_$_$font_$fixedsys500c_$ttf = function() {
-	lime_text_Font.call(this);
-	this.name = "Fixedsys True Type Font";
-};
-$hxClasses["__ASSET__font_fixedsys500c_ttf"] = _$_$ASSET_$_$font_$fixedsys500c_$ttf;
-_$_$ASSET_$_$font_$fixedsys500c_$ttf.__name__ = ["__ASSET__font_fixedsys500c_ttf"];
-_$_$ASSET_$_$font_$fixedsys500c_$ttf.__super__ = lime_text_Font;
-_$_$ASSET_$_$font_$fixedsys500c_$ttf.prototype = $extend(lime_text_Font.prototype,{
-	__class__: _$_$ASSET_$_$font_$fixedsys500c_$ttf
-});
 var openfl_text_Font = function(name) {
 	lime_text_Font.call(this,name);
 };
@@ -2531,18 +2522,6 @@ _$_$ASSET_$_$OPENFL_$_$font_$04b_$03_$_$_$ttf.__name__ = ["__ASSET__OPENFL__font
 _$_$ASSET_$_$OPENFL_$_$font_$04b_$03_$_$_$ttf.__super__ = openfl_text_Font;
 _$_$ASSET_$_$OPENFL_$_$font_$04b_$03_$_$_$ttf.prototype = $extend(openfl_text_Font.prototype,{
 	__class__: _$_$ASSET_$_$OPENFL_$_$font_$04b_$03_$_$_$ttf
-});
-var _$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf = function() {
-	var font = new _$_$ASSET_$_$font_$fixedsys500c_$ttf();
-	this.src = font.src;
-	this.name = font.name;
-	openfl_text_Font.call(this);
-};
-$hxClasses["__ASSET__OPENFL__font_fixedsys500c_ttf"] = _$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf;
-_$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf.__name__ = ["__ASSET__OPENFL__font_fixedsys500c_ttf"];
-_$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf.__super__ = openfl_text_Font;
-_$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf.prototype = $extend(openfl_text_Font.prototype,{
-	__class__: _$_$ASSET_$_$OPENFL_$_$font_$fixedsys500c_$ttf
 });
 var EReg = function(r,opt) {
 	opt = opt.split("u").join("");
@@ -47818,8 +47797,22 @@ scenes_TitleScreen.prototype = $extend(com_haxepunk_Scene.prototype,{
 	,begin: function() {
 		this.addMenuItem("startgame");
 		this.cursorItem = 0;
-		this.cursorArrow = new com_haxepunk_graphics_Text(">");
-		this.cursorArrow.set_size(30);
+		this.cursorArrow = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+			var $r;
+			var e = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+				var $r;
+				var data = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/cursor.png",true);
+				$r = data;
+				return $r;
+			}($this))));
+			$r = e;
+			return $r;
+		}(this)):(function($this) {
+			var $r;
+			var e1 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/cursor.png"));
+			$r = e1;
+			return $r;
+		}(this)));
 		this.cursorArrow._scale = this.main.scaling;
 		this.cursorArrow.set_color(16765994);
 		this.cursor = new com_haxepunk_Entity(0,570 * this.main.scaling,this.cursorArrow);
@@ -47865,7 +47858,7 @@ scenes_TitleScreen.prototype = $extend(com_haxepunk_Scene.prototype,{
 	}
 	,setCursor: function() {
 		var menuItem = this.menuItems[this.cursorItem];
-		this.cursor.x = (menuItem.followCamera?menuItem.x + com_haxepunk_HXP.camera.x:menuItem.x) - 25 * this.main.scaling;
+		this.cursor.x = (menuItem.followCamera?menuItem.x + com_haxepunk_HXP.camera.x:menuItem.x) - 36 * this.main.scaling;
 	}
 	,moveCursor: function(left) {
 		var direction;
@@ -48067,7 +48060,6 @@ scenes_Credits.prototype = $extend(scenes_TitleScreen.prototype,{
 	,__class__: scenes_Credits
 });
 var scenes_GameScene = function(cFO,cFT,sP) {
-	this.font = openfl_Assets.getFont("font/Fixedsys500c.ttf");
 	this.halfWidth = com_haxepunk_HXP.width / 2 - com_haxepunk_HXP.screen.y;
 	this.topOffset = 30;
 	com_haxepunk_Scene.call(this);
@@ -48110,26 +48102,16 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 	,singlePlayer: null
 	,topOffset: null
 	,roundText: null
-	,deadText: null
-	,deadTextEntity: null
 	,deadTime: null
 	,scaling: null
 	,ec: null
 	,maxWidth: null
 	,finished: null
 	,halfWidth: null
-	,font: null
 	,sfx: null
 	,roundTime: null
 	,begin: function() {
 		this.ec = this.add(new entities_EmitController());
-		this.deadText = new com_haxepunk_graphics_Text("");
-		this.deadText.set_size(30);
-		this.deadText.set_color(16777215);
-		this.deadText._scale = this.scaling;
-		this.deadTextEntity = new com_haxepunk_Entity(250,250,this.deadText);
-		this.deadTextEntity.visible = false;
-		this.add(this.deadTextEntity);
 		var bgBitmap = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
 			var $r;
 			var e = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
@@ -48412,16 +48394,10 @@ scenes_GameScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		this.playertwo.clampHorizontal(0,this.maxWidth,50 * this.scaling);
 		if(this.playerone.fightingState == "dead") {
 			this.finished = true;
-			this.deadText.set_text("Player one, you died.");
-			this.deadTextEntity.visible = true;
-			this.deadText.set_font(this.font.name);
 			this.deadTime += com_haxepunk_HXP.elapsed;
 		}
 		if(this.playertwo.fightingState == "dead") {
 			this.finished = true;
-			this.deadText.set_text("Player two, you died.");
-			this.deadText.set_font(this.font.name);
-			this.deadTextEntity.visible = true;
 			this.deadTime += com_haxepunk_HXP.elapsed;
 		}
 		if(this.deadTime > 3) com_haxepunk_HXP.set_scene(new scenes_TitleScreen());
