@@ -1,5 +1,7 @@
 package scenes;
 
+import Inputs;
+
 import com.haxepunk.Entity;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Input;
@@ -20,8 +22,9 @@ class TitleScreen extends Scene
 {
     private var cursorArrow:Text;
     private var cursor:Entity;
+    private var cursorItem:Int;
     private var fade:Bool;
-    private var menuItems:Map<String,Entity>;
+    private var menuItems:Array<Entity>;
     private var main = cast(HXP.engine, Main);
     private var state:Map<String, Bool>;
     public function new()
@@ -29,20 +32,21 @@ class TitleScreen extends Scene
         super();
 
         state = ['start'=> true, 'select'=> false];
-        menuItems = new Map();
-    }
-
-    public override function begin()
-    {
-
+        menuItems = [];
         var splash:Image = new Image("graphics/menu/mexikombat.png");
         splash.scale = 1.3 * main.scaling;
         splash.smooth = false;
         var splashEntity = addGraphic(splash);
+        splashEntity.name = 'splash';
         splashEntity.x = HXP.windowWidth / 2 - 310 * main.scaling;
         splashEntity.y = HXP.windowHeight / 2 - 270 * main.scaling;
+    }
 
+    public override function begin()
+    {
+        // initial menu item.
         addMenuItem('startgame');
+        cursorItem = 0;
 
         cursorArrow = new Text(">");
 		    cursorArrow.size = 30;
@@ -50,7 +54,7 @@ class TitleScreen extends Scene
         cursorArrow.color = 0xffd42a;
 
         cursor = new Entity(0, 570 * main.scaling, cursorArrow);
-        cursor.x = (HXP.width / 2) - (cursorArrow.width / 2) - 180 * main.scaling;
+        setCursor();
         add(cursor);
         #if android
         if ((main.plays > 0) && (main.plays % 3 == 0)){
@@ -61,32 +65,110 @@ class TitleScreen extends Scene
     }
 
     private function addMenuItem (menuTitle) {
-      menuItems[menuTitle] = new Entity(
+      var img = new Image('graphics/menu/' + menuTitle + '.png');
+      img.scale = main.scaling;
+      var menuItem = new Entity(
         0,
         570 * main.scaling,
-        new Image('graphics/menu/' + menuTitle + '.png')
+        img
       );
+      menuItems.push(menuItem);
+      menuItem.name = menuTitle;
+      add(menuItem);
 
+      // i don't care anymore
+      for (mi in menuItems) {
+        var itemIdx = menuItems.indexOf(mi);
+        mi.x = (HXP.windowWidth / menuItems.length) * itemIdx;
+      }
+      if (menuItems.length == 1) {
+        menuItem.x = HXP.halfWidth - cast(menuItem.graphic, Image).scaledWidth / 2;
+      }
+    }
+
+    private function setCursor () {
+      var menuItem = menuItems[cursorItem];
+      cursor.x = menuItem.x - 25 * main.scaling;
+    }
+
+
+    private function moveCursor(?left:Bool) {
+      var direction = (left) ? -1 : 1;
+
+      if (cursorItem == 0 && direction == -1) {
+        cursorItem = menuItems.length - 1;
+      } else if (cursorItem == menuItems.length - 1 && direction == 1) {
+        cursorItem = 0;
+      } else {
+        cursorItem = cursorItem + direction;
+      }
+
+      setCursor();
+    }
+
+    private function startNext(clicked:Entity)
+    {
+      switch(clicked.name) {
+        case 'startgame':
+        nextMenu();
+        case '1player':
+        HXP.scene = new scenes.PickCharacterScene(true);
+        case '2players':
+        HXP.scene = new scenes.PickCharacterScene(false);
+        case 'credits':
+        HXP.scene = new scenes.Credits();
+      }
+    }
+
+    private function nextMenu() {
+      for (menuItem in menuItems) {
+        this.remove(menuItem);
+      }
+      menuItems = [];
+      addMenuItem('1player');
+      addMenuItem('2players');
+      addMenuItem('credits');
+      cursorItem = 0;
+      setCursor();
     }
 
     #if mobile
-    private function handleTouch(touch:com.haxepunk.utils.Touch)
-    {
-
-        if (touch.pressed){
-            startNext();
+    private function handleTouch(touch:com.haxepunk.utils.Touch) {
+      if (touch.pressed) {
+        var collide = false;
+        var clicked:Entity;
+        for (menuItem in menuItems) {
+          collide = menuItem.collidePoint(touch.x, touch.y, menuItem.x, menuItem.y);
+          if (collide) {
+            clicked = menuItem;
+            startNext(clicked);
+            break;
+          }
         }
+      }
     }
     #end
 
-    private function startNext()
-    {
-        HXP.scene = new scenes.PickCharacterScene(false);
-    }
+    #if !mobile
+    private function handleInput () {
+      if ((Inputs.direction() == Inputs.UP) ||
+          (Inputs.direction() == Inputs.LEFT)) {
+          moveCursor(true);
+      }
+      if ((Inputs.direction() == Inputs.DOWN) ||
+          (Inputs.direction() == Inputs.RIGHT)) {
+          moveCursor(false);
+      }
 
-    private function goBack() {
+      if (Inputs.action() == 'forward') {
+        startNext(menuItems[cursorItem]);
+      }
 
+      if (Inputs.action() == 'back') {
+        HXP.scene = new scenes.TitleScreen();
+      }
     }
+    #end
 
     public override function update()
     {
@@ -104,18 +186,7 @@ class TitleScreen extends Scene
         }
 
         #if !mobile
-        if (Input.joysticks > 0 ) {
-           if (Input.joystick(0).pressed()) {
-                startNext();
-           }
-        }
-
-        if (Input.pressed(Key.X)) {
-            startNext();
-        }
-        if (Input.check(Key.ESCAPE)) {
-            HXP.scene.end();
-        }
+        handleInput();
         #end
 
         #if mobile

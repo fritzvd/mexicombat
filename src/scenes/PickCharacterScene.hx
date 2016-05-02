@@ -21,11 +21,12 @@ class PickCharacterScene extends Scene
     private var playerOne:String;
     private var playerTwo:String;
     private var selectOne:Entity;
-    private var selectOneText:Text;
+    private var selectOneImage:Image;
     private var selectTwo:Entity;
-    private var selectTwoText:Text;
+    private var selectTwoImage:Image;
     private var sPlayerButton:Entity;
     private var sNextButton:Entity;
+    private var sBackButton:Entity;
     private var char1Array:Array<Entity>;
     private var char2Array:Array<Entity>;
     private var singlePlayer:Bool;
@@ -42,6 +43,8 @@ class PickCharacterScene extends Scene
     private var selectedCharacter2:Player;
     private var main:Main;
 
+    private var playerScale:Float = 1.4;
+
     public function new(sP:Bool){
         super();
         singlePlayer = sP;
@@ -51,7 +54,7 @@ class PickCharacterScene extends Scene
     {
         main = cast(HXP.engine, Main);
 
-        var bg:Image = new Image("graphics/singlebg.png");
+        var bg:Image = new Image("graphics/menu/background.png");
         bg.scaleX = HXP.width / bg.width;
         bg.scaleY = HXP.height / bg.height;
         addGraphic(bg);
@@ -72,12 +75,23 @@ class PickCharacterScene extends Scene
         ////var kombat:Entity = new Entity(100,50,thingS);
         //add(thingS);
 
-        var nextText:Text = new Text("Next");
-        //var font = Assets.getFont('font/feast.ttf');
-        //nextText.font = font.fontName;  
-        nextText.size = Std.int(100 * main.scaling);
-        sNextButton = new Entity(HXP.width - 500 * main.scaling, 450 * main.scaling, nextText);
-        sNextButton.width = nextText.width+5;
+        var backText:Image = new Image('graphics/menu/back.png');
+        backText.smooth = false;
+        backText.scale = playerScale * main.scaling;
+        sBackButton = new Entity(
+          HXP.halfWidth - (backText.scaledWidth + 70 * main.scaling),
+          550 * main.scaling, backText
+        );
+        sBackButton.width = backText.width + 5;
+        sBackButton.height = backText.height;
+        sBackButton.name = "back";
+        add(sBackButton);
+
+        var nextText:Image = new Image('graphics/menu/next.png');
+        nextText.scale = playerScale * main.scaling;
+        nextText.smooth = false;
+        sNextButton = new Entity(HXP.halfWidth + 70 * main.scaling, 550 * main.scaling, nextText);
+        sNextButton.width = nextText.width + 5;
         sNextButton.height = nextText.height;
         sNextButton.name = "next";
         add(sNextButton);
@@ -92,43 +106,46 @@ class PickCharacterScene extends Scene
         char2Array = [];
 
         var characters:Array<String> = [
-                'fritz', 
-                'jonathan',
-                'jilles',
-				'bob',
-                'daniel'
-                ];
+          'fritz',
+          'jonathan',
+          'jilles',
+          'bob',
+          'daniel'
+        ];
 
 
         for (i in 0...characters.length) {
-			var screenFifth = HXP.height / 5;
-            addCharacter(characters[i], HXP.width - 100 * main.scaling,
-                screenFifth * i, 2);
-            addCharacter(characters[i], 100 * main.scaling,
-                screenFifth * i, 1);
+          var screenFifth = HXP.height / 5;
+          addCharacter(
+            characters[i], HXP.width - 80 * main.scaling - HXP.screen.x,
+            screenFifth * i + main.scaling * 10, 2
+          );
+          addCharacter(
+            characters[i], 100 * main.scaling - HXP.screen.x,
+            screenFifth * i + main.scaling * 10, 1
+          );
         }
 
-        selectOneText = new Text("1");
-        selectOneText.size = 20;
-        selectOne = new Entity(char1Array[playerOneSelected].x, char1Array[playerOneSelected].y, selectOneText);
+        var squareSize = Std.int(20 * main.scaling);
+        selectOneImage = Image.createRect(squareSize, squareSize, 0x00FF00, 0.8);
+        selectOne = new Entity(char1Array[playerOneSelected].x, char1Array[playerOneSelected].y, selectOneImage);
         add(selectOne);
-        selectTwoText = new Text("2");
-        selectTwoText.size = 20;
-        selectTwo = new Entity(char2Array[playerTwoSelected].x + char2Array[playerTwoSelected].width - 15, 
-            char2Array[playerTwoSelected].y, selectTwoText);
+        selectTwoImage = Image.createRect(squareSize, squareSize, 0xFF0000, 0.8);
+        selectTwo = new Entity(char2Array[playerTwoSelected].x + char2Array[playerTwoSelected].width - 15,
+        char2Array[playerTwoSelected].y, selectTwoImage);
         add(selectTwo);
 
-        selectedCharacter1 = new Player(200 * main.scaling, 120 * main.scaling);
+        selectedCharacter1 = new Player(150 * main.scaling, 110 * main.scaling);
         selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter1.fightingState = "idle";
         selectedCharacter1.setPlayer(characters[playerOneSelected]);
-        selectedCharacter1.sprite.scale = 1.5 * main.scaling;
+        selectedCharacter1.sprite.scale = playerScale * main.scaling;
         add(selectedCharacter1);
-        selectedCharacter2 = new Player(500 * main.scaling, 120 * main.scaling);
+        selectedCharacter2 = new Player(500 * main.scaling, 110 * main.scaling);
         selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter2.fightingState = "idle";
         selectedCharacter2.setPlayer(characters[playerTwoSelected]);
-        selectedCharacter2.sprite.scale = 1.5 * main.scaling;
+        selectedCharacter2.sprite.scale = playerScale * main.scaling;
         add(selectedCharacter2);
 
         // refactor this shit
@@ -143,7 +160,7 @@ class PickCharacterScene extends Scene
 #if mobile
         touchEntity = new Entity();
         add(touchEntity);
-#end        
+#end
     }
 
     private function previousScene()
@@ -157,11 +174,12 @@ class PickCharacterScene extends Scene
         var newChar:Character = new Character(charX, charY);
         add(newChar);
         newChar.set(charName);
-		if (player == 1) {
-			char1Array.push(newChar);
-		} else {
-			char2Array.push(newChar);
-		}
+        if (player == 1) {
+          newChar.mugshot.flipped = true;
+          char1Array.push(newChar);
+        } else {
+          char2Array.push(newChar);
+        }
     }
 
     private function nextScene()
@@ -172,7 +190,7 @@ class PickCharacterScene extends Scene
     }
 
     #if mobile
-    private function handleTouch(touch:com.haxepunk.utils.Touch) 
+    private function handleTouch(touch:com.haxepunk.utils.Touch)
     {
         // var touchEntity = new Entity(touch.x, touch.y);
         touchEntity.x = touch.x;
@@ -190,10 +208,11 @@ class PickCharacterScene extends Scene
 
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
-            sNextButton.width, sNextButton.height);
+            sNextButton.width, sNextButton.height
+        );
         if (next && touch.pressed) {
             nextScene();
-        }        
+        }
     }
     #end
 
@@ -205,9 +224,9 @@ class PickCharacterScene extends Scene
         selectTwo.y = char2Array[playerTwoSelected].y;
 
         selectedCharacter1.setPlayer(char1Array[playerOneSelected].name);
-        selectedCharacter1.sprite.scale = 1.5 * main.scaling;
+        selectedCharacter1.sprite.scale = playerScale * main.scaling;
         selectedCharacter2.setPlayer(char2Array[playerTwoSelected].name);
-        selectedCharacter2.sprite.scale = 1.5 * main.scaling;
+        selectedCharacter2.sprite.scale = playerScale * main.scaling;
 
     }
 
@@ -230,7 +249,7 @@ class PickCharacterScene extends Scene
 
     private function selecting()
     {
-        
+
         if (Input.pressed(Key.LEFT) ||
             getJoystick(0) == 'LEFT') {
             if (playerOneSelected != 0) {
@@ -269,7 +288,7 @@ class PickCharacterScene extends Scene
         }
         if (Input.pressed(Key.X)) {
             nextScene();
-        }    
+        }
         selecting();
         #if mobile
         Input.touchPoints(handleTouch);

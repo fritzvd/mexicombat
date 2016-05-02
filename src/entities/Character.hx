@@ -7,7 +7,7 @@ import com.haxepunk.HXP;
 class Character extends Entity
 {
 
-    private var mugshot:Image;
+    public var mugshot:Image;
 
     public var selected:Bool;
 

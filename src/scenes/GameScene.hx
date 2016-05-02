@@ -259,8 +259,7 @@ class GameScene extends Scene
         }
     }
 
-    private function soundFx()
-    {
+    private function soundFx () {
       if (playerone.impact || playertwo.impact &&
         !finished) {
           var list:Array<String> = ["impact0", "impact1", "impact2","punch0", "punch1", "punch2"];
@@ -298,21 +297,19 @@ class GameScene extends Scene
                 HXP.camera.x -= 10 * scaling;
          }
 
-		 playerone.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
-		 playertwo.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
+         playerone.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
+         playertwo.clampHorizontal(HXP.camera.x, HXP.screen.width + HXP.camera.x, 30 * scaling);
 
-     if (HXP.camera.x < 0) {
-       HXP.camera.x = 0;
-     }
-     if (HXP.camera.x + HXP.screen.width > maxWidth) {
-       HXP.camera.x = maxWidth - HXP.screen.width;
-     }
+         if (HXP.camera.x < 0) {
+           HXP.camera.x = 0;
+         }
+         if (HXP.camera.x + HXP.screen.width > maxWidth) {
+           HXP.camera.x = maxWidth - HXP.screen.width;
+         }
     }
 
 
-    public override function update()
-    {
-
+    public override function update () {
         cameraFollow();
         playerone.clampHorizontal(0, maxWidth, 50 * scaling);
         playertwo.clampHorizontal(0, maxWidth, 50 * scaling);
