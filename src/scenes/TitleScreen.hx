@@ -20,7 +20,7 @@ import openfl.utils.JNI;
 
 class TitleScreen extends Scene
 {
-    private var cursorArrow:Text;
+    private var cursorArrow:Image;
     private var cursor:Entity;
     private var cursorItem:Int;
     private var fade:Bool;
@@ -48,8 +48,7 @@ class TitleScreen extends Scene
         addMenuItem('startgame');
         cursorItem = 0;
 
-        cursorArrow = new Text(">");
-		    cursorArrow.size = 30;
+        cursorArrow = new Image("graphics/menu/cursor.png");
         cursorArrow.scale = main.scaling;
         cursorArrow.color = 0xffd42a;
 
@@ -88,7 +87,7 @@ class TitleScreen extends Scene
 
     private function setCursor () {
       var menuItem = menuItems[cursorItem];
-      cursor.x = menuItem.x - 25 * main.scaling;
+      cursor.x = menuItem.x - 36 * main.scaling;
     }
 
 

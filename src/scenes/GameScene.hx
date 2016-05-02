@@ -31,15 +31,15 @@ class GameScene extends Scene
     private var topOffset:Int = 30;
     private var roundText:RoundText;
     //private var roundTextEntity:Entity;
-    private var deadText:Text;
-    private var deadTextEntity:Entity;
+    // private var deadText:Text;
+    // private var deadTextEntity:Entity;
     private var deadTime:Float;
     private var scaling:Float;
     private var ec:EmitController;
     private var maxWidth:Float;
     private var finished:Bool;
     private var halfWidth = HXP.width / 2 - HXP.screen.y;
-    private var font = Assets.getFont('font/Fixedsys500c.ttf');
+    // private var font = Assets.getFont('font/Fixedsys500c.ttf');
     private var sfx:Map<String, Sfx>;
 
     public var roundTime:Float;
@@ -74,13 +74,13 @@ class GameScene extends Scene
 
         ec = add(new EmitController());
 
-        deadText = new Text("");
-        deadText.size = 30;
-        deadText.color = 0xFFFFFF;
-        deadText.scale = scaling;
-        deadTextEntity = new Entity(250, 250, deadText);
-        deadTextEntity.visible = false;
-        add(deadTextEntity);
+        // deadText = new Text("");
+        // deadText.size = 30;
+        // deadText.color = 0xFFFFFF;
+        // deadText.scale = scaling;
+        // deadTextEntity = new Entity(250, 250, deadText);
+        // deadTextEntity.visible = false;
+        // add(deadTextEntity);
 
         var bgBitmap:Image = new Image("graphics/background.jpg");
         bgBitmap.smooth = false;
@@ -316,16 +316,16 @@ class GameScene extends Scene
 
         if (playerone.fightingState == "dead"){
           finished = true;
-          deadText.text = "Player one, you died.";
-          deadTextEntity.visible = true;
-          deadText.font = font.fontName;
+          // deadText.text = "Player one, you died.";
+          // deadTextEntity.visible = true;
+          // deadText.font = font.fontName;
           deadTime += HXP.elapsed;
         }
         if (playertwo.fightingState == "dead"){
           finished = true;
-          deadText.text = "Player two, you died.";
-          deadText.font = font.fontName;
-          deadTextEntity.visible = true;
+          // deadText.text = "Player two, you died.";
+          // deadText.font = font.fontName;
+          // deadTextEntity.visible = true;
           deadTime += HXP.elapsed;
         }
 
