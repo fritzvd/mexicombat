@@ -203,7 +203,7 @@ ApplicationMain.init = function() {
 	if(total == 0) ApplicationMain.start();
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "687", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
+	ApplicationMain.config = { build : "697", company : "", file : "Main", fps : 30, name : "MexiKombat", orientation : "landscape", packageName : "com.cheeses.mexikombat", version : "1.0.0", windows : [{ antialiasing : 0, background : 15527148, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 500, parameters : "{}", resizable : true, stencilBuffer : true, title : "MexiKombat", vsync : false, width : 900, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -48475,11 +48475,11 @@ scenes_PickCharacterScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		bg.scaleX = com_haxepunk_HXP.width / bg.get_width();
 		bg.scaleY = com_haxepunk_HXP.height / bg.get_height();
 		this.addGraphic(bg);
-		var backText = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+		var pick = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
 			var $r;
 			var e2 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
 				var $r;
-				var data1 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/back.png",true);
+				var data1 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/pick.png",true);
 				$r = data1;
 				return $r;
 			}($this))));
@@ -48487,8 +48487,46 @@ scenes_PickCharacterScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 			return $r;
 		}(this)):(function($this) {
 			var $r;
-			var e3 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/back.png"));
+			var e3 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/pick.png"));
 			$r = e3;
+			return $r;
+		}(this)));
+		pick._scale = this.main.scaling + 0.2;
+		pick.smooth = false;
+		this.addGraphic(pick,null,com_haxepunk_HXP.halfWidth - pick.get_width() * pick.scaleX * pick._scale / 2,100 * this.main.scaling);
+		var vs = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+			var $r;
+			var e4 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+				var $r;
+				var data2 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/vs.png",true);
+				$r = data2;
+				return $r;
+			}($this))));
+			$r = e4;
+			return $r;
+		}(this)):(function($this) {
+			var $r;
+			var e5 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/vs.png"));
+			$r = e5;
+			return $r;
+		}(this)));
+		vs._scale = this.main.scaling + 0.2;
+		vs.smooth = false;
+		this.addGraphic(vs,null,com_haxepunk_HXP.halfWidth - vs.get_width() * vs.scaleX * vs._scale / 2,400 * this.main.scaling);
+		var backText = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
+			var $r;
+			var e6 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+				var $r;
+				var data3 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/back.png",true);
+				$r = data3;
+				return $r;
+			}($this))));
+			$r = e6;
+			return $r;
+		}(this)):(function($this) {
+			var $r;
+			var e7 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/back.png"));
+			$r = e7;
 			return $r;
 		}(this)));
 		backText.smooth = false;
@@ -48500,18 +48538,18 @@ scenes_PickCharacterScene.prototype = $extend(com_haxepunk_Scene.prototype,{
 		this.add(this.sBackButton);
 		var nextText = new com_haxepunk_graphics_Image(com_haxepunk_HXP.renderMode == com_haxepunk_RenderMode.HARDWARE?(function($this) {
 			var $r;
-			var e4 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
+			var e8 = com_haxepunk_ds_Either.Right(com_haxepunk_graphics_atlas_Atlas.loadImageAsRegion((function($this) {
 				var $r;
-				var data2 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/next.png",true);
-				$r = data2;
+				var data4 = com_haxepunk_graphics_atlas_AtlasData.getAtlasDataByName("graphics/menu/next.png",true);
+				$r = data4;
 				return $r;
 			}($this))));
-			$r = e4;
+			$r = e8;
 			return $r;
 		}(this)):(function($this) {
 			var $r;
-			var e5 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/next.png"));
-			$r = e5;
+			var e9 = com_haxepunk_ds_Either.Left(com_haxepunk_HXP.getBitmap("graphics/menu/next.png"));
+			$r = e9;
 			return $r;
 		}(this)));
 		nextText._scale = this.playerScale * this.main.scaling;
