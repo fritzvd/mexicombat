@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>MexiKombat</title>
+	
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	
+	<script type="text/javascript" src="./lib/soundjs.min.js"></script>
+	<script type="text/javascript" src="./Main.js"></script>
+	
+	<script>
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
+		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById ("viewport");
+			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+		}
+	</script>
+	
+	<style>
+		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+		#openfl-content { background: #000000; width: 100%; height: 100%; }
+		
+		@font-face {
+			font-family: '04b03';
+			src: url('font/04B_03__.eot');
+			src: url('font/04B_03__.eot?#iefix') format('embedded-opentype'),
+			url('font/04B_03__.svg#my-font-family') format('svg'),
+			url('font/04B_03__.woff') format('woff'),
+			url('font/04B_03__.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Fixedsys True Type Font';
+			src: url('font/Fixedsys500c.eot');
+			src: url('font/Fixedsys500c.eot?#iefix') format('embedded-opentype'),
+			url('font/Fixedsys500c.svg#my-font-family') format('svg'),
+			url('font/Fixedsys500c.woff') format('woff'),
+			url('font/Fixedsys500c.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+	</style>
+	
+</head>
+<body>
+	
+	<div id="openfl-content"></div>
+	
+	<script type="text/javascript">
+		lime.embed ("openfl-content", 900, 500, "ECECEC");
+	</script>
+	
+</body>
+</html>
