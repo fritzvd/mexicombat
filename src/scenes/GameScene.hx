@@ -110,8 +110,7 @@ class GameScene extends Scene
         jump.play("dance");
         addGraphic(jump, 926 * 1.3 * scaling, 109 * 1.3 * scaling);
 
-        // TODO: players have namess
-        playerone = new Player(350 * scaling, Math.floor(200 * scaling));
+        playerone = new Player(Math.floor(250 * scaling), Math.floor(200 * scaling));
         playerone.setKeysPlayer(Key.A, Key.D, Key.X, Key.Z, 0);
         var healthOffset = 60 * scaling - HXP.screen.y;
         healthOne = new HealthBox(Std.int(healthOffset * scaling), topOffset);
@@ -155,7 +154,7 @@ class GameScene extends Scene
         #end
 
         if (singlePlayer) {
-            playertwo = new AIPlayer(450, Math.floor(200 * scaling));
+            playertwo = new AIPlayer(Math.floor(650 * scaling), Math.floor(200 * scaling));
             //playerone.singlePlayer = true;
             #if mobile
             addGraphic(arrowRight, -4, halfWidth - 200 * scaling, arrowYOffset);
@@ -168,7 +167,7 @@ class GameScene extends Scene
             punch.scale = scaling * 2;
             #end
          } else {
-            playertwo = new Player(350 * scaling, Math.floor(200 * scaling));
+            playertwo = new Player(Math.floor(650 * scaling), Math.floor(200 * scaling));
             playertwo.setKeysPlayer(Key.LEFT, Key.RIGHT, Key.SHIFT, Key.ENTER, 1);
             #if mobile
             arrowRight.scale = 0.6 * scaling * 2;

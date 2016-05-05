@@ -200,12 +200,20 @@ class PickCharacterScene extends Scene
             updateselectRect();
         }
 
+
+        var back:Bool = sBackButton.collideRect(
+            touch.x, touch.y, sBackButton.x, sBackButton.y,
+            sBackButton.width, sBackButton.height
+        );
         var next:Bool = sNextButton.collideRect(
             touch.x, touch.y, sNextButton.x, sNextButton.y,
             sNextButton.width, sNextButton.height
         );
         if (next && touch.pressed) {
             nextScene();
+        }
+        if (back && touch.pressed) {
+            previousScene();
         }
     }
     #end
@@ -280,7 +288,7 @@ class PickCharacterScene extends Scene
         if (Input.pressed(Key.ESCAPE)) {
             previousScene();
         }
-        if (Input.pressed(Key.X)) {
+        if (Input.pressed(Key.X) || Input.pressed(Key.ENTER)) {
             nextScene();
         }
         selecting();

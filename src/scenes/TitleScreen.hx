@@ -71,6 +71,8 @@ class TitleScreen extends Scene
         570 * main.scaling,
         img
       );
+      menuItem.setHitboxTo(img);
+      menuItem.collidable = true;
       menuItems.push(menuItem);
       menuItem.name = menuTitle;
       add(menuItem);
@@ -134,12 +136,14 @@ class TitleScreen extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch) {
       if (touch.pressed) {
-        var collide = false;
         var clicked:Entity;
+        var touch = new Entity(touch.x, touch.y);
+        touch.setHitbox(20, 20, -10, -10);
         for (menuItem in menuItems) {
-          collide = menuItem.collidePoint(touch.x, touch.y, menuItem.x, menuItem.y);
-          if (collide) {
-            clicked = menuItem;
+          clicked = touch.collideWith(menuItem, touch.x, touch.y);
+          trace(clicked);
+          if (clicked != null) {
+            trace(clicked);
             startNext(clicked);
             break;
           }
