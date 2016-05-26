@@ -79,15 +79,17 @@ class PickCharacterScene extends Scene
         sBackButton.width = backText.width + 5;
         sBackButton.height = backText.height;
         sBackButton.name = "back";
+        sBackButton.type = 'menu';
         add(sBackButton);
 
         var nextText:Image = new Image('graphics/menu/next.png');
         nextText.scale = playerScale * main.scaling;
         nextText.smooth = false;
         sNextButton = new Entity(HXP.halfWidth + 70 * main.scaling, 550 * main.scaling, nextText);
-        sNextButton.width = nextText.width + 5;
-        sNextButton.height = nextText.height;
+        sNextButton.width = Std.int(nextText.scaledWidth + 5);
+        sNextButton.height = Std.int(nextText.scaledHeight);
         sNextButton.name = "next";
+        sNextButton.type = 'menu';
         add(sNextButton);
 
         playerOne = "";
@@ -186,12 +188,11 @@ class PickCharacterScene extends Scene
     #if mobile
     private function handleTouch(touch:com.haxepunk.utils.Touch)
     {
-        // var touchEntity = new Entity(touch.x, touch.y);
         touchEntity.x = touch.x;
         touchEntity.y = touch.y;
-        var touchedpiet:Entity = touchEntity.collide("character", touch.x, touch.y);
-        if (touchedpiet != null) {
-            var characterTouch:Character = cast(touchedpiet, Character);
+        var touchedChar:Entity = touchEntity.collide("character", touch.x, touch.y);
+        if (touchedChar != null) {
+            var characterTouch:Character = cast(touchedChar, Character);
             if (touch.x < HXP.halfWidth) {
                 playerOneSelected = Lambda.indexOf(char1Array, characterTouch);
             } else if (touch.x > HXP.halfWidth) {
@@ -201,19 +202,23 @@ class PickCharacterScene extends Scene
         }
 
 
-        var back:Bool = sBackButton.collideRect(
-            touch.x, touch.y, sBackButton.x, sBackButton.y,
-            sBackButton.width, sBackButton.height
-        );
-        var next:Bool = sNextButton.collideRect(
-            touch.x, touch.y, sNextButton.x, sNextButton.y,
-            sNextButton.width, sNextButton.height
-        );
-        if (next && touch.pressed) {
+        // var back:Bool = sBackButton.collideRect(
+        //     touch.x, touch.y, sBackButton.x, sBackButton.y,
+        //     sBackButton.width, sBackButton.height
+        // );
+        // var next:Bool = sNextButton.collideRect(
+        //     touch.x, touch.y, sNextButton.x, sNextButton.y,
+        //     sNextButton.width, sNextButton.height
+        // );
+
+        var menuTouch:Entity = touchEntity.collide('menu', touch.x, touch.y);
+        if (menuTouch != null) {
+          if (menuTouch.name == 'next') {
             nextScene();
-        }
-        if (back && touch.pressed) {
+          }
+          if (menuTouch.name == 'back') {
             previousScene();
+          }
         }
     }
     #end
