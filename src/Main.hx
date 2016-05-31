@@ -15,9 +15,7 @@ class Main extends Engine
 		HXP.console.enable();
 #end
 
-#if !windows
         resizeForAspect();
-#end
         scaling = HXP.width / 1024;
 
 #if html5

@@ -38,7 +38,8 @@ class TitleScreen extends Scene
         splash.smooth = false;
         var splashEntity = addGraphic(splash);
         splashEntity.name = 'splash';
-        splashEntity.x = HXP.windowWidth / 2 - 310 * main.scaling;
+        trace(splash.scaleX, splash.scaledWidth);
+        splashEntity.x = HXP.windowWidth / 2 - splash.scaledWidth / 2 - 40 * main.scaling;
         splashEntity.y = HXP.windowHeight / 2 - 270 * main.scaling;
     }
 
@@ -55,12 +56,6 @@ class TitleScreen extends Scene
         cursor = new Entity(0, 570 * main.scaling, cursorArrow);
         setCursor();
         add(cursor);
-        #if android
-        if ((main.plays > 0) && (main.plays % 3 == 0)){
-          var showLink = JNI.createStaticMethod("com/cheeses/mexikombat/MainActivity", "showLink", "()V");
-          showLink();
-        }
-        #end
     }
 
     private function addMenuItem (menuTitle) {
@@ -80,7 +75,7 @@ class TitleScreen extends Scene
       // i don't care anymore
       for (mi in menuItems) {
         var itemIdx = menuItems.indexOf(mi);
-        mi.x = (HXP.windowWidth / menuItems.length) * itemIdx;
+        mi.x = (HXP.windowWidth / menuItems.length) * itemIdx + 20 * main.scaling;
       }
       if (menuItems.length == 1) {
         menuItem.x = HXP.halfWidth - cast(menuItem.graphic, Image).scaledWidth / 2;

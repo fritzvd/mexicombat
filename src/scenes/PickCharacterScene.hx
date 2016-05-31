@@ -1,5 +1,7 @@
 package scenes;
 
+import Inputs;
+
 import com.haxepunk.HXP;
 import com.haxepunk.Scene;
 import com.haxepunk.utils.Key;
@@ -131,12 +133,17 @@ class PickCharacterScene extends Scene
         char2Array[playerTwoSelected].y, selectTwoImage);
         add(selectTwo);
 
+
+        // refactor this shit or fuck it.. and leave it somewhere on the screen
+        // 🙈🙈🙈 start
         selectedCharacter1 = new Player(150 * main.scaling, 110 * main.scaling);
         selectedCharacter1.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter1.fightingState = "idle";
         selectedCharacter1.setPlayer(characters[playerOneSelected]);
         selectedCharacter1.sprite.scale = playerScale * main.scaling;
         add(selectedCharacter1);
+
+
         selectedCharacter2 = new Player(500 * main.scaling, 110 * main.scaling);
         selectedCharacter2.setKeysPlayer(Key.P, Key.P, Key.P, Key.P, 2);
         selectedCharacter2.fightingState = "idle";
@@ -144,14 +151,12 @@ class PickCharacterScene extends Scene
         selectedCharacter2.sprite.scale = playerScale * main.scaling;
         add(selectedCharacter2);
 
-        // refactor this shit
         selectedCharacter1.setEnemy(selectedCharacter2, 1);
         selectedCharacter2.setEnemy(selectedCharacter1, 0);
         var healthTwo = new HealthBox(4000, 4000);
         selectedCharacter2.setHealthBox(healthTwo);
         selectedCharacter1.setHealthBox(healthTwo);
-        // Y height etc. Should be going in the scene not in the player.hx
-
+        // 🙈🙈🙈 end
 
 #if mobile
         touchEntity = new Entity();
